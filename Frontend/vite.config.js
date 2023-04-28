@@ -30,11 +30,11 @@ export default defineConfig({
   server: {
     proxy: {
       "/clientdata": {
-        target: "http://bablukumar-app-api.onrender.com",
+        target: "https://bablu-kumar-7272.onrender.com",
         secure: false,
       },
       "/login": {
-        target: "http://bablukumar-app-api.onrender.com",
+        target: "https://bablu-kumar-7272.onrender.com",
         secure: false,
       }
     },
