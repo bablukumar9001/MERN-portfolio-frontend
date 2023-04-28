@@ -26,7 +26,6 @@ const App = () => {
       <Contact />
       <Footer />
       <Modals />
-
       <Routes>
         <Route exact path="/show" element={<ShowData />} />
         <Route exact path="/home" element={<Home />} />
