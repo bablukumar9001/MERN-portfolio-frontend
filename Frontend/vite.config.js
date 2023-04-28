@@ -60,6 +60,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     server: {
+      host: true,
 
       proxy: {
 
