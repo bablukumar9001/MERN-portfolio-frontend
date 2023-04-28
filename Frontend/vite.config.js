@@ -32,11 +32,13 @@ export default defineConfig({
       "/clientdata": {
         target: "https://bablu-kumar-7272.onrender.com",
         changeOrigin: true,
+        secure: false,
 
       },
       "/login": {
         target: "https://bablu-kumar-7272.onrender.com",
         changeOrigin: true,
+        secure: false,
 
       }
     },
