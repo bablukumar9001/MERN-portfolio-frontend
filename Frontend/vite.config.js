@@ -64,14 +64,14 @@ export default ({ mode }) => {
       proxy: {
 
         "/clientdata": {
-          target: parseInt(process.env.VITE_BASE_URL),
+          target: process.env.VITE_BASE_URL,
           changeOrigin: true,
           secure: false,
 
 
         },
         "/login": {
-          target: parseInt(process.env.VITE_BASE_URL),
+          target: process.env.VITE_BASE_URL,
           changeOrigin: true,
           secure: false,
 
@@ -83,7 +83,7 @@ export default ({ mode }) => {
   });
 
 }
-console.log(parseInt(process.env.VITE_BASE_URL))
+// console.log((process.env.VITE_BASE_URL))
 
 
 
