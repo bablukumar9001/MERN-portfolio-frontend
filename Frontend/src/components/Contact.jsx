@@ -25,19 +25,22 @@ const Contact = () => {
     e.preventDefault();
     const { name, email, mobile, subject, message } = user;
 
-    const res = await fetch("/clientdata", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        email,
-        mobile,
-        subject,
-        message,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://bablu-kumar-7272.onrender.com/clientdata",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          email,
+          mobile,
+          subject,
+          message,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     // console.log(res);
 
