@@ -61,4 +61,7 @@
   .greet {
     margin-left: 0;
   }
+  .box-right {
+    box-shadow: none;
+  }
 }
