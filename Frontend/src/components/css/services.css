@@ -1,0 +1,36 @@
+:root {
+  /* bakground color */
+  --primary-color: #ff014f;
+}
+
+.services-wrapper .card {
+  /* background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%); */
+  cursor: pointer;
+  transition: transfrom 0.65 cubic-bezier(0.05, 0.2, 0.1, 1);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: rgb(54, 54, 54);
+}
+
+.services-wrapper .card:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transform: translateY(-5px);
+  background-color: var(--primary-color);
+  color: white;
+}
+.card {
+  min-height: 364px;
+}
+.icon-color {
+  height: 50px;
+  font-size: 50px;
+
+  margin: 8px;
+}
+
+.card-text {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 500;
+
+  text-align: justify;
+}

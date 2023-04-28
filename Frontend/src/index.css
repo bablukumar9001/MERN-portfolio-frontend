@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Francois+One&family=Montserrat:wght@700&family=Poppins:wght@500&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* bakground color */
+  --primary-color: #ff014f;
+}
+
+body {
+  width: 100%;
+  background-color: #ecf0f3;
+  font-family: "Poppins", sans-serif;
+}
+
+/* scrollbar */
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(92, 95, 95, 0.39);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 8px;
+}
