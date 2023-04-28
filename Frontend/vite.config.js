@@ -31,11 +31,13 @@ export default defineConfig({
     proxy: {
       "/clientdata": {
         target: "https://bablu-kumar-7272.onrender.com",
-        secure: false,
+        changeOrigin: true,
+
       },
       "/login": {
         target: "https://bablu-kumar-7272.onrender.com",
-        secure: false,
+        changeOrigin: true,
+
       }
     },
   },
