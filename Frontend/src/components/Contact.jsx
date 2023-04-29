@@ -39,6 +39,7 @@ const Contact = () => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
+      mode: "no-cors",
     });
 
     // console.log(res);

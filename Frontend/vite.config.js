@@ -61,9 +61,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     server: {
-      build: {
-        outDir: 'dist/app',
-      },
+
 
       proxy: {
 
@@ -71,6 +69,7 @@ export default ({ mode }) => {
           target: process.env.VITE_BASE_URL,
           changeOrigin: true,
           secure: false,
+          // rewrite: (path) => path.replace(/^\/clientdata/, ''),
 
 
         },
