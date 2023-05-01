@@ -44,11 +44,12 @@ const Contact = () => {
 
     // console.log(res);
 
-    const data = await res.json();
+    // const data = await res.json();
 
     // console.log(data);
 
-    if (res.status === 422 || !data) {
+    // if (res.status === 422 || !data) {
+    if (res.status === 422) {
       toast.error("Invalid conatct  details");
       console.log("Invalid conatct  details");
     } else if (res.status !== 422) {
