@@ -69,6 +69,8 @@ export default ({ mode }) => {
     },
     server: {
 
+      // origin: process.env.VITE_BASE_URL
+
 
       proxy:
       {
