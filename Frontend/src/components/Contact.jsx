@@ -36,20 +36,17 @@ const Contact = () => {
       }),
       headers: {
         "Content-Type": "application/json",
-        // "Access-Control-Allow-Origin": "*",
-        // "Access-Control-Allow-Credentials": true,
       },
-      // mode: "no-cors",
     });
 
     // console.log(res);
 
-    // const data = await res.json();
+    const data = await res.json();
 
     // console.log(data);
 
-    if (res.status === 422) {
-      // if (res.status === 422 || !data) {
+    // if (res.status === 422) {
+    if (res.status === 422 || !data) {
       toast.error("Invalid conatct  details");
       console.log("Invalid conatct  details");
     } else if (res.status !== 422) {

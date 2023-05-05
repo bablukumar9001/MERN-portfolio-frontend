@@ -60,16 +60,23 @@ export default ({ mode }) => {
   // import.meta.env.VITE_PORT available here with: process.env.VITE_PORT
 
   return defineConfig({
+    plugins: [react()],
+    build: {
+      manifest: true,
+      rollupOptions: {
+        input: "./src/main.jsx",
+      }
+    },
     server: {
 
 
-      proxy: {
+      proxy:
+      {
 
         "/clientdata": {
           target: process.env.VITE_BASE_URL,
           changeOrigin: true,
           secure: false,
-          // rewrite: (path) => path.replace(/^\/clientdata/, ''),
 
 
         },
@@ -81,7 +88,9 @@ export default ({ mode }) => {
         }
       },
     },
-    plugins: [react()],
+
+
+
 
   });
 
