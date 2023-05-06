@@ -76,14 +76,14 @@ export default ({ mode }) => {
       {
 
         "/clientdata": {
-          target: process.env.VITE_BASE_URL,
+          target: "https://bablu-kumar-7272.onrender.com",
           changeOrigin: true,
           secure: false,
 
 
         },
         "/login": {
-          target: process.env.VITE_BASE_URL,
+          target: "https://bablu-kumar-7272.onrender.com",
           changeOrigin: true,
           secure: false,
 
