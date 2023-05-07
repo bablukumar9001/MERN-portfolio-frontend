@@ -34,16 +34,17 @@ const Contact = () => {
         subject,
         message,
       }),
+
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "https://bablukumar.onrender.com",
+        "Access-Control-Allow-Origin": "",
         "Access-Control-Allow-Credentials": true,
       },
     });
 
     console.log(res);
 
-    const data = await res.json();
+    const data = await res.text();
 
     // console.log(data);
 
