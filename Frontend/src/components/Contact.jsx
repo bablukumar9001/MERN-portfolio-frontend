@@ -52,6 +52,7 @@ const Contact = () => {
     if (res.status === 422 || !data) {
       toast.error("Invalid conatct  details");
       console.log("Invalid conatct  details");
+      console.log(data);
     } else if (res.status !== 422) {
       toast.success("Message  has been sent Successfully");
       console.log("Message  has been sent Successfully");
