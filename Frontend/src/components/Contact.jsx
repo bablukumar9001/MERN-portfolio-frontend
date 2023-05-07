@@ -34,10 +34,9 @@ const Contact = () => {
         subject,
         message,
       }),
-      redirect: true,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://bablukumar.onrender.com",
         "Access-Control-Allow-Credentials": true,
       },
     });
