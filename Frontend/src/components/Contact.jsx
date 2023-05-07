@@ -34,6 +34,7 @@ const Contact = () => {
         subject,
         message,
       }),
+      redirect: true,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
