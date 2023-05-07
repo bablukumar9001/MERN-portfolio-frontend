@@ -41,7 +41,7 @@ const Contact = () => {
       },
     });
 
-    // console.log(res);
+    console.log(res);
 
     const data = await res.json();
 
