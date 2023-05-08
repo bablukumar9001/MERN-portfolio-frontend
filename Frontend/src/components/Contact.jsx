@@ -27,6 +27,7 @@ const Contact = () => {
 
     const res = await fetch("/clientdata", {
       method: "POST",
+      mode: "no-cors",
       body: JSON.stringify({
         name,
         email,
@@ -37,7 +38,7 @@ const Contact = () => {
 
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "https://bablu-kumar-7272.onrender.com",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
     });
