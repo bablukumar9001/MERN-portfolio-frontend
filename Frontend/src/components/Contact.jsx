@@ -37,7 +37,7 @@ const Contact = () => {
 
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://bablu-kumar-7272.onrender.com",
         "Access-Control-Allow-Credentials": true,
       },
     });
