@@ -49,10 +49,13 @@ const Contact = () => {
     // console.log(data);
 
     // if (res.status === 422) {
-    if (res.status === 422 || !data) {
+    if (res.status === 422) {
       toast.error("Invalid conatct  details");
       console.log("Invalid conatct  details");
       console.log(data);
+    } else if (!data) {
+      toast.success("second issue");
+      console.log("Message  has been sent Successfully");
     } else if (res.status !== 422) {
       toast.success("Message  has been sent Successfully");
       console.log("Message  has been sent Successfully");
