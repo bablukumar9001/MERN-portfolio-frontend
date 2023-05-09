@@ -63,9 +63,9 @@ export default ({ mode }) => {
     plugins: [react()],
     build: {
       manifest: true,
-      // rollupOptions: {
-      //   input: "./src/main.jsx",
-      // }
+      rollupOptions: {
+        input: "./src/main.jsx",
+      }
     },
     server: {
 
