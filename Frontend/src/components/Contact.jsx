@@ -27,7 +27,6 @@ const Contact = () => {
 
     const res = await fetch("/clientdata", {
       method: "POST",
-      mode: "no-cors",
       body: JSON.stringify({
         name,
         email,
