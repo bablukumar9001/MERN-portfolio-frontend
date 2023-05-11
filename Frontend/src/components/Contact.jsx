@@ -25,20 +25,23 @@ const Contact = () => {
     e.preventDefault();
     const { name, email, mobile, subject, message } = user;
 
-    const res = await fetch("/clientdata", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        email,
-        mobile,
-        subject,
-        message,
-      }),
+    const res = await fetch(
+      "https://bablu-kumar-7272.onrender.com/clientdata",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          email,
+          mobile,
+          subject,
+          message,
+        }),
 
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     console.log(res);
 
@@ -53,7 +56,7 @@ const Contact = () => {
       console.log(data);
     } else if (!data) {
       toast.success("second issue");
-      console.log("Message  has been sent Successfully");
+      console.log("secomd issue ");
     } else if (res.status !== 422) {
       toast.success("Message  has been sent Successfully");
       console.log("Message  has been sent Successfully");
