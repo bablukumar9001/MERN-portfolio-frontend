@@ -28,6 +28,7 @@ const Contact = () => {
     const res = await fetch(
       "https://bablu-kumar-7272.onrender.com/clientdata",
       {
+        mode: "no-cors",
         method: "POST",
         body: JSON.stringify({
           name,
