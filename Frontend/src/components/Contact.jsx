@@ -3,7 +3,7 @@ import "./css/contact.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import contact from "/images/contact-us.svg";
-
+const apiUrl = import.meta.env.VITE_BASE_URL;
 const Contact = () => {
   const [user, setUser] = useState({
     name: "",
@@ -25,7 +25,7 @@ const Contact = () => {
     e.preventDefault();
     const { name, email, mobile, subject, message } = user;
 
-    const res = await fetch("/clientdata", {
+    const res = await fetch(`${apiUrl}/clientdata`, {
       method: "POST",
       body: JSON.stringify({
         name,
@@ -42,7 +42,7 @@ const Contact = () => {
 
     console.log(res);
 
-    const data = await res.text();
+    const data = await res.json();
 
     // console.log(data);
 
@@ -61,6 +61,7 @@ const Contact = () => {
       toast.error("Some error ocurred");
     }
   };
+  // console.log(`${apiUrl} and hello`);
 
   return (
     <>
