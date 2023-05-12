@@ -63,9 +63,9 @@ export default ({ mode }) => {
     plugins: [react()],
     build: {
       manifest: true,
-      rollupOptions: {
-        input: "./src/main.jsx",
-      }
+      // rollupOptions: {
+      //   input: "./src/main.jsx",
+      // }
     },
     server: {
 
@@ -75,13 +75,13 @@ export default ({ mode }) => {
       proxy:
       {
 
-        "/clientdata": {
-          target: process.env.VITE_BASE_URL,
-          changeOrigin: true,
-          secure: false,
+        // "/clientdata": {
+        //   target: process.env.VITE_BASE_URL,
+        //   changeOrigin: true,
+        //   secure: false,
 
 
-        },
+        // },
         "/login": {
           target: process.env.VITE_BASE_URL,
           changeOrigin: true,
