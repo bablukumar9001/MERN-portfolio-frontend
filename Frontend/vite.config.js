@@ -75,13 +75,13 @@ export default ({ mode }) => {
       proxy:
       {
 
-        // "/clientdata": {
-        //   target: process.env.VITE_BASE_URL,
-        //   changeOrigin: true,
-        //   secure: false,
+        "/clientdata": {
+          target: process.env.VITE_BASE_URL,
+          changeOrigin: true,
+          secure: false,
 
 
-        // },
+        },
         "/login": {
           target: process.env.VITE_BASE_URL,
           changeOrigin: true,
@@ -99,6 +99,8 @@ export default ({ mode }) => {
 }
 // console.log((process.env.VITE_BASE_URL))
 
+// const apiUrl = import.meta.env.VITE_BASE_URL;
+// console.log(apiUrl)
 
 
 
