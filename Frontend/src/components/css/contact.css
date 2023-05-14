@@ -111,7 +111,14 @@ textarea {
 }
 @media (max-width: 1200px) {
   textarea {
-    width: 374px;
+    width: 275px;
+    /* width: 374px; */
+  }
+  .main-btn-contact {
+    padding: 0px 45px;
+  }
+  .thumbnail {
+    width: 275px;
   }
 }
 
@@ -125,13 +132,24 @@ textarea {
   .box-left-contact {
     margin-right: 3px;
   }
+  .main-btn-contact {
+    padding: 9px 45px;
+  }
   .contact-form-wrapper {
-    margin-left: 4px;
+    /* margin-left: 4px; */
+    margin-left: -11px;
   }
   textarea {
     height: 150px;
     width: 328px;
     margin-right: 40px;
+  }
+  .box-left-contact {
+    box-shadow: none;
+  }
+
+  .box-right-contact {
+    box-shadow: none;
   }
 }
 @media (max-width: 360px) {

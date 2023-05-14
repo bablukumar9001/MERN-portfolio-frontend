@@ -156,6 +156,9 @@ ul.nav-pills {
   .test:hover {
     padding: 10px;
   }
+  .justify-content-lg-between {
+    justify-content: space-between !important;
+  }
   ul.nav-pills {
     border: 0;
     border-radius: 0;
@@ -163,7 +166,7 @@ ul.nav-pills {
     margin-bottom: 10px;
   }
   .test.nav-link {
-    padding: 7px;
+    padding: 4px;
   }
   .single-progress .label {
     font-size: 0;
@@ -176,5 +179,16 @@ ul.nav-pills {
   }
   .test.nav-link.active {
     height: 40px;
+  }
+}
+/* @media (max-width: 375px) {
+  .justify-content-lg-between {
+    justify-content: none !important;
+  }
+} */
+
+@media (max-width: 1200px) {
+  .justify-content-lg-between {
+    justify-content: space-between !important;
   }
 }
