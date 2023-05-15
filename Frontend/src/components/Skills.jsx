@@ -6,7 +6,9 @@ const Skills = () => {
     <>
       <div className="col-lg-12 mt-5 " id="skills">
         <div className="section-title text-center">
-          <span className="subtitle">here all my education and skills</span>
+          <span className="subtitle">
+            here all my education,skills and experience
+          </span>
           <h2>Resume</h2>
         </div>
       </div>

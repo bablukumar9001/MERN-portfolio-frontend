@@ -47,15 +47,16 @@ const Contact = () => {
     // console.log(data);
 
     // if (res.status === 422) {
-    if (res.status === 422) {
-      toast.error("Invalid conatct  details");
+    if (res.status === 422 || !data) {
+      toast.error("Invalid conatct  details", {
+        toastId: "success1",
+      });
       console.log("Invalid conatct  details");
       console.log(data);
-    } else if (!data) {
-      toast.success("second issue");
-      console.log("secomd issue ");
     } else if (res.status !== 422) {
-      toast.success("Message  has been sent Successfully");
+      toast.success("Message  has been sent Successfully", {
+        toastId: "success2",
+      });
       console.log("Message  has been sent Successfully");
     } else {
       toast.error("Some error ocurred");
@@ -68,7 +69,7 @@ const Contact = () => {
       <div className="col-lg-12 mt-5 contact11">
         <div className="section-title text-center">
           <span className="subtitle">
-            Visit my portfolio and keep your feedback
+            Here you can conatct and find me on different platforms
           </span>
           <h2>Contact</h2>
         </div>
@@ -85,12 +86,13 @@ const Contact = () => {
                 <h4 className="title">Bablu Kumar</h4>
               </div>
               <div className="description">
-                <span className="phone">
-                  Phone: <a href="+91 8920549001">+91 8920549001</a>
+                <span className="mail">
+                  Email: <b> Bk559722@gmail.com</b>
                 </span>
                 <br />
-                <span className="mail">
-                  Email: <a href="Bk559722@gmail.com">Bk559722@gmail.com</a>
+
+                <span className="phone">
+                  Phone: <b>+91 8920549001</b>
                 </span>
               </div>
               <div className="social-area">

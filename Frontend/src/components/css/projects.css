@@ -45,9 +45,9 @@
   color: white;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .card-image {
-    height: 455px;
+    height: 525px;
     padding: 12px;
   }
 }

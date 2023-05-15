@@ -75,7 +75,7 @@ label {
   font-size: 20px;
 }
 .phone {
-  margin-right: 40px;
+  margin-right: 47px;
 }
 .title {
   font-size: 33px;
@@ -120,6 +120,9 @@ textarea {
   .thumbnail {
     width: 275px;
   }
+  .contact-form-wrapper {
+    margin-left: 0px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -137,10 +140,12 @@ textarea {
   }
   .contact-form-wrapper {
     /* margin-left: 4px; */
-    margin-left: -11px;
+    /* margin-left: -11px; */
+    margin-left: 0px;
   }
   textarea {
     height: 150px;
+    /* width: 445px; */
     width: 328px;
     margin-right: 40px;
   }
@@ -149,11 +154,15 @@ textarea {
   }
 
   .box-right-contact {
-    box-shadow: none;
+    /* box-shadow: none; */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }
-@media (max-width: 360px) {
+@media (max-width: 375px) {
   .main-btn-contact {
     padding: 10px 26px;
+  }
+  textarea {
+    width: 300px;
   }
 }

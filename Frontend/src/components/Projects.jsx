@@ -16,9 +16,7 @@ const Projects = () => {
     <>
       <div className="col-lg-12 mt-5 " id="project11">
         <div className="section-title text-center">
-          <span className="subtitle">
-            Visit my portfolio and keep your feedback
-          </span>
+          <span className="subtitle">Here all my latest projects</span>
           <h2>Projects</h2>
         </div>
       </div>

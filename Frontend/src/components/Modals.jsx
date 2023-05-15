@@ -29,10 +29,14 @@ const Modals = () => {
     const data = res.json();
 
     if (res.status === 422 || !data) {
-      toast.error("Invalid credentials");
+      toast.error("Invalid credentials", {
+        toastId: "error1",
+      });
       console.log("Invalid credentials");
     } else if (res.status === 201) {
-      toast.success("Login Successfully");
+      toast.success("Login Successfully", {
+        toastId: "error2",
+      });
 
       navigate("/show");
     } else {
