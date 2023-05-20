@@ -53,7 +53,7 @@ img {
   color: black;
   white-space: nowrap;
   overflow: hidden;
-  animation: animated-text 3s steps(30, end) 1s 1 normal backwards;
+  /* animation: animated-text 3s steps(30, end) 1s 1 normal backwards; */
 }
 
 @keyframes animated-text {

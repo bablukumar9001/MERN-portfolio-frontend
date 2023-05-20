@@ -15,7 +15,7 @@ const Home = () => {
                 <div clsss="row">
                   <div className="col-sm-12 text-center text-md-start ">
                     <h6>WELOME TO MY WORLD</h6>
-                    <h1 className="">
+                    <h1 className="blink">
                       Hi, I'm Bablu kumar <br />
                     </h1>
 
