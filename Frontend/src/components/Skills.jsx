@@ -479,7 +479,7 @@ const Skills = () => {
                         {" "}
                         Graduated at BCA
                         <span>
-                          - Hi-tech institue of Enger. and technology, CCS
+                          - Hi-tech institue of Engineering and technology, CCS
                           University
                         </span>
                       </a>
@@ -491,7 +491,7 @@ const Skills = () => {
                         {" "}
                         Now Pursing MCA
                         <span>
-                          - Hi-tech institue of Enger. and technology,AKTU
+                          - Hi-tech institue of Engineering and technology,AKTU
                           University
                         </span>
                       </a>
