@@ -4,9 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev:frontend": "vite",
-    "dev:backend": "nodemon src/index.js",
-    "dev": "concurrently 'npm:dev:frontend' 'npm:dev:backend'",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
