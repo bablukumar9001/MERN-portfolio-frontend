@@ -1,6 +1,6 @@
 import React from "react";
 import "./css/home.css";
-import homephoto from "/images/one2.png";
+import homephoto from "/images/profile-pic.png";
 import { Link } from "react-scroll";
 import { TypeAnimation } from "react-type-animation";
 
@@ -9,7 +9,7 @@ const Home = () => {
     <>
       <div className="container container-fluid   text-center" id="home11">
         <div className="row">
-          <div className=" col-sm-6  box1">
+          <div className=" col-sm-6 fadeInLeft box1">
             <section id="home" className="banner-wrapper">
               <div className="container ">
                 <div clsss="row">
@@ -43,7 +43,7 @@ const Home = () => {
                       <a
                         className="main-btn"
                         target=" "
-                        href="https://drive.google.com/file/d/1MBPCj4Q_HWlL1PbkD4Sjo3u9gDEHlPZp/view?usp=drivesdk"
+                        href="https://drive.google.com/file/d/1Bo9Jh29kHcbHmp2JMhf2bX9PsTHjQJns/view"
                       >
                         Download CV
                       </a>
@@ -100,7 +100,7 @@ const Home = () => {
             </section>
           </div>
 
-          <div className="col col-sm-5 box2">
+          <div className="col col-sm-5 fadeInRight box2">
             <img className="image-fluid" src={homephoto} alt="" />
           </div>
         </div>

@@ -155,7 +155,8 @@ img {
     font-size: 29px;
   }
   img {
-    height: 418px;
+    /* height: 418px; */
+    height: 300px;
   }
   .list-unstyled {
     padding-right: 50px;

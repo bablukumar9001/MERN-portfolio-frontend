@@ -1,0 +1,54 @@
+.experience-section {
+  background-color: #ffffff63; /* Light gray background */
+}
+
+.section-titlee {
+  color: #b31b1b; /* Bold red color for the title */
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.experience-item {
+  background-color: #ffffff; /* White background for each experience item */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.experience-item:hover {
+  transform: translateY(-5px); /* Hover effect */
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.company-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.company-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333; /* Dark gray for company names */
+}
+
+.position {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #444;
+  margin-top: 15px;
+}
+
+.duration {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1rem;
+  color: #555;
+}

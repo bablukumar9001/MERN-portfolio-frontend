@@ -66,7 +66,7 @@ const Contact = () => {
 
   return (
     <>
-      <div className="col-lg-12 mt-5 contact11">
+      <div className="col-lg-12 mt-5 contact11" id="contact11">
         <div className="section-title text-center">
           <span className="subtitle">
             Here you can conatct and find me on different platforms
@@ -85,14 +85,14 @@ const Contact = () => {
               <div className="title-area">
                 <h4 className="title">Bablu Kumar</h4>
               </div>
-              <div className="description">
+              <div className="email_phone">
                 <span className="mail">
-                  Email: <b> bk559722@gmail.com</b>
+                  <b>Email</b>:  bablukumar09001@gmail.com
                 </span>
                 <br />
 
                 <span className="phone">
-                  Phone: <b>+91 8920549001</b>
+                  <b>Phone</b>: +91 8920549001
                 </span>
               </div>
               <div className="social-area">
@@ -141,115 +141,116 @@ const Contact = () => {
               </div>
             </div>
           </div>
-          {/* contact form  */}
-          <div className=" col-sm-6  box-right-contact">
-            <div className="contact-form-wrapper">
-              <div className="introduce">
-                <form
-                  className="rnt-contact-form rwt-dynamic-form row"
-                  onSubmit={PostData}
-                >
-                  <div className="col-lg-6">
-                    <div className="form-group">
-                      <label htmlFor="contact-phone">Name</label>
-                      <input
-                        className="form-control"
-                        name="name"
-                        id="contact-name"
-                        type="text"
-                        value={user.name}
-                        autoComplete="off"
-                        onChange={handleInputs}
-                      />
-                    </div>
-                  </div>
 
-                  <div className="col-lg-6">
-                    <div className="form-group">
-                      <label htmlFor="contact-phone">Phone Number</label>
-                      <input
-                        className="form-control"
-                        name="mobile"
-                        id="contact-phone"
-                        type="number"
-                        value={user.mobile}
-                        onChange={handleInputs}
-                        autoComplete="off"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="contact-email">Email</label>
-                      <input
-                        className="form-control form-control-sm"
-                        id="contact-email"
-                        name="email"
-                        value={user.email}
-                        type="email"
-                        onChange={handleInputs}
-                      />
-                    </div>
-                  </div>
 
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="subject">subject</label>
-                      <input
-                        className="form-control form-control-sm"
-                        id="subject"
-                        name="subject"
-                        type="text"
-                        value={user.subject}
-                        onChange={handleInputs}
-                      />
-                    </div>
-                  </div>
 
-                  <div className="col-lg-12">
-                    <div className="form-group">
-                      <label htmlFor="contact-message">Your Message</label>
-                      <textarea
-                        name="message"
-                        id="contact-message"
-                        cols="30"
-                        rows="8"
-                        value={user.message}
-                        onChange={handleInputs}
-                      ></textarea>
-                    </div>
-                  </div>
 
-                  <div className="col-lg-12">
-                    <button
-                      name="submit"
-                      type="submit"
-                      id="submit"
-                      className="rn-btn main-btn-contact"
-                    >
-                      <span>SEND MESSAGE</span>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-arrow-right"
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </button>
-                  </div>
-                </form>
+
+
+
+
+          <div className="col-lg-6 contactbox2 form-group">
+            <form
+              id="contact_form"
+              name="contact_form"
+              // method="post"
+              onSubmit={PostData}
+            >
+              <div class="mb-5 row">
+                <div class="col">
+                  <label> Name</label>
+                  <input
+                    type="text"
+                    required
+                    maxlength="50"
+                    class="form-control"
+                    id="first_name"
+                    name="name"
+                    autoComplete="off"
+                    value={user.name}
+                    onChange={handleInputs}
+                    placeholder="Your Name"
+                  />
+                  <span class="icon fa fa-user fa-lg"></span>
+                </div>
+
               </div>
-            </div>
+              <div class="mb-5 row">
+                <div class="col">
+                  <label> Subject</label>
+                  <input
+                    type="text"
+                    required
+                    maxlength="50"
+                    class="form-control"
+
+                    name="subject"
+                    value={user.subject}
+                    onChange={handleInputs}
+                    placeholder="subject"
+                  />
+                  <span class="icon fa fa-user fa-lg"></span>
+                </div>
+
+              </div>
+              <div class="mb-5 row">
+                <div class="col">
+                  <label for="email_addr">Email address</label>
+                  <input
+                    type="email"
+                    required
+                    maxlength="50"
+                    class="form-control"
+                    id="email_addr"
+                    name="email"
+                    placeholder="Your Email"
+                    value={user.email}
+                    onChange={handleInputs}
+                  />
+                  <span class="icon fa fa-envelope fa-lg"></span>
+                </div>
+                <div class="col">
+                  <label for="phone_input">Phone</label>
+                  <input
+                    type="tel"
+                    required
+                    maxlength="50"
+                    class="form-control"
+                    id="phone_input"
+                    name="mobile"
+                    placeholder=" Phone Number"
+                    value={user.mobile}
+                    onChange={handleInputs}
+                  />
+                  <span class="icon fa fa-phone fa-lg"></span>
+                </div>
+
+              </div>
+              <div class="mb-5">
+                <label for="message">Message</label>
+                <textarea
+                  class="form-control"
+                  id="message"
+                  name="message"
+                  rows="4"
+                  value={user.message}
+                  onChange={handleInputs}
+                ></textarea>
+              </div>
+              <button
+                name="submit"
+                id="submit"
+                type="submit"
+                class="rn-btn main-btn-contact px-4 btn-lg"
+              >
+                SUBMIT
+              </button>
+            </form>
           </div>
+
+
+
         </div>
       </div>
       <ToastContainer

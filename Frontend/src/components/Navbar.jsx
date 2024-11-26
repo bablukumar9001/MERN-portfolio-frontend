@@ -1,79 +1,75 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import mylogo from "/images/mylogo1.png";
-
 import "./css/navbar.css";
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
-
-  let navBar = document.querySelectorAll(".nav-link");
-
-  let navCollapse = document.querySelector(".navbar-collapse.collapse");
-  navBar.forEach(function (a) {
-    a.addEventListener("click", function () {
-      navCollapse.classList.remove("show");
-    });
-  });
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
-    // show navbar on scroll
-
     const changeBackground = () => {
       if (window.scrollY > 25) {
         setIsActive(true);
       } else {
         setIsActive(false);
       }
-      // console.log("hello");
     };
 
     window.addEventListener("scroll", changeBackground);
-  }, [isActive]);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", changeBackground);
+    };
+  }, []);
+
+  const handleToggle = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const handleLinkClick = () => {
+    setIsCollapsed(true); // Collapse the navbar when a link is clicked
+  };
 
   return (
     <>
       <header className="header-wrapper">
         <nav
           className={`navbar navbar-expand-lg ${
-            isActive ? "header-scrolled" : " "
+            isActive ? "header-scrolled" : ""
           }`}
-          // onScroll={test}
         >
-          {/* onScroll={test} */}
           <div className="container-fluid">
-            <Link className="navbar-brand" to="home11">
+            <Link className="navbar-brand" to="home11" smooth={true} duration={50}>
               <img className="mylogo" src={mylogo} alt="logo" />
             </Link>
             <button
               className="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNavAltMarkup"
+              onClick={handleToggle}
               aria-controls="navbarNavAltMarkup"
-              aria-expanded="false"
+              aria-expanded={!isCollapsed}
               aria-label="Toggle navigation"
             >
               <i className="fa fa-bars navbar-toggler-icon"></i>
             </button>
 
             <div
-              className="collapse navbar-collapse justify-content-end"
+              className={`collapse navbar-collapse justify-content-end ${
+                isCollapsed ? "" : "show"
+              }`}
               id="navbarNavAltMarkup"
-              data-toggle="collapse"
-              data-target=".navbar-collapse"
             >
               <ul className="navbar-nav menu-navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <Link
                     className="nav-link"
                     to="home11"
-                    aria-current="page"
-                    href="#home11"
-                    // spy={true}
                     smooth={true}
                     offset={-100}
                     duration={50}
+                    onClick={handleLinkClick}
                   >
                     Home
                   </Link>
@@ -81,12 +77,11 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link
                     className="nav-link"
-                    href="#about11"
                     to="about11"
-                    // spy={true}
                     smooth={true}
                     offset={-120}
                     duration={50}
+                    onClick={handleLinkClick}
                   >
                     About
                   </Link>
@@ -94,24 +89,48 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link
                     className="nav-link"
-                    to="skills"
-                    href="#skills"
+                    to="skills11"
                     smooth={true}
                     offset={-105}
                     duration={50}
+                    onClick={handleLinkClick}
                   >
-                    Resume
+                    Skills
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link
                     className="nav-link"
+                    to="Experience"
+                    smooth={true}
+                    offset={-105}
+                    duration={50}
+                    onClick={handleLinkClick}
+                  >
+                    Experience
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    to="Education"
+                    smooth={true}
+                    offset={-105}
+                    duration={50}
+                    onClick={handleLinkClick}
+                  >
+                    Education
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
                     to="service11"
-                    href="#service11"
-                    // spy={true}
                     smooth={true}
                     offset={-60}
                     duration={50}
+                    onClick={handleLinkClick}
                   >
                     Services
                   </Link>
@@ -120,11 +139,10 @@ const Navbar = () => {
                   <Link
                     className="nav-link"
                     to="project11"
-                    href="#project11"
-                    // spy={true}
                     smooth={true}
                     offset={-85}
                     duration={50}
+                    onClick={handleLinkClick}
                   >
                     Projects
                   </Link>
@@ -136,22 +154,12 @@ const Navbar = () => {
                     smooth={true}
                     offset={-85}
                     duration={50}
-                    href="#contact11"
+                    onClick={handleLinkClick}
                   >
                     Contact
                   </Link>
                 </li>
-                {/* modals button */}
-                <li className="nav-item mt-3 mt-lg-0">
-                  <button
-                    type="button"
-                    className="main-btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Admin
-                  </button>
-                </li>
+               
               </ul>
             </div>
           </div>

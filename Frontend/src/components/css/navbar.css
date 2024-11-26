@@ -4,6 +4,7 @@
   font-size: 16px;
   color: rgb(20, 20, 20);
   display: inline-block;
+  cursor: pointer;
 }
 
 .header-wrapper .nav-item .nav-link::after {
@@ -27,6 +28,16 @@
   color: rgb(231, 3, 3);
   font-weight: 800;
 }
+/* .header-scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ecf0f3;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 0%), 6px 2px 18px 3px rgba(0, 0, 0, 0.19);
+
+  z-index: 1;
+} */
 .header-scrolled {
   position: fixed;
   top: 0;
@@ -37,7 +48,25 @@
   box-shadow: 0 4px 8px 0 rgb(0 0 0 / 0%), 6px 2px 18px 3px rgba(0, 0, 0, 0.19);
 
   z-index: 1;
+
+  animation: fadeInDown 1s both 0.2s;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1;  
+  animation-direction: normal;
+  animation-fill-mode: both;
+  animation-play-state: running;
+  animation-name: fadeInDown;
+  animation-timeline: auto;
+  animation-range-start: normal;
+  animation-range-end: normal;
+  -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 999;
 }
+
 
 .header-wrapper .navbar-toggler {
   border: 0;
@@ -69,5 +98,20 @@
 @media (max-width: 768px) {
   .mylogo {
     margin-top: 6px;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-20px);
+    -ms-transform: translateY(-20px);
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
   }
 }

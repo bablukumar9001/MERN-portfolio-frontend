@@ -1,42 +1,54 @@
-:root {
-  /* bakground color */
-  --primary-color: #ff014f;
+
+
+.services-section {
+  background-color: #ffffff63; /* Light gray background */
+  padding: 60px 20px;
+  color: #333; /* Dark gray text color */
 }
 
-.services-wrapper .card {
-  /* background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%); */
-  cursor: pointer;
-  transition: transfrom 0.65 cubic-bezier(0.05, 0.2, 0.1, 1);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  color: rgb(54, 54, 54);
+.section-titlee {
+  color: #b31b1b; /* Bold red color for the title */
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 50px;
 }
 
-.services-wrapper .card:hover {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  transform: translateY(-5px);
-  background-color: var(--primary-color);
-  color: white;
-}
-.card {
-  min-height: 364px;
-}
-.icon-color {
-  height: 50px;
-  font-size: 50px;
-
-  margin: 8px;
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
 }
 
-.card-text {
-  font-size: 14px;
-  line-height: 22px;
-  font-weight: 500;
-
-  text-align: justify;
+.service-item {
+  background-color: #ffffff; /* White background for each service item */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
 }
 
-@media (max-width: 768px) {
-  .card {
-    margin: 0 13px 0 1px;
-  }
+.service-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
 }
+
+.service-icon {
+  font-size: 3rem;
+  color: #b31b1b; /* Red color for icons */
+  margin-bottom: 20px;
+}
+
+.service-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #444; /* Dark gray for headings */
+  margin-bottom: 15px;
+}
+
+.service-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555; /* Medium gray for descriptions */
+}
+

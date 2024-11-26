@@ -1,0 +1,80 @@
+
+#skills .card.large {
+    height: 360px;
+  }
+  
+  #skills h4 {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+  }
+  
+  #skills .col img.responsive-img {
+    margin: 0 auto;
+    max-height: 100px;
+    padding-bottom: 10px;
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  .brown-text {
+    color: #795548 !important;
+}
+
+.light, footer.page-footer .footer-copyright {
+    font-weight: 300;
+}
+card-content h4 {
+    font-size: 2.28rem;
+    line-height: 2.508rem;
+    margin: 1.14rem 0 0.912rem 0;
+}
+
+card-content h4 {
+    display: block;
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+
+.teal {
+    background-color: #008073 !important;
+}
+
+.white-text {
+    color: #FFFFFF !important;
+}
+
+.card .card-content {
+    padding-bottom: 30px;
+}
+
+.card .card-content {
+    padding: 20px;
+    -webkit-border-radius: 0 0 2px 2px;
+    -moz-border-radius: 0 0 2px 2px;
+    border-radius: 0 0 2px 2px;
+    background-clip: padding-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.container .row {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+}
+
+.text-center {
+    text-align: center;
+}
+.skill-hover {
+    transition: transform 0.3s ease; /* Smooth transition */
+  }
+.skill-hover:hover{
+    transform:  translateY(-5px ); 
+
+}

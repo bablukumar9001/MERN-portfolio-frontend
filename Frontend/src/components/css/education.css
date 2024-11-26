@@ -1,0 +1,49 @@
+.education-section {
+    background-color: #ffffff63; /* Light gray background */
+    padding: 50px 20px;
+    color: #333; /* Dark gray text color */
+  }
+  
+  .section-titlee {
+    color: #b31b1b; /* Bold red color for the title */
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
+  
+  .education-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .education-item {
+    background-color: #ffffff; /* White background for each education item */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .education-item:hover {
+    transform: translateY(-5px); /* Slight hover effect */
+  }
+  
+  .degree {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #444; /* Slightly darker gray for headings */
+  }
+  
+  .institution, .year {
+    font-size: 1.2rem;
+    color: #666; /* Medium gray for institution and year */
+  }
+  
+  .description {
+    margin-top: 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555; /* Regular gray for description */
+  }
+  

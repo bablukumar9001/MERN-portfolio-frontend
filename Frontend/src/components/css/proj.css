@@ -1,0 +1,254 @@
+#intro.section {
+  background: #a7ffeb repeat;
+  position: relative;
+}
+
+#intro.section .container {
+  color: white;
+  font-weight: 200;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+#intro.section .container *:not(span) {
+  font-weight: 300;
+  line-height: 150%;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+#intro.section .underline {
+  border-bottom: 5px solid #24305e;
+}
+
+#intro.section .teal {
+  padding: 0 10px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  margin: 0.5rem 0 1rem 0;
+  background-color: #fff;
+  border-radius: 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+  margin-bottom: 60px;
+}
+
+.card.medium {
+  height: 550px;
+}
+
+.card.medium .card-image {
+  height: 240px;
+}
+
+.card.large .card-image {
+  height: 230px;
+}
+
+.card .card-content {
+  padding: 20px;
+  padding-bottom: 30px;
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+  
+}
+.project-card{
+  padding: 20px;
+  padding-bottom: 30px;
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+  position: relative;
+    top: 161px;
+}
+
+.card .card-content p {
+  padding: 5px 0 0;
+}
+
+.card h5 {
+  font-size: 1.5rem;
+  margin: 2rem 0 -0.5rem 0;
+}
+
+.card h6 {
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-top: 2rem;
+  text-transform: uppercase;
+}
+
+.card .role {
+  font-size: 1.25rem;
+  position: absolute;
+  right: 38px;
+  top: 35px;
+}
+
+.card li a {
+  margin-right: 0;
+  color: #333;
+  border-bottom: 2px solid #ffab40;
+}
+
+.card li a:hover {
+  color: #333;
+  font-weight: 500;
+}
+
+.card-action span {
+  font-size: 85%;
+  color: #666;
+}
+
+.card .card-reveal {
+  padding: 20px;
+  position: absolute;
+  background-color: #FFF;
+  width: 100%;
+  overflow-y: auto;
+  top: 100%;
+  height: 100%;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+/* Flip Card Effect */
+.card-container {
+  perspective: 1000px;
+}
+
+.card-container .card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card-container .card:hover {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background-color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Color Text */
+.teal-text {
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.teal-text :hover {
+  font-size: 22px;
+  color: #a42020;
+}
+
+
+.project_img{
+  height: 386px !important; 
+  padding: 8px;
+}
+.Accomplishments{
+  font-size: 20px;
+}
+.close-x{
+  font-size: 20px;
+  margin-left: 145px;
+  cursor: pointer;
+}
+.accomp-text{
+  font-size: 15px;
+  line-height: 36px;
+}
+.icon-links-container {
+  display: flex;
+  justify-content: center; /* Center the items horizontally */
+  gap: 20px; /* Space between the links */
+  margin-top: 20px;
+}
+
+.live-demo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.icon-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-style {
+  font-size: 50px;
+  margin-bottom: 5px; /* Space between the icon and the text */
+}
+
+.icon-text {
+  font-size: 18px;
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+a.hoverline {
+  border-bottom: 3px solid transparent !important;
+  padding: 3px 3px 0 3px;
+  transition: 0.25s all;
+}
+
+/* Media Queries */
+/* @media only screen and (min-width: 1000px) {
+  .fa-close:before, .fa-multiply:before, .fa-remove:before, .fa-times:before, .fa-xmark:before {
+    content: "\f00d";
+    margin-left: 105px;
+}
+} */
+@media only screen and (min-width: 400px) {
+  .fa-close:before, .fa-multiply:before, .fa-remove:before, .fa-times:before, .fa-xmark:before {
+    content: "\f00d";
+    margin: -18px;
+}
+}
+@media only screen and (min-width: 993px) {
+  .row .col.l4 {
+    width: 33.33333%;
+    margin-left: 0;
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .row .col.m6 {
+    width: 50%;
+    margin-left: 0;
+}
+}
+/* Ripple Effect */
+.waves-effect.waves-blue .waves-ripple {
+  background-color: rgba(33, 150, 243, 0.2);
+}
+

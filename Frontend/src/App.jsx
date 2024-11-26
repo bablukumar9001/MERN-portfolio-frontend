@@ -3,33 +3,29 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Contact from "./components/Contact";
-import Skills from "./components/Skills";
+import Skills from "./components/resume/Skills";
 import Services from "./components/Services";
-import Projects from "./components/Projects";
 import About from "./components/About";
 import Footer from "./components/Footer";
-// import Admin from "./components/Admin";
-// import Admin from "./components/Admin";
-import ShowData from "./components/ShowData";
-import Modals from "./components/Modals";
+import Expereince from "./components/resume/Expereince";
+import Proj from "./components/Proj";
+import Education from "./components/Education";
+
 
 const App = () => {
   return (
     <>
       <Navbar />
-      {/* <Admin /> */}
       <Home />
       <About />
       <Skills />
+      <Expereince />
+      <Education />
       <Services />
-      <Projects />
+      <Proj />
       <Contact />
       <Footer />
-      <Modals />
-      <Routes>
-        <Route exact path="/show" element={<ShowData />} />
-        <Route exact path="/home" element={<Home />} />
-      </Routes>
+
     </>
   );
 };
