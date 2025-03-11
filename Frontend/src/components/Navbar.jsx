@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-scroll";
 import mylogo from "/images/mylogo1.png";
 import "./css/navbar.css";
+import { ThemeContext } from "../ThemeContext";
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [activeSection, setActiveSection] = useState("home11");
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
+  // Track scroll position for navbar background
   useEffect(() => {
     const changeBackground = () => {
       if (window.scrollY > 25) {
@@ -24,6 +28,43 @@ const Navbar = () => {
     };
   }, []);
 
+  // Track active section based on scroll position
+  useEffect(() => {
+    const sections = [
+      "home11", 
+      "about11", 
+      "skills11", 
+      "Experience", 
+      "Education", 
+      "service11", 
+      "project11", 
+      "contact11"
+    ];
+    
+    const handleScroll = () => {
+      const pageYOffset = window.pageYOffset;
+      let newActiveSection = sections[0];
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (!element) continue;
+        
+        const offsetTop = element.offsetTop - 150;
+        
+        if (pageYOffset >= offsetTop) {
+          newActiveSection = section;
+        }
+      }
+      
+      if (newActiveSection !== activeSection) {
+        setActiveSection(newActiveSection);
+      }
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeSection]);
+
   const handleToggle = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -31,6 +72,17 @@ const Navbar = () => {
   const handleLinkClick = () => {
     setIsCollapsed(true); // Collapse the navbar when a link is clicked
   };
+
+  const navLinks = [
+    { id: "home11", label: "Home", offset: -100 },
+    { id: "about11", label: "About", offset: -120 },
+    { id: "skills11", label: "Skills", offset: -105 },
+    { id: "Experience", label: "Experience", offset: -105 },
+    { id: "Education", label: "Education", offset: -105 },
+    { id: "service11", label: "Services", offset: -60 },
+    { id: "project11", label: "Projects", offset: -85 },
+    { id: "contact11", label: "Contact", offset: -85 }
+  ];
 
   return (
     <>
@@ -41,7 +93,7 @@ const Navbar = () => {
           }`}
         >
           <div className="container-fluid">
-            <Link className="navbar-brand" to="home11" smooth={true} duration={50}>
+            <Link className="navbar-brand" to="home11" smooth={true} duration={200}>
               <img className="mylogo" src={mylogo} alt="logo" />
             </Link>
             <button
@@ -52,7 +104,9 @@ const Navbar = () => {
               aria-expanded={!isCollapsed}
               aria-label="Toggle navigation"
             >
-              <i className="fa fa-bars navbar-toggler-icon"></i>
+              <span className="navbar-toggler-icon">
+                <i className="fas fa-bars"></i>
+              </span>
             </button>
 
             <div
@@ -62,104 +116,35 @@ const Navbar = () => {
               id="navbarNavAltMarkup"
             >
               <ul className="navbar-nav menu-navbar-nav ms-auto mb-2 mb-lg-0">
+                {navLinks.map((link) => (
+                  <li className="nav-item" key={link.id}>
+                    <Link
+                      className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
+                      to={link.id}
+                      spy={true}
+                      smooth={true}
+                      offset={link.offset}
+                      duration={200}
+                      onClick={handleLinkClick}
+                    >
+                      {link.label}
+                      <span className="nav-indicator"></span>
+                    </Link>
+                  </li>
+                ))}
                 <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="home11"
-                    smooth={true}
-                    offset={-100}
-                    duration={50}
-                    onClick={handleLinkClick}
+                  <button 
+                    className="theme-toggle-btn" 
+                    onClick={toggleTheme}
+                    aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                   >
-                    Home
-                  </Link>
+                    {theme === 'light' ? (
+                      <i className="fas fa-moon"></i>
+                    ) : (
+                      <i className="fas fa-sun"></i>
+                    )}
+                  </button>
                 </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="about11"
-                    smooth={true}
-                    offset={-120}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    About
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="skills11"
-                    smooth={true}
-                    offset={-105}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    Skills
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="Experience"
-                    smooth={true}
-                    offset={-105}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    Experience
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="Education"
-                    smooth={true}
-                    offset={-105}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    Education
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="service11"
-                    smooth={true}
-                    offset={-60}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    Services
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="project11"
-                    smooth={true}
-                    offset={-85}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    Projects
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link"
-                    to="contact11"
-                    smooth={true}
-                    offset={-85}
-                    duration={50}
-                    onClick={handleLinkClick}
-                  >
-                    Contact
-                  </Link>
-                </li>
-               
               </ul>
             </div>
           </div>

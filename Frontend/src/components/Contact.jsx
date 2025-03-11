@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/contact.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import contact from "/images/contact-us.svg";
 // const apiUrl = import.meta.env.VITE_BASE_URL;
 const Contact = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState({
     name: "",
     mobile: "",
@@ -12,260 +13,299 @@ const Contact = () => {
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
 
-  let name, value;
+  // Intersection Observer for animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.querySelector('#contact11');
+    if (section) observer.observe(section);
+
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+
+  // Form validation
+  const validateForm = () => {
+    const errors = {};
+    if (!user.name.trim()) errors.name = "Name is required";
+    if (!user.email.trim()) errors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(user.email)) errors.email = "Email is invalid";
+    if (!user.mobile.trim()) errors.mobile = "Phone number is required";
+    else if (!/^\d{10}$/.test(user.mobile)) errors.mobile = "Phone number must be 10 digits";
+    if (!user.subject.trim()) errors.subject = "Subject is required";
+    if (!user.message.trim()) errors.message = "Message is required";
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleInputs = (e) => {
-    name = e.target.name;
-    value = e.target.value;
-
+    const { name, value } = e.target;
     setUser({ ...user, [name]: value });
+    
+    // Clear error when user types
+    if (formErrors[name]) {
+      setFormErrors({...formErrors, [name]: ""});
+    }
   };
 
   const PostData = async (e) => {
     e.preventDefault();
-    const { name, email, mobile, subject, message } = user;
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      const { name, email, mobile, subject, message } = user;
 
-    const res = await fetch("/clientdata", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        email,
-        mobile,
-        subject,
-        message,
-      }),
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    console.log(res);
-
-    const data = await res.json();
-
-    // console.log(data);
-
-    // if (res.status === 422) {
-    if (res.status === 422 || !data) {
-      toast.error("Invalid conatct  details", {
-        toastId: "success1",
+      const res = await fetch("/clientdata", {
+        method: "POST",
+        body: JSON.stringify({
+          name,
+          email,
+          mobile,
+          subject,
+          message,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      console.log("Invalid conatct  details");
-      console.log(data);
-    } else if (res.status !== 422) {
-      toast.success("Message  has been sent Successfully", {
-        toastId: "success2",
+
+      const data = await res.json();
+
+      if (res.status === 422 || !data) {
+        toast.error("Invalid contact details", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      } else if (res.status !== 422) {
+        toast.success("Message has been sent successfully", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        // Reset form after successful submission
+        setUser({
+          name: "",
+          mobile: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        toast.error("An error occurred. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      toast.error("Failed to send message. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
       });
-      console.log("Message  has been sent Successfully");
-    } else {
-      toast.error("Some error ocurred");
+    } finally {
+      setIsSubmitting(false);
     }
   };
   // console.log(`${apiUrl} and hello`);
 
   return (
-    <>
-      <div className="col-lg-12 mt-5 contact11" id="contact11">
-        <div className="section-title text-center">
-          <span className="subtitle">
-            Here you can conatct and find me on different platforms
-          </span>
-          <h2>Contact</h2>
+    <section className={`contact-section ${isVisible ? 'visible' : ''}`} id="contact11">
+      <div className="container">
+        <div className="section-title text-center fade-in">
+          <span className="subtitle">Get In Touch</span>
+          <h2>Contact Me</h2>
+          <div className="title-bar"></div>
+          <p className="contact-intro">
+            Feel free to reach out to me for any questions, project inquiries, or collaboration opportunities.
+            I'm always open to discussing new projects and ideas.
+          </p>
         </div>
-      </div>
 
-      <div className="container container-fluid   text-center">
-        <div className="row ">
-          <div className="col col-sm-5 box-left-contact">
-            <div className="contact-about-area">
-              <div>
-                <img className="thumbnail" src={contact} alt="contact-img" />
-              </div>
-              <div className="title-area">
-                <h4 className="title">Bablu Kumar</h4>
-              </div>
-              <div className="email_phone">
-                <span className="mail">
-                  <b>Email</b>:  bablukumar09001@gmail.com
-                </span>
-                <br />
-
-                <span className="phone">
-                  <b>Phone</b>: +91 8920549001
-                </span>
-              </div>
-              <div className="social-area">
-                <div className="name">
-                  <h5>FIND WITH ME</h5>
+        <div className="contact-container">
+          <div className={`contact-info-card ${isVisible ? 'animate' : ''}`}>
+            <div className="contact-image">
+              <img src={contact} alt="Contact" />
+            </div>
+            
+            <div className="contact-info">
+              <h3>Let's Talk</h3>
+              
+              <div className="info-item">
+                <div className="info-icon">
+                  <i className="fas fa-envelope"></i>
                 </div>
-                {/* social media */}
-                <div>
-                  <ul className="list-unstyled-contact d-flex justify-content-center justify-content-md-end justify-content-lg-center social-icon mb-3 mb-md-0">
-                    <li>
-                      <a
-                        href="https://www.instagram.com/abhay__9001/"
-                        target=" "
-                      >
-                        <i className="fab fa-instagram"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://www.facebook.com/abhay559722/"
-                        target=" "
-                      >
-                        <i className="fab fa-facebook-f"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://twitter.com/babluku9001" target=" ">
-                        <i className="fab fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://www.linkedin.com/in/bablu-kumar-a0aa16231/"
-                        target=" "
-                      >
-                        <i className="fab fa-linkedin"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://github.com/bablukumar9001" target=" ">
-                        <i className="fab fa-github"></i>
-                      </a>
-                    </li>
-                  </ul>
+                <div className="info-content">
+                  <h4>Email</h4>
+                  <p>bablukumar09001@gmail.com</p>
+                </div>
+              </div>
+              
+              <div className="info-item">
+                <div className="info-icon">
+                  <i className="fas fa-phone-alt"></i>
+                </div>
+                <div className="info-content">
+                  <h4>Phone</h4>
+                  <p>+91 8920549001</p>
+                </div>
+              </div>
+              
+              <div className="info-item">
+                <div className="info-icon">
+                  <i className="fas fa-map-marker-alt"></i>
+                </div>
+                <div className="info-content">
+                  <h4>Location</h4>
+                  <p>New Delhi, India</p>
                 </div>
               </div>
             </div>
+            
+            <div className="social-links">
+              <h4>Connect With Me</h4>
+              <div className="social-icons">
+                <a href="https://www.instagram.com/abhay__9001/" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/abhay559722/" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/babluku9001" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/bablu-kumar-a0aa16231/" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/bablukumar9001" target="_blank" rel="noopener noreferrer">
+                  <i className="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
           </div>
-
-
-
-
-
-
-
-
-
-          <div className="col-lg-6 contactbox2 form-group">
-            <form
-              id="contact_form"
-              name="contact_form"
-              // method="post"
-              onSubmit={PostData}
-            >
-              <div class="mb-5 row">
-                <div class="col">
-                  <label> Name</label>
+          
+          <div className={`contact-form-card ${isVisible ? 'animate' : ''}`}>
+            <h3>Send Me a Message</h3>
+            <form onSubmit={PostData}>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">
+                    <i className="fas fa-user"></i> Your Name
+                  </label>
                   <input
                     type="text"
-                    required
-                    maxlength="50"
-                    class="form-control"
-                    id="first_name"
+                    id="name"
                     name="name"
-                    autoComplete="off"
                     value={user.name}
                     onChange={handleInputs}
-                    placeholder="Your Name"
+                    placeholder="Enter your name"
+                    className={formErrors.name ? "error" : ""}
                   />
-                  <span class="icon fa fa-user fa-lg"></span>
+                  {formErrors.name && <span className="error-message">{formErrors.name}</span>}
                 </div>
-
+                
+                <div className="form-group">
+                  <label htmlFor="email">
+                    <i className="fas fa-envelope"></i> Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={user.email}
+                    onChange={handleInputs}
+                    placeholder="Enter your email"
+                    className={formErrors.email ? "error" : ""}
+                  />
+                  {formErrors.email && <span className="error-message">{formErrors.email}</span>}
+                </div>
               </div>
-              <div class="mb-5 row">
-                <div class="col">
-                  <label> Subject</label>
+              
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="mobile">
+                    <i className="fas fa-phone"></i> Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    value={user.mobile}
+                    onChange={handleInputs}
+                    placeholder="Enter your phone number"
+                    className={formErrors.mobile ? "error" : ""}
+                  />
+                  {formErrors.mobile && <span className="error-message">{formErrors.mobile}</span>}
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="subject">
+                    <i className="fas fa-tag"></i> Subject
+                  </label>
                   <input
                     type="text"
-                    required
-                    maxlength="50"
-                    class="form-control"
-
+                    id="subject"
                     name="subject"
                     value={user.subject}
                     onChange={handleInputs}
-                    placeholder="subject"
+                    placeholder="Enter subject"
+                    className={formErrors.subject ? "error" : ""}
                   />
-                  <span class="icon fa fa-user fa-lg"></span>
+                  {formErrors.subject && <span className="error-message">{formErrors.subject}</span>}
                 </div>
-
               </div>
-              <div class="mb-5 row">
-                <div class="col">
-                  <label for="email_addr">Email address</label>
-                  <input
-                    type="email"
-                    required
-                    maxlength="50"
-                    class="form-control"
-                    id="email_addr"
-                    name="email"
-                    placeholder="Your Email"
-                    value={user.email}
-                    onChange={handleInputs}
-                  />
-                  <span class="icon fa fa-envelope fa-lg"></span>
-                </div>
-                <div class="col">
-                  <label for="phone_input">Phone</label>
-                  <input
-                    type="tel"
-                    required
-                    maxlength="50"
-                    class="form-control"
-                    id="phone_input"
-                    name="mobile"
-                    placeholder=" Phone Number"
-                    value={user.mobile}
-                    onChange={handleInputs}
-                  />
-                  <span class="icon fa fa-phone fa-lg"></span>
-                </div>
-
-              </div>
-              <div class="mb-5">
-                <label for="message">Message</label>
+              
+              <div className="form-group">
+                <label htmlFor="message">
+                  <i className="fas fa-comment"></i> Message
+                </label>
                 <textarea
-                  class="form-control"
                   id="message"
                   name="message"
-                  rows="4"
+                  rows="5"
                   value={user.message}
                   onChange={handleInputs}
+                  placeholder="Enter your message"
+                  className={formErrors.message ? "error" : ""}
                 ></textarea>
+                {formErrors.message && <span className="error-message">{formErrors.message}</span>}
               </div>
-              <button
-                name="submit"
-                id="submit"
-                type="submit"
-                class="rn-btn main-btn-contact px-4 btn-lg"
+              
+              <button 
+                type="submit" 
+                className="submit-btn"
+                disabled={isSubmitting}
               >
-                SUBMIT
+                {isSubmitting ? (
+                  <>
+                    <i className="fas fa-spinner fa-spin"></i> Sending...
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-paper-plane"></i> Send Message
+                  </>
+                )}
               </button>
             </form>
           </div>
-
-
-
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-    </>
+      <ToastContainer />
+    </section>
   );
 };
 

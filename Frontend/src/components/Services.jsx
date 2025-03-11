@@ -1,10 +1,51 @@
-
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/services.css'; // Import styles for the Services section
 import { FaCode, FaMobileAlt, FaDatabase, FaReact ,FaLaptopCode,FaNetworkWired} from 'react-icons/fa'; // Import icons for visual appeal
 
+const ServiceCard = ({ icon, title, description, index, isVisible }) => {
+  return (
+    <div 
+      className={`service-item ${isVisible ? 'animate' : ''}`} 
+      style={{ animationDelay: `${index * 0.1}s` }}
+    >
+      <div className="service-icon-container">
+        <div className="service-icon">{icon}</div>
+      </div>
+      <h3 className="service-title">{title}</h3>
+      <p className="service-description">{description}</p>
+      <div className="service-hover-content">
+        <h4>{title}</h4>
+        <p>{description}</p>
+        <div className="service-btn">Learn More</div>
+      </div>
+    </div>
+  );
+};
+
 const Services = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Intersection Observer for animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.querySelector('#service11');
+    if (section) observer.observe(section);
+
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+
   // Sample data for services you provide as a MERN developer
   const servicesData = [
     {
@@ -42,24 +83,39 @@ const Services = () => {
   ];
 
   return (
-    <section className=" container services-section " id='service11'>
-       <div className="col-lg-12 mt-5 contact11">
-        <div className="section-title text-center">
-          <span className="subtitle">
-            Here you can conatct and find me on different platforms
-          </span>
-          <h2>Services</h2>
+    <section className={`services-section ${isVisible ? 'visible' : ''}`} id='service11'>
+      <div className="container">
+        <div className="section-title text-center fade-in">
+          <span className="subtitle">What I Offer</span>
+          <h2>My Services</h2>
+          <div className="title-bar"></div>
+          <p className="services-intro">
+            I provide comprehensive web development solutions tailored to meet your specific needs.
+            From concept to deployment, I ensure high-quality, scalable, and maintainable applications.
+          </p>
         </div>
-      </div>
-      {/* <h2 className="section-titlee">Services</h2> */}
-      <div className="services-list">
-        {servicesData.map((service, index) => (
-          <div key={index} className="service-item">
-            <div className="service-icon">{service.icon}</div>
-            <h3 className="service-title">{service.title}</h3>
-            <p className="service-description">{service.description}</p>
-          </div>
-        ))}
+
+        <div className="services-grid">
+          {servicesData.map((service, index) => (
+            <ServiceCard 
+              key={index}
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              index={index}
+              isVisible={isVisible}
+            />
+          ))}
+        </div>
+
+        <div className="services-cta fade-in">
+          <h3>Need a custom solution?</h3>
+          <p>I'm available for freelance projects and full-time opportunities.</p>
+          <a href="#contact11" className="cta-button">
+            <span>Get In Touch</span>
+            <i className="fas fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
     </section>
   );

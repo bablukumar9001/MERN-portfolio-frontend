@@ -1,119 +1,250 @@
-import React from 'react'
-import "./css/skills.css"
+import React, { useState, useEffect, useRef } from 'react';
+import "./css/skills.css";
 
 const Skills = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const sliderRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  
+  // All skills for the slider
+  const allSkills = [
+    { name: "Javascript", image: "/images/javascript.png" },
+    { name: "HTML5", image: "/images/html5-300x300.jpg" },
+    { name: "CSS3", image: "/images/css3-300x300.jpg" },
+    { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
+    { name: "MongoDB", image: "/images/mongodb.png" },
+    { name: "PHP", image: "/images/php.png" },
+    { name: "React Js", image: "/images/react.png" },
+    { name: "Express", image: "/images/express.png" },
+    { name: "Node Js", image: "/images/node.png" },
+    { name: "Laravel", image: "/images/laravel.png" },
+    { name: "Bootstrap", image: "/images/bootstrap.png" },
+    { name: "Tailwind", image: "/images/tailwind.png" },
+    { name: "Git", image: "/images/git.png" },
+    { name: "Postman", image: "/images/postman.png" },
+    { name: "API's", image: "/images/api.png" }
+  ];
+
+  // Skill categories
+  const skillCategories = [
+    {
+      title: "Languages and Databases",
+      skills: [
+        { name: "Javascript", image: "/images/javascript.png" },
+        { name: "HTML5", image: "/images/html5-300x300.jpg" },
+        { name: "CSS3", image: "/images/css3-300x300.jpg" },
+        { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
+        { name: "MongoDB", image: "/images/mongodb.png" },
+        { name: "PHP", image: "/images/php.png" }
+      ]
+    },
+    {
+      title: "Libraries and Frameworks",
+      skills: [
+        { name: "React Js", image: "/images/react.png" },
+        { name: "Express", image: "/images/express.png" },
+        { name: "Node Js", image: "/images/node.png" },
+        { name: "Laravel", image: "/images/laravel.png" },
+        { name: "Bootstrap", image: "/images/bootstrap.png" },
+        { name: "Tailwind", image: "/images/tailwind.png" }
+      ]
+    },
+    {
+      title: "Tools & Technologies",
+      skills: [
+        { name: "Git", image: "/images/git.png" },
+        { name: "Postman", image: "/images/postman.png" },
+        { name: "API's", image: "/images/api.png" }
+      ]
+    }
+  ];
+
+  // Handle touch events for mobile swipe
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) {
+      // Swipe left
+      setActiveSlide((prev) => (prev + 1) % allSkills.length);
+    } else if (touchEndX.current - touchStartX.current > 50) {
+      // Swipe right
+      setActiveSlide((prev) => (prev === 0 ? allSkills.length - 1 : prev - 1));
+    }
+  };
+
+  // Auto-rotate slider - faster now (1.5s instead of 2s)
+  useEffect(() => {
+    if (isVisible) {
+      const interval = setInterval(() => {
+        setActiveSlide((prev) => (prev + 1) % allSkills.length);
+      }, 1500);
+      
+      return () => clearInterval(interval);
+    }
+  }, [isVisible, allSkills.length]);
+
+  // Intersection Observer for animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.querySelector('#skills11');
+    if (section) observer.observe(section);
+
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+
+  // Calculate visible slides based on screen width
+  const getVisibleSlides = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 576) return 1;
+      if (window.innerWidth < 768) return 3;
+      if (window.innerWidth < 992) return 4;
+      return 5;
+    }
+    return 5; // Default
+  };
+
+  const visibleSlides = getVisibleSlides();
+
   return (
     <>
-      <section className="skills" id='skills11'>
-        <div className="container mt-5">
-          <div className="row">
-            <div className="col-lg-12 mt-5 " >
-              <div className="section-title text-center">
-                <span className="subtitle">
-                  {" "}
-                  Here all my skills and work portfolio
-                </span>
-                <h2>Skills</h2>
-
-                <p>
-                  These all my latest services are being provided by me. I am
-                  good at all these skills. I always try my level best to give
-                  my best to the clients .
-
-
-                </p>
-
-
-
-              </div>
-            </div>{" "}
-          </div>
-
-        </div>
-
-      </section>
-      <section id="skills" className="section scrollspy">
+      <section className={`skills-section ${isVisible ? 'visible' : ''}`} id='skills11'>
         <div className="container">
-
-          {/* Languages and Databases */}
-          <div className="card">
-            <div className="card-content">
-              <h4 className="brown-text light">Languages and Databases</h4>
-              <div className="row text-center ">
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/javascript.png" className="responsive-img" />Javascript
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/html5-300x300.jpg" className="responsive-img" />HTML5
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/css3-300x300.jpg" className="responsive-img" />CSS3
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/mysql-logo-1-300x300.jpg" className="responsive-img" />MySQL
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/mongodb.png" className="responsive-img" />PostgreSQL
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/php.png" className="responsive-img" />Shell Scripting
-                </div>
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="section-title text-center fade-in">
+                <span className="subtitle">My Technical Expertise</span>
+                <h2>Skills & Technologies</h2>
+                <div className="title-bar"></div>
+                <p className="skills-intro">
+                  I specialize in modern web development technologies, focusing on creating 
+                  responsive, user-friendly applications with clean, efficient code.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Libraries */}
-          <div className="card">
-            <div className="card-content">
-              <h4 className="brown-text light">Libraries and Frameworks</h4>
-              <div className="row text-center">
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src=" /images/react.png" className="responsive-img" />React Js
+          {/* Skills Slider */}
+          <div 
+            className="skills-slider-container"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <div 
+              className="skills-slider" 
+              ref={sliderRef}
+              style={{ 
+                transform: `translateX(calc(-${activeSlide * (100 / visibleSlides)}%))`,
+                transition: 'transform 0.3s ease-out' // Faster transition
+              }}
+            >
+              {allSkills.map((skill, index) => (
+                <div 
+                  key={index} 
+                  className={`skill-slide ${activeSlide === index ? 'active' : ''}`}
+                  style={{ minWidth: `calc(100% / ${visibleSlides})` }}
+                >
+                  <div className="skill-icon-large">
+                    <img src={skill.image} alt={skill.name} />
+                  </div>
+                  <h4 className="skill-name-large">{skill.name}</h4>
                 </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src=" /images/express.png" className="responsive-img" />Express
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/node.png" className="responsive-img" />Node Js
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/laravel.png" className="responsive-img" />Laravel
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/bootstrap.png" className="responsive-img" />Bootstrap
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src="/images/tailwind.png" className="responsive-img" />Tailwind
-                </div>
+              ))}
+            </div>
+            <div className="slider-controls">
+              <button 
+                className="slider-arrow prev-arrow"
+                onClick={() => setActiveSlide((prev) => (prev === 0 ? allSkills.length - 1 : prev - 1))}
+                aria-label="Previous skill"
+              >
+                <i className="fas fa-chevron-left"></i>
+              </button>
+              <div className="slider-indicators">
+                {allSkills.map((_, index) => (
+                  <button 
+                    key={index} 
+                    className={`slider-dot ${activeSlide === index ? 'active' : ''}`}
+                    onClick={() => setActiveSlide(index)}
+                    aria-label={`Go to skill ${index + 1}`}
+                  ></button>
+                ))}
               </div>
+              <button 
+                className="slider-arrow next-arrow"
+                onClick={() => setActiveSlide((prev) => (prev + 1) % allSkills.length)}
+                aria-label="Next skill"
+              >
+                <i className="fas fa-chevron-right"></i>
+              </button>
             </div>
           </div>
 
-     
-
-          {/* Other Skills */}
-          <div className="card">
-            <div className="card-content ">
-              <h4 className="brown-text light">Other</h4>
-              <div className="row text-center">
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src=" /images/git.png" className="responsive-img" />Git
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src=" /images/postman.png" className="responsive-img" />Postman
-                </div>
-                <div className="col s4 m2 skill-hover">
-                  <img alt="" src=" /images/api.png" className="responsive-img" />API's
-                </div>
+          {/* Skills Categories */}
+          {skillCategories.map((category, categoryIndex) => (
+            <div 
+              key={categoryIndex} 
+              className={`skills-category ${isVisible ? 'animate' : ''}`}
+              style={{ animationDelay: `${categoryIndex * 0.3}s` }}
+            >
+              <h3 className="category-title">{category.title}</h3>
+              <div className="skills-grid">
+                {category.skills.map((skill, skillIndex) => (
+                  <div 
+                    key={skillIndex} 
+                    className="skill-card"
+                    style={{ animationDelay: `${(categoryIndex * 0.1) + (skillIndex * 0.1)}s` }}
+                  >
+                    <div className="skill-icon-container">
+                      <img src={skill.image} alt={skill.name} className="skill-icon" />
+                    </div>
+                    <h4 className="skill-name">{skill.name}</h4>
+                  </div>
+                ))}
               </div>
             </div>
-          </div>
+          ))}
 
-         
+          {/* Additional Skills */}
+          <div className="additional-skills">
+            <h3 className="additional-title">Other Skills</h3>
+            <div className="tags-container">
+              {["RESTful APIs", "Responsive Design", "UI/UX Design", "Database Design", 
+                "Performance Optimization", "Code Review", "Testing", "Debugging", 
+                "Agile Methodology", "Team Collaboration"].map((tag, index) => (
+                <div 
+                  key={index} 
+                  className="skill-tag"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;

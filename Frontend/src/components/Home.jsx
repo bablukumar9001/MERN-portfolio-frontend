@@ -7,13 +7,13 @@ import { TypeAnimation } from "react-type-animation";
 const Home = () => {
   return (
     <>
-      <div className="container container-fluid   text-center" id="home11">
+      <div className="container container-fluid text-center" id="home11">
         <div className="row">
-          <div className=" col-sm-6 fadeInLeft box1">
+          <div className="col-sm-6 fadeInLeft box1">
             <section id="home" className="banner-wrapper">
-              <div className="container ">
+              <div className="container">
                 <div clsss="row">
-                  <div className="col-sm-12 text-center text-md-start ">
+                  <div className="col-sm-12 text-center text-md-start">
                     <h6>WELOME TO MY WORLD</h6>
                     <h1 className="blink">
                       Hi, I'm Bablu kumar <br />
@@ -42,22 +42,23 @@ const Home = () => {
                     <div className="mt-4">
                       <a
                         className="main-btn"
-                        target=" "
+                        target="_blank"
+                        rel="noopener noreferrer"
                         href="https://drive.google.com/file/d/1Bo9Jh29kHcbHmp2JMhf2bX9PsTHjQJns/view"
                       >
-                        Download CV
+                        <i className="fas fa-download"></i> Download CV
                       </a>
                     </div>
                     <Link
-                      target=" "
                       to="contact11"
                       smooth={true}
                       offset={-85}
                       duration={50}
-                      href="#"
                     >
                       <div className="mt-4">
-                        <a className="main-btn">Hire Me</a>
+                        <a className="main-btn">
+                          <i className="fas fa-user-plus"></i> Hire Me
+                        </a>
                       </div>
                     </Link>
                     <div className="myphoto img-fluid"></div>
@@ -66,32 +67,33 @@ const Home = () => {
               </div>
               {/* social media */}
               <div>
-                <ul className="list-unstyled d-flex justify-content-center justify-content-md-end  social-icon mb-3 mb-md-0">
+                <ul className="list-unstyled d-flex justify-content-center justify-content-md-end social-icon mb-3 mb-md-0">
                   <li>
-                    <a href="https://www.instagram.com/abhay__9001/" target=" ">
+                    <a href="https://www.instagram.com/abhay__9001/" target="_blank" rel="noopener noreferrer">
                       <i className="fab fa-instagram"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.facebook.com/abhay559722/" target=" ">
+                    <a href="https://www.facebook.com/abhay559722/" target="_blank" rel="noopener noreferrer">
                       <i className="fab fa-facebook-f"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://twitter.com/babluku9001" target=" ">
+                    <a href="https://twitter.com/babluku9001" target="_blank" rel="noopener noreferrer">
                       <i className="fab fa-twitter"></i>
                     </a>
                   </li>
                   <li>
                     <a
                       href="https://www.linkedin.com/in/bablu-kumar-a0aa16231/"
-                      target=" "
+                      target="_blank" 
+                      rel="noopener noreferrer"
                     >
                       <i className="fab fa-linkedin"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="https://github.com/bablukumar9001" target=" ">
+                    <a href="https://github.com/bablukumar9001" target="_blank" rel="noopener noreferrer">
                       <i className="fab fa-github"></i>
                     </a>
                   </li>
@@ -100,8 +102,14 @@ const Home = () => {
             </section>
           </div>
 
-          <div className="col col-sm-5 fadeInRight box2">
-            <img className="image-fluid" src={homephoto} alt="" />
+          <div className="col-sm-6 d-flex justify-content-center fadeInRight box2">
+            <div className="profile-image-wrapper">
+              <div className="profile-background"></div>
+              <img className="profile-image" src={homephoto} alt="Bablu Kumar" />
+              <div className="image-decoration circle-1"></div>
+              <div className="image-decoration circle-2"></div>
+              <div className="image-decoration circle-3"></div>
+            </div>
           </div>
         </div>
       </div>
