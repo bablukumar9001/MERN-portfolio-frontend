@@ -72,13 +72,13 @@ const About = () => {
                 <li className="skill-item animate-on-scroll slide-up">
                   <div className="skill-icon"><i className="fas fa-laptop-code"></i></div>
                   <div className="skill-content smaller-text">
-                    <strong>Frontend:</strong> Expertise in React.js, JavaScript, HTML, CSS, and modern UI/UX design principles.
+                    <strong>Frontend:</strong> Expertise in React.js, Next.js  JavaScript, HTML, CSS, Material UI and modern UI/UX design principles.
                   </div>
                 </li>
                 <li className="skill-item animate-on-scroll slide-up">
                   <div className="skill-icon"><i className="fas fa-server"></i></div>
                   <div className="skill-content smaller-text">
-                    <strong>Backend:</strong> Skilled in Node.js, Express.js, RESTful APIs, and database management.
+                    <strong>Backend:</strong> Skilled in Node.js,Next.js, Express.js, RESTful APIs, and database management.
                   </div>
                 </li>
                 <li className="skill-item animate-on-scroll slide-up">

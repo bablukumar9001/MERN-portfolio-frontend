@@ -131,7 +131,7 @@ const Experience = () => {
           <div className="experience-cta">
             <p>Interested in my professional background?</p>
             <a 
-              href="https://drive.google.com/file/d/1Bo9Jh29kHcbHmp2JMhf2bX9PsTHjQJns/view" 
+              href="https://drive.google.com/file/d/1luTegBCO4BJ5GKpntrBeSb4rpjf4232T/view?usp=sharing" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="resume-btn"

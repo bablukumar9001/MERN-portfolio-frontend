@@ -1,124 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import "./css/proj.css";
 
-const ProjectCard = ({ title, description, tools, accomplishments, liveLink, sourceLink, src, index, isVisible }) => {
-  const [isRevealed, setIsRevealed] = useState(false);
-
-  const handleReveal = () => {
-    setIsRevealed(!isRevealed);
-    
-    // Don't prevent body scrolling - just add a class to handle modal display
-    document.body.classList.toggle('modal-open');
-  };
+const ProjectModal = ({ isOpen, onClose, project }) => {
+  const modalRef = useRef(null);
   
-  // Clean up function to ensure body scrolling is restored
+  if (!isOpen || !project) return null;
+  
+  const { title, description, tools, accomplishments, liveLink, sourceLink, src } = project;
+  
+  // Prevent body scrolling when modal is open
   useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    
     return () => {
-      document.body.classList.remove('modal-open');
+      document.body.style.overflow = originalStyle;
     };
   }, []);
-
-  return (
-    <div 
-      className={`project-item ${isVisible ? 'animate' : ''}`}
-      style={{ animationDelay: `${index * 0.2}s` }}
-    >
-      <div className="project-card-container">
-        <div className="project-image-container">
-          <img
-            alt={title}
-            src={src}
-            className="project-image"
-            onClick={handleReveal}
-          />
-          <div className="project-overlay">
-            <button className="view-details-btn" onClick={handleReveal}>
-              <i className="fas fa-eye"></i> View Details
-            </button>
-          </div>
+  
+  // Close modal when clicking outside
+  const handleOverlayClick = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+  
+  const modalContent = (
+    <div className="project-modal-wrapper">
+      <div className="modal-content" ref={modalRef}>
+        <div className="modal-header">
+          <h3>{title}</h3>
+          <button className="close-btn" onClick={onClose}>
+            <i className="fas fa-times"></i>
+          </button>
         </div>
         
-        <div className="project-content">
-          <h3 className="project-title">{title}</h3>
-          <p className="project-description">{description}</p>
-          <div className="project-tools">
-            {tools.split(', ').map((tool, i) => (
-              <span key={i} className="tool-tag">{tool}</span>
-            ))}
-          </div>
-          <div className="project-links">
-            <a 
-              href={liveLink} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="project-link live-link"
-            >
-              <i className="fas fa-external-link-alt"></i> Live Demo
-            </a>
-            <a 
-              href={sourceLink} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="project-link source-link"
-            >
-              <i className="fab fa-github"></i> Source Code
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {isRevealed && (
-        <div className="project-modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>{title}</h3>
-              <button className="close-btn" onClick={handleReveal}>
-                <i className="fas fa-times"></i>
-              </button>
-            </div>
-            
-            <div className="modal-body">
-              <div className="modal-tabs">
-                <button className="modal-tab active">Overview</button>
-                <div className="modal-tab-content">
-                  <div className="modal-overview">
-                    <div className="modal-section">
-                      <h4>Description</h4>
-                      <p>{description}</p>
-                    </div>
-                    
-                    <div className="modal-section">
-                      <h4>Key Features</h4>
-                      <ul className="features-list">
-                        {accomplishments.map((item, i) => (
-                          <li key={i} className="feature-item">
-                            <i className="fas fa-check-circle"></i> 
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div className="modal-section">
-                      <h4>Technologies Used</h4>
-                      <div className="modal-tools">
-                        {tools.split(', ').map((tool, i) => (
-                          <span key={i} className="modal-tool-tag">{tool}</span>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="modal-section modal-image-small">
-                      <h4>Preview</h4>
-                      <img src={src} alt={title} className="modal-thumbnail" />
-                    </div>
-                  </div>
+        <div className="modal-body">
+          <div className="modal-layout">
+            <div className="modal-left">
+              <div className="modal-image-container">
+                <img src={src} alt={title} className="modal-full-image" />
+              </div>
+              
+              <div className="modal-section tools-section">
+                <h4>Technologies Used</h4>
+                <div className="modal-tools">
+                  {tools.split(', ').map((tool, i) => (
+                    <span key={i} className="modal-tool-tag">{tool}</span>
+                  ))}
                 </div>
               </div>
             </div>
             
-            <div className="modal-footer">
-              <div className="modal-buttons-container">
+            <div className="modal-right">
+              <div className="modal-section">
+                <h4>Project Overview</h4>
+                <p>{description}</p>
+              </div>
+              
+              <div className="modal-section">
+                <h4>Key Features</h4>
+                <ul className="features-list">
+                  {accomplishments.map((item, i) => (
+                    <li key={i} className="feature-item">
+                      <i className="fas fa-check-circle"></i> 
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div className="modal-actions">
                 <a 
                   href={liveLink} 
                   target="_blank" 
@@ -138,8 +91,68 @@ const ProjectCard = ({ title, description, tools, accomplishments, liveLink, sou
               </div>
             </div>
           </div>
-          <div className="modal-overlay" onClick={handleReveal}></div>
         </div>
+      </div>
+      <div className="modal-overlay" onClick={handleOverlayClick}></div>
+    </div>
+  );
+  
+  return createPortal(modalContent, document.body);
+};
+
+const ProjectCard = ({ project, index, isVisible }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { title, liveLink, src } = project;
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div 
+      className={`project-item ${isVisible ? 'animate' : ''}`}
+      style={{ animationDelay: `${index * 0.2}s` }}
+    >
+      <div className="project-card-container">
+        <div className="project-image-container">
+          <img
+            alt={title}
+            src={src}
+            className="project-image"
+            onClick={openModal}
+          />
+          <div className="project-overlay">
+            <div className="overlay-buttons">
+              <button className="view-details-btn" onClick={openModal}>
+                <i className="fas fa-eye"></i> View Details
+              </button>
+              <a 
+                href={liveLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="live-demo-btn"
+              >
+                <i className="fas fa-external-link-alt"></i> Live Demo
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div className="project-content">
+          <h3 className="project-title">{title}</h3>
+        </div>
+      </div>
+
+      {isModalOpen && (
+        <ProjectModal 
+          isOpen={isModalOpen} 
+          onClose={closeModal} 
+          project={project}
+        />
       )}
     </div>
   );
@@ -171,46 +184,85 @@ const Proj = () => {
 
   const projects = [
     {
-      title: "NewsTimes",
-      description: "A real-time news aggregation platform with customizable categories and personalized feeds.",
-      tools: "React, Node.js, Express, MongoDB, News API",
+      title: "WebApp - IT ",
+      description: `This MERN stack-based IT services platform is designed to provide seamless service management and user interaction. 
+      It features a modern and user-friendly interface, allowing businesses and individuals to explore IT solutions, 
+      submit inquiries, and manage interactions efficiently. The platform is fully responsive and optimized for smooth performance.`,
       accomplishments: [
-        "Implemented user authentication with JWT for personalized news preferences",
-        "Created a responsive design that works seamlessly across all devices",
-        "Integrated with News API to fetch real-time news from multiple sources",
-        "Built a bookmark system for users to save articles for later reading"
+       "Home Page with Service Overview", 
+       "User Authentication & Authorization (JWT-based login & signup)",
+        "Contact Form for inquiries with backend email integration",
+         "Admin Panel to manage users and service requests", 
+         "it come with dark and light theme",
+         "Service Listings showcasing various IT solutions", 
+         "Secure API Integration ensuring data protection", 
+         "Responsive UI optimized for all devices", 
+         "SEO-Friendly structure for better search visibility"
       ],
-      liveLink: "https://galvanic-music.herokuapp.com/",
-      sourceLink: "https://github.com/varadbhogayata/music-player",
-      src: "/images/newstimes.jpeg"
+      tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB, tailwind css, material ui",
+      liveLink: "https://mern-webapp-6w6k.onrender.com/",
+      sourceLink: "https://github.com/bablukumar9001/MERN-webapp/tree/master",
+      src: "/images/webapp.png"
     },
     {
-      title: "Live Weather",
-      description: "A weather application that provides real-time forecasts and weather data for locations worldwide.",
-      tools: "JavaScript, HTML, CSS, Weather API, Geolocation API",
+      title: "ShopKart",
+      description: `ShopKart is a fully functional MERN stack-based e-commerce platform designed to deliver a seamless online shopping experience. 
+      It includes secure authentication, product management, payment integration, and an admin dashboard for efficient store management. 
+      With a modern UI built using Tailwind CSS and Material UI, the platform ensures a smooth and responsive user experience.`,
       accomplishments: [
-        "Integrated with OpenWeather API for accurate weather forecasts",
-        "Implemented geolocation to automatically detect user's location",
-        "Created interactive UI with animated weather indicators",
-        "Added 5-day forecast with hourly breakdown options"
+        "User Authentication & Authorization (JWT-based login, signup, and secure access)", 
+        "Password Reset with email link for account recovery", 
+        "Admin Dashboard for managing products, users, and orders",
+         "Product Listings with advanced filtering and sorting",
+          "Shopping Cart for easy order management", 
+          "Secure Payment Integration with Stripe/Razorpay", 
+          "Product Reviews & Ratings to enhance customer engagement", 
+          "Fully Responsive UI with Tailwind CSS & Material UI", 
+          "SEO-Optimized structure for better search visibility"
       ],
-      liveLink: "https://galvanic-music.herokuapp.com/",
-      sourceLink: "https://github.com/varadbhogayata/music-player",
-      src: "/images/liveweather.png"
+      tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB, tailwind css, material ui",
+      liveLink: "https://shopkart-epla.onrender.com/",
+      sourceLink: "https://github.com/bablukumar9001/ShopKart",
+      src: "/images/shopkart.png"
     },
     {
-      title: "Text Utils App",
-      description: "A text manipulation utility that helps users transform and analyze text content efficiently.",
-      tools: "React, Bootstrap, JavaScript, HTML, CSS",
+      title: "My Portfolio",
+      description: `This MERN stack-based portfolio website serves as a digital resume and professional showcase. 
+      It highlights personal information, skills, education, projects, and experience in an interactive and visually appealing manner. 
+      The platform is designed to be fully responsive, ensuring a seamless user experience across all devices.`,
+      tools: "React, Node.js, Express, MongoDB, JavaScript, HTML, CSS",
       accomplishments: [
-        "Built multiple text transformation tools including case conversion and character counting",
-        "Implemented a clean, intuitive interface for easy text manipulation",
-        "Added copy-to-clipboard functionality for transformed text",
-        "Created light and dark mode themes for better user experience"
+       "About Me Section displaying professional summary, expertise, and contact details", 
+       "Projects Showcase with live project links and descriptions", 
+       "dark and light theme",
+       "Skills & Tech Stack highlighting frontend, backend, and database expertise", 
+       "Education & Experience section detailing academic and professional journey",
+        "Resume Download option for recruiters to access an up-to-date resume", 
+        "Contact Form enabling easy communication via email integration",
+         "Responsive Design optimized for desktops, tablets, and mobile devices", 
+         "SEO Optimized for better search visibility and reach"
       ],
-      liveLink: "https://galvanic-music.herokuapp.com/",
-      sourceLink: "https://github.com/varadbhogayata/music-player",
-      src: "/images/textutils.jpeg"
+      liveLink: "https://bablukumar.onrender.com/",
+      sourceLink: "https://github.com/bablukumar9001/MERN-portfolio-frontend",
+      src: "/images/portfolio.png"
+    },
+    {
+      title: "Veavix",
+      description: `Veavix is a professional business website designed to showcase company services, 
+      improve online presence, and enhance user engagement. 
+      Built with the MERN stack, the platform delivers a modern, responsive, and seamless user experience.`,
+      tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB ",
+      accomplishments: [
+        "Responsive UI/UX: Clean and intuitive interface optimized for all devices.",
+        "Service Showcase: Detailed sections highlighting company services and offerings",
+        " Dynamic Content Management: Easily updateable service and portfolio sections.", 
+        "Contact & Inquiry Forms: Secure forms for customer inquiries with backend email integration.",
+        "SEO Optimization: Well-structured meta tags and content for better search visibility.",
+        " Fast Performance: Optimized for speed using caching and efficient API calls."
+      ],
+      liveLink: "https://veavix.onrender.com/",
+      sourceLink: "https://github.com/bablukumar9001/Veavix-frontend",
+      src: "/images/veavix.png"
     },
   ];
 
@@ -231,7 +283,7 @@ const Proj = () => {
           {projects.map((project, index) => (
             <ProjectCard 
               key={index} 
-              {...project} 
+              project={project}
               index={index}
               isVisible={isVisible}
             />
