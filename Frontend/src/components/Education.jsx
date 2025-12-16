@@ -99,7 +99,7 @@ const Education = () => {
         <div className="education-footer fade-in">
           <div className="education-stats">
             <div className="stat-item">
-              <div className="stat-number">5+</div>
+              <div className="stat-number">3+</div>
               <div className="stat-label">Years of Learning</div>
             </div>
             <div className="stat-item">

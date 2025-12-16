@@ -12,16 +12,18 @@ const Experience = () => {
       companyName: 'Brancosoft Pvt. Ltd.',
       position: 'Full Stack Developer',
       duration: 'Sep 2023 - Present',
-      location: 'New Delhi, India',
+      location: 'Noida, India',
       color: '#ff014f',
       icon: 'fas fa-briefcase',
       achievements: [
-        'Developed high-performance back-ends with secure RESTful APIs in Node.js',
-        'Improved integration with third-party services for smoother user interactions',
-        'Built scalable, server-side solutions to enhance performance and reliability',
-        'Contributed to front-end development using React.js',
-        'Converted design mockups into responsive, interactive interfaces'
+        "Experienced in building high-performance, SEO-friendly applications using Next.js with SSR, SSG, Server Actions, and the App Router.",
+        "Developed high-performance backend systems using Node.js and Express, delivering secure and scalable RESTful APIs.",
+        "Improved integration with third-party services to create smoother and more seamless user experiences.",
+        "Built scalable server-side solutions to enhance performance, reliability, and application efficiency.",
+        "Contributed to front-end development using React.js by implementing reusable components and improving overall UI/UX.",
+        "Converted design mockups into responsive, interactive, and visually appealing interfaces using modern frontend technologies."
       ]
+
     },
     {
       companyLogo: '/images/drpu.jpg',
@@ -74,25 +76,25 @@ const Experience = () => {
             real-world applications and collaborating effectively in team environments.
           </p>
         </div>
-        
+
         <div className="experience-timeline">
           <div className="timeline-line"></div>
-          
+
           {experienceData.map((item, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`experience-item ${isVisible ? 'animate' : ''}`}
               style={{ animationDelay: `${index * 0.3}s` }}
             >
               <div className="timeline-dot" style={{ backgroundColor: item.color }}>
                 <i className={item.icon}></i>
               </div>
-              
+
               <div className="experience-card">
                 <div className="company-badge" style={{ backgroundColor: item.color }}>
                   <img src={item.companyLogo} alt={item.companyName} className="company-logo" />
                 </div>
-                
+
                 <div className="experience-header">
                   <h3 className="position">{item.position}</h3>
                   <div className="company-info">
@@ -107,13 +109,13 @@ const Experience = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="experience-content">
                   <h5 className="achievements-title">Key Achievements</h5>
                   <ul className="achievements-list">
                     {item.achievements.map((achievement, i) => (
-                      <li 
-                        key={i} 
+                      <li
+                        key={i}
                         className="achievement-item"
                         style={{ animationDelay: `${(index * 0.1) + (i * 0.1)}s` }}
                       >
@@ -126,14 +128,14 @@ const Experience = () => {
             </div>
           ))}
         </div>
-        
+
         <div className="experience-footer fade-in">
           <div className="experience-cta">
             <p>Interested in my professional background?</p>
-            <a 
-              href="https://drive.google.com/file/d/1luTegBCO4BJ5GKpntrBeSb4rpjf4232T/view?usp=sharing" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://drive.google.com/file/d/15aOdmnAreAGIj3IoGbr2knPda-UNOxM-/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
               className="resume-btn"
             >
               <i className="fas fa-file-pdf"></i> Download Full Resume

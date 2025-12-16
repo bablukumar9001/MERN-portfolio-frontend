@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./css/proj.css";
 
@@ -184,26 +184,34 @@ const Proj = () => {
 
   const projects = [
     {
-      title: "WebApp - IT ",
-      description: `This MERN stack-based IT services platform is designed to provide seamless service management and user interaction. 
-      It features a modern and user-friendly interface, allowing businesses and individuals to explore IT solutions, 
-      submit inquiries, and manage interactions efficiently. The platform is fully responsive and optimized for smooth performance.`,
-      accomplishments: [
-       "Home Page with Service Overview", 
-       "User Authentication & Authorization (JWT-based login & signup)",
-        "Contact Form for inquiries with backend email integration",
-         "Admin Panel to manage users and service requests", 
-         "it come with dark and light theme",
-         "Service Listings showcasing various IT solutions", 
-         "Secure API Integration ensuring data protection", 
-         "Responsive UI optimized for all devices", 
-         "SEO-Friendly structure for better search visibility"
-      ],
-      tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB, tailwind css, material ui",
-      liveLink: "https://mern-webapp-6w6k.onrender.com/",
-      sourceLink: "https://github.com/bablukumar9001/MERN-webapp/tree/master",
-      src: "/images/webapp.png"
-    },
+  title: "Licious – Online Meat Delivery Platform",
+  description: `A full-featured online meat delivery platform inspired by Licious, 
+  built using Next.js and the MERN ecosystem. The application offers a smooth and 
+  modern shopping experience with category-based browsing, product filtering, 
+  cart & checkout flow, and secure authentication. The platform is fully responsive, 
+  optimized for SEO, and delivers high-performance user interactions using server 
+  components and API routes from Next.js.`,
+  
+  accomplishments: [
+    "Modern homepage with banners, curated meat categories, and featured products",
+    "Implemented secure user authentication & authorization using JWT",
+    "Built product listing pages with category filters (Chicken, Mutton, Fish, Eggs, etc.)",
+    "Developed detailed product pages with weight options, pricing, and nutritional info",
+    "Added robust cart functionality with quantity updates and dynamic pricing",
+    "Created a checkout flow with address input, delivery options, and payment simulation",
+    "Developed an Admin Panel to manage products, categories, and orders",
+    "Built using Next.js App Router, Server Components, API Routes, and optimized rendering",
+    "Responsive and mobile-friendly UI inspired by Licious (Tailwind CSS + Material UI)",
+    "Improved SEO using Next.js metadata, image optimization, and pre-rendering techniques"
+  ],
+
+  tools: "Next.js, React.js, Node.js, Express.js, MongoDB, Redux Toolkit, Tailwind CSS, Material UI, JWT, REST APIs",
+
+  liveLink: "https://www.licious.in/",
+
+  src: "/images/licious.png"
+},
+
     {
       title: "ShopKart",
       description: `ShopKart is a fully functional MERN stack-based e-commerce platform designed to deliver a seamless online shopping experience. 

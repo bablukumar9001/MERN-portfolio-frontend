@@ -44,7 +44,7 @@ const Home = () => {
                         className="main-btn"
                         target="_blank"
                         rel="noopener noreferrer"
-                        href="https://drive.google.com/file/d/1luTegBCO4BJ5GKpntrBeSb4rpjf4232T/view?usp=sharing"
+                        href="https://drive.google.com/file/d/15aOdmnAreAGIj3IoGbr2knPda-UNOxM-/view?usp=sharing"
                       >
                         <i className="fas fa-download"></i> Download CV
                       </a>
