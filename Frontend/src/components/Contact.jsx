@@ -3,7 +3,7 @@ import "./css/contact.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import contact from "/images/contact-us.svg";
-// const apiUrl = import.meta.env.VITE_BASE_URL;
+import { apiUrl } from "../api";
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState({
@@ -72,7 +72,7 @@ const Contact = () => {
     try {
       const { name, email, mobile, subject, message } = user;
 
-      const res = await fetch("/clientdata", {
+      const res = await fetch(apiUrl("/clientdata"), {
         method: "POST",
         body: JSON.stringify({
           name,

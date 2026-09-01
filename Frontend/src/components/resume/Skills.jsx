@@ -1,5 +1,68 @@
 import React, { useState, useEffect, useRef } from 'react';
 import "./css/skills.css";
+import { apiUrl } from "../../api";
+
+const DEFAULT_ALL_SKILLS = [
+  { name: "Next.js", image: "/images/nextjs.png" },
+  { name: "React Js", image: "/images/react.png" },
+  { name: "Redux", image: "/images/redux.png" },
+  { name: "MongoDB", image: "/images/mongodb.png" },
+  { name: "Express", image: "/images/express.png" },
+  { name: "Node Js", image: "/images/node.png" },
+  { name: "typescript", image: "/images/typescript.png" },
+  { name: "Javascript", image: "/images/javascript.png" },
+  { name: "HTML5", image: "/images/html5-300x300.jpg" },
+  { name: "CSS3", image: "/images/css3-300x300.jpg" },
+  { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
+  { name: "PHP", image: "/images/php.png" },
+  { name: "Laravel", image: "/images/laravel.png" },
+  { name: "Bootstrap", image: "/images/bootstrap.png" },
+  { name: "Tailwind", image: "/images/tailwind.png" },
+  { name: "Git", image: "/images/git.png" },
+  { name: "Postman", image: "/images/postman.png" },
+  { name: "API's", image: "/images/api.png" },
+  { name: "Material UI", image: "/images/materialui.png" },
+  { name: "docker", image: "/images/docker.png" },
+  { name: "aws", image: "/images/aws.png" },
+];
+
+const DEFAULT_CATEGORIES = [
+  {
+    title: "Languages and Databases",
+    skills: [
+      { name: "Javascript", image: "/images/javascript.png" },
+      { name: "Typescript", image: "/images/typescript.png" },
+      { name: "PHP", image: "/images/php.png" },
+      { name: "HTML5", image: "/images/html5-300x300.jpg" },
+      { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
+      { name: "MongoDB", image: "/images/mongodb.png" },
+    ]
+  },
+  {
+    title: "Libraries and Frameworks",
+    skills: [
+      { name: "React Js", image: "/images/react.png" },
+      { name: "Next Js", image: "/images/nextjs.png" },
+      { name: "Express Js", image: "/images/express.png" },
+      { name: "Node Js", image: "/images/node.png" },
+      { name: "Laravel", image: "/images/laravel.png" },
+      { name: "CSS3", image: "/images/css3-300x300.jpg" },
+      { name: "Bootstrap", image: "/images/bootstrap.png" },
+      { name: "Tailwind", image: "/images/tailwind.png" },
+      { name: "Material UI", image: "/images/materialui.png" },
+    ]
+  },
+  {
+    title: "Tools & Technologies",
+    skills: [
+      { name: "Git", image: "/images/git.png" },
+      { name: "Postman", image: "/images/postman.png" },
+      { name: "API's", image: "/images/api.png" },
+      { name: "aws", image: "/images/aws.png" },
+      { name: "docker", image: "/images/docker.png" },
+    ]
+  }
+];
 
 const Skills = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -7,71 +70,31 @@ const Skills = () => {
   const sliderRef = useRef(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-  
-  // All skills for the slider
-  const allSkills = [
-    { name: "Next.js", image: "/images/nextjs.png" },
-    { name: "React Js", image: "/images/react.png" },
-    { name: "Redux", image: "/images/redux.png" },
-    { name: "MongoDB", image: "/images/mongodb.png" },
-    { name: "Express", image: "/images/express.png" },
-    { name: "Node Js", image: "/images/node.png" },
-    { name: "typescript", image: "/images/typescript.png" },
-    { name: "Javascript", image: "/images/javascript.png" },
-    { name: "HTML5", image: "/images/html5-300x300.jpg" },
-    { name: "CSS3", image: "/images/css3-300x300.jpg" },
-    { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
-    { name: "PHP", image: "/images/php.png" },
-    { name: "Laravel", image: "/images/laravel.png" },
-    { name: "Bootstrap", image: "/images/bootstrap.png" },
-    { name: "Tailwind", image: "/images/tailwind.png" },
-    { name: "Git", image: "/images/git.png" },
-    { name: "Postman", image: "/images/postman.png" },
-    { name: "API's", image: "/images/api.png" },
-    { name: "Material UI", image: "/images/materialui.png" },
-    { name: "docker", image: "/images/docker.png" },
-    { name: "aws", image: "/images/aws.png" },
-  ];
+  const [allSkills, setAllSkills] = useState(DEFAULT_ALL_SKILLS);
+  const [skillCategories, setSkillCategories] = useState(DEFAULT_CATEGORIES);
 
-  // Skill categories
-  const skillCategories = [
-    {
-      title: "Languages and Databases",
-      skills: [
-        { name: "Javascript", image: "/images/javascript.png" },
-        { name: "Typescript", image: "/images/typescript.png" },
-        { name: "PHP", image: "/images/php.png" },
-        { name: "HTML5", image: "/images/html5-300x300.jpg" },
-        { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
-        { name: "MongoDB", image: "/images/mongodb.png" },
-      ]
-    },
-    {
-      title: "Libraries and Frameworks",
-      skills: [
-        { name: "React Js", image: "/images/react.png" },
-        { name: "Next Js", image: "/images/nextjs.png" },
-        { name: "Express Js", image: "/images/express.png" },
-        { name: "Node Js", image: "/images/node.png" },
-        { name: "Laravel", image: "/images/laravel.png" },
-        { name: "CSS3", image: "/images/css3-300x300.jpg" },
-
-        { name: "Bootstrap", image: "/images/bootstrap.png" },
-        { name: "Tailwind", image: "/images/tailwind.png" },
-        { name: "Material UI", image: "/images/materialui.png" },
-      ]
-    },
-    {
-      title: "Tools & Technologies",
-      skills: [
-        { name: "Git", image: "/images/git.png" },
-        { name: "Postman", image: "/images/postman.png" },
-        { name: "API's", image: "/images/api.png" },
-        { name: "aws", image: "/images/aws.png" },
-        { name: "docker", image: "/images/docker.png" },
-      ]
-    }
-  ];
+  useEffect(() => {
+    fetch(apiUrl("/api/skills"))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (!Array.isArray(data) || data.length === 0) return;
+        setAllSkills(data.map((s) => ({ name: s.name, image: s.image })));
+        const titles = [
+          "Languages and Databases",
+          "Libraries and Frameworks",
+          "Tools & Technologies",
+        ];
+        setSkillCategories(
+          titles.map((title) => ({
+            title,
+            skills: data
+              .filter((s) => s.category === title)
+              .map((s) => ({ name: s.name, image: s.image })),
+          })).filter((c) => c.skills.length > 0)
+        );
+      })
+      .catch(() => {});
+  }, []);
 
   // Handle touch events for mobile swipe
   const handleTouchStart = (e) => {

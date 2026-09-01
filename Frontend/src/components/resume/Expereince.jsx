@@ -1,47 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import './css/expereince.css'; // Import custom styles
-// import { Container, Row, Col } from 'react-bootstrap';
+import './css/expereince.css';
+import { apiUrl } from '../../api';
+
+const FALLBACK_EXPERIENCE = [
+  {
+    companyLogo: '/images/brancosoft.png',
+    companyName: 'Brancosoft Pvt. Ltd.',
+    position: 'Full Stack Developer',
+    duration: 'Sep 2023 - Present',
+    location: 'Noida, India',
+    color: '#ff014f',
+    icon: 'fas fa-briefcase',
+    achievements: [
+      "Experienced in building high-performance, SEO-friendly applications using Next.js with SSR, SSG, Server Actions, and the App Router.",
+      "Developed high-performance backend systems using Node.js and Express, delivering secure and scalable RESTful APIs.",
+      "Improved integration with third-party services to create smoother and more seamless user experiences.",
+      "Built scalable server-side solutions to enhance performance, reliability, and application efficiency.",
+      "Contributed to front-end development using React.js by implementing reusable components and improving overall UI/UX.",
+      "Converted design mockups into responsive, interactive, and visually appealing interfaces using modern frontend technologies."
+    ]
+  },
+  {
+    companyLogo: '/images/drpu.jpg',
+    companyName: 'DRPU Software Pvt. Ltd.',
+    position: 'Frontend Developer',
+    duration: 'March 2023 - Aug 2023',
+    location: 'Noida, India',
+    color: '#4d79ff',
+    icon: 'fas fa-laptop-code',
+    achievements: [
+      'Developed responsive web interfaces with HTML, CSS, and JavaScript',
+      'Enhanced user experience across devices with mobile-first approach',
+      'Collaborated with design teams to implement visually appealing layouts',
+      'Applied HTML for structure, CSS for styling, and JavaScript for interactivity',
+      'Employed front-end best practices, ensuring optimized code for consistent design'
+    ]
+  }
+];
 
 const Experience = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [experienceData, setExperienceData] = useState(FALLBACK_EXPERIENCE);
 
-  // Experience data
-  const experienceData = [
-    {
-      companyLogo: '/images/brancosoft.png',
-      companyName: 'Brancosoft Pvt. Ltd.',
-      position: 'Full Stack Developer',
-      duration: 'Sep 2023 - Present',
-      location: 'Noida, India',
-      color: '#ff014f',
-      icon: 'fas fa-briefcase',
-      achievements: [
-        "Experienced in building high-performance, SEO-friendly applications using Next.js with SSR, SSG, Server Actions, and the App Router.",
-        "Developed high-performance backend systems using Node.js and Express, delivering secure and scalable RESTful APIs.",
-        "Improved integration with third-party services to create smoother and more seamless user experiences.",
-        "Built scalable server-side solutions to enhance performance, reliability, and application efficiency.",
-        "Contributed to front-end development using React.js by implementing reusable components and improving overall UI/UX.",
-        "Converted design mockups into responsive, interactive, and visually appealing interfaces using modern frontend technologies."
-      ]
-
-    },
-    {
-      companyLogo: '/images/drpu.jpg',
-      companyName: 'DRPU Software Pvt. Ltd.',
-      position: 'Frontend Developer',
-      duration: 'March 2023 - Aug 2023',
-      location: 'Noida, India',
-      color: '#4d79ff',
-      icon: 'fas fa-laptop-code',
-      achievements: [
-        'Developed responsive web interfaces with HTML, CSS, and JavaScript',
-        'Enhanced user experience across devices with mobile-first approach',
-        'Collaborated with design teams to implement visually appealing layouts',
-        'Applied HTML for structure, CSS for styling, and JavaScript for interactivity',
-        'Employed front-end best practices, ensuring optimized code for consistent design'
-      ]
-    }
-  ];
+  useEffect(() => {
+    fetch(apiUrl('/api/experiences'))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setExperienceData(data);
+      })
+      .catch(() => {});
+  }, []);
 
   // Intersection Observer for animations
   useEffect(() => {

@@ -1,6 +1,96 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./css/proj.css";
+import { apiUrl } from "../api";
+
+const FALLBACK_PROJECTS = [
+  {
+    title: "Licious – Online Meat Delivery Platform",
+    description: `A full-featured online meat delivery platform inspired by Licious, 
+  built using Next.js and the MERN ecosystem. The application offers a smooth and 
+  modern shopping experience with category-based browsing, product filtering, 
+  cart & checkout flow, and secure authentication. The platform is fully responsive, 
+  optimized for SEO, and delivers high-performance user interactions using server 
+  components and API routes from Next.js.`,
+    accomplishments: [
+      "Modern homepage with banners, curated meat categories, and featured products",
+      "Implemented secure user authentication & authorization using JWT",
+      "Built product listing pages with category filters (Chicken, Mutton, Fish, Eggs, etc.)",
+      "Developed detailed product pages with weight options, pricing, and nutritional info",
+      "Added robust cart functionality with quantity updates and dynamic pricing",
+      "Created a checkout flow with address input, delivery options, and payment simulation",
+      "Developed an Admin Panel to manage products, categories, and orders",
+      "Built using Next.js App Router, Server Components, API Routes, and optimized rendering",
+      "Responsive and mobile-friendly UI inspired by Licious (Tailwind CSS + Material UI)",
+      "Improved SEO using Next.js metadata, image optimization, and pre-rendering techniques",
+    ],
+    tools:
+      "Next.js, React.js, Node.js, Express.js, MongoDB, Redux Toolkit, Tailwind CSS, Material UI, JWT, REST APIs",
+    liveLink: "https://www.licious.in/",
+    src: "/images/licious.png",
+  },
+  {
+    title: "ShopKart",
+    description: `ShopKart is a fully functional MERN stack-based e-commerce platform designed to deliver a seamless online shopping experience. 
+      It includes secure authentication, product management, payment integration, and an admin dashboard for efficient store management. 
+      With a modern UI built using Tailwind CSS and Material UI, the platform ensures a smooth and responsive user experience.`,
+    accomplishments: [
+      "User Authentication & Authorization (JWT-based login, signup, and secure access)",
+      "Password Reset with email link for account recovery",
+      "Admin Dashboard for managing products, users, and orders",
+      "Product Listings with advanced filtering and sorting",
+      "Shopping Cart for easy order management",
+      "Secure Payment Integration with Stripe/Razorpay",
+      "Product Reviews & Ratings to enhance customer engagement",
+      "Fully Responsive UI with Tailwind CSS & Material UI",
+      "SEO-Optimized structure for better search visibility",
+    ],
+    tools:
+      "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB, tailwind css, material ui",
+    liveLink: "https://shopkart-epla.onrender.com/",
+    sourceLink: "https://github.com/bablukumar9001/ShopKart",
+    src: "/images/shopkart.png",
+  },
+  {
+    title: "My Portfolio",
+    description: `This MERN stack-based portfolio website serves as a digital resume and professional showcase. 
+      It highlights personal information, skills, education, projects, and experience in an interactive and visually appealing manner. 
+      The platform is designed to be fully responsive, ensuring a seamless user experience across all devices.`,
+    tools: "React, Node.js, Express, MongoDB, JavaScript, HTML, CSS",
+    accomplishments: [
+      "About Me Section displaying professional summary, expertise, and contact details",
+      "Projects Showcase with live project links and descriptions",
+      "dark and light theme",
+      "Skills & Tech Stack highlighting frontend, backend, and database expertise",
+      "Education & Experience section detailing academic and professional journey",
+      "Resume Download option for recruiters to access an up-to-date resume",
+      "Contact Form enabling easy communication via email integration",
+      "Responsive Design optimized for desktops, tablets, and mobile devices",
+      "SEO Optimized for better search visibility and reach",
+    ],
+    liveLink: "https://bablukumar.onrender.com/",
+    sourceLink: "https://github.com/bablukumar9001/MERN-portfolio-frontend",
+    src: "/images/portfolio.png",
+  },
+  {
+    title: "Veavix",
+    description: `Veavix is a professional business website designed to showcase company services, 
+      improve online presence, and enhance user engagement. 
+      Built with the MERN stack, the platform delivers a modern, responsive, and seamless user experience.`,
+    tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB ",
+    accomplishments: [
+      "Responsive UI/UX: Clean and intuitive interface optimized for all devices.",
+      "Service Showcase: Detailed sections highlighting company services and offerings",
+      "Dynamic Content Management: Easily updateable service and portfolio sections.",
+      "Contact & Inquiry Forms: Secure forms for customer inquiries with backend email integration.",
+      "SEO Optimization: Well-structured meta tags and content for better search visibility.",
+      "Fast Performance: Optimized for speed using caching and efficient API calls.",
+    ],
+    liveLink: "https://veavix.onrender.com/",
+    sourceLink: "https://github.com/bablukumar9001/Veavix-frontend",
+    src: "/images/veavix.png",
+  },
+];
 
 const ProjectModal = ({ isOpen, onClose, project }) => {
   const modalRef = useRef(null);
@@ -46,7 +136,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
               <div className="modal-section tools-section">
                 <h4>Technologies Used</h4>
                 <div className="modal-tools">
-                  {tools.split(', ').map((tool, i) => (
+                  {(tools || "").split(", ").filter(Boolean).map((tool, i) => (
                     <span key={i} className="modal-tool-tag">{tool}</span>
                   ))}
                 </div>
@@ -62,7 +152,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
               <div className="modal-section">
                 <h4>Key Features</h4>
                 <ul className="features-list">
-                  {accomplishments.map((item, i) => (
+                  {(accomplishments || []).map((item, i) => (
                     <li key={i} className="feature-item">
                       <i className="fas fa-check-circle"></i> 
                       <span>{item}</span>
@@ -160,12 +250,24 @@ const ProjectCard = ({ project, index, isVisible }) => {
 
 const Proj = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [projects, setProjects] = useState(FALLBACK_PROJECTS);
+
+  useEffect(() => {
+    fetch(apiUrl("/api/projects"))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setProjects(data);
+      })
+      .catch(() => {
+        /* keep fallback */
+      });
+  }, []);
 
   // Intersection Observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
           }
@@ -174,105 +276,13 @@ const Proj = () => {
       { threshold: 0.1 }
     );
 
-    const section = document.querySelector('#project11');
+    const section = document.querySelector("#project11");
     if (section) observer.observe(section);
 
     return () => {
       if (section) observer.unobserve(section);
     };
   }, []);
-
-  const projects = [
-    {
-  title: "Licious – Online Meat Delivery Platform",
-  description: `A full-featured online meat delivery platform inspired by Licious, 
-  built using Next.js and the MERN ecosystem. The application offers a smooth and 
-  modern shopping experience with category-based browsing, product filtering, 
-  cart & checkout flow, and secure authentication. The platform is fully responsive, 
-  optimized for SEO, and delivers high-performance user interactions using server 
-  components and API routes from Next.js.`,
-  
-  accomplishments: [
-    "Modern homepage with banners, curated meat categories, and featured products",
-    "Implemented secure user authentication & authorization using JWT",
-    "Built product listing pages with category filters (Chicken, Mutton, Fish, Eggs, etc.)",
-    "Developed detailed product pages with weight options, pricing, and nutritional info",
-    "Added robust cart functionality with quantity updates and dynamic pricing",
-    "Created a checkout flow with address input, delivery options, and payment simulation",
-    "Developed an Admin Panel to manage products, categories, and orders",
-    "Built using Next.js App Router, Server Components, API Routes, and optimized rendering",
-    "Responsive and mobile-friendly UI inspired by Licious (Tailwind CSS + Material UI)",
-    "Improved SEO using Next.js metadata, image optimization, and pre-rendering techniques"
-  ],
-
-  tools: "Next.js, React.js, Node.js, Express.js, MongoDB, Redux Toolkit, Tailwind CSS, Material UI, JWT, REST APIs",
-
-  liveLink: "https://www.licious.in/",
-
-  src: "/images/licious.png"
-},
-
-    {
-      title: "ShopKart",
-      description: `ShopKart is a fully functional MERN stack-based e-commerce platform designed to deliver a seamless online shopping experience. 
-      It includes secure authentication, product management, payment integration, and an admin dashboard for efficient store management. 
-      With a modern UI built using Tailwind CSS and Material UI, the platform ensures a smooth and responsive user experience.`,
-      accomplishments: [
-        "User Authentication & Authorization (JWT-based login, signup, and secure access)", 
-        "Password Reset with email link for account recovery", 
-        "Admin Dashboard for managing products, users, and orders",
-         "Product Listings with advanced filtering and sorting",
-          "Shopping Cart for easy order management", 
-          "Secure Payment Integration with Stripe/Razorpay", 
-          "Product Reviews & Ratings to enhance customer engagement", 
-          "Fully Responsive UI with Tailwind CSS & Material UI", 
-          "SEO-Optimized structure for better search visibility"
-      ],
-      tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB, tailwind css, material ui",
-      liveLink: "https://shopkart-epla.onrender.com/",
-      sourceLink: "https://github.com/bablukumar9001/ShopKart",
-      src: "/images/shopkart.png"
-    },
-    {
-      title: "My Portfolio",
-      description: `This MERN stack-based portfolio website serves as a digital resume and professional showcase. 
-      It highlights personal information, skills, education, projects, and experience in an interactive and visually appealing manner. 
-      The platform is designed to be fully responsive, ensuring a seamless user experience across all devices.`,
-      tools: "React, Node.js, Express, MongoDB, JavaScript, HTML, CSS",
-      accomplishments: [
-       "About Me Section displaying professional summary, expertise, and contact details", 
-       "Projects Showcase with live project links and descriptions", 
-       "dark and light theme",
-       "Skills & Tech Stack highlighting frontend, backend, and database expertise", 
-       "Education & Experience section detailing academic and professional journey",
-        "Resume Download option for recruiters to access an up-to-date resume", 
-        "Contact Form enabling easy communication via email integration",
-         "Responsive Design optimized for desktops, tablets, and mobile devices", 
-         "SEO Optimized for better search visibility and reach"
-      ],
-      liveLink: "https://bablukumar.onrender.com/",
-      sourceLink: "https://github.com/bablukumar9001/MERN-portfolio-frontend",
-      src: "/images/portfolio.png"
-    },
-    {
-      title: "Veavix",
-      description: `Veavix is a professional business website designed to showcase company services, 
-      improve online presence, and enhance user engagement. 
-      Built with the MERN stack, the platform delivers a modern, responsive, and seamless user experience.`,
-      tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB ",
-      accomplishments: [
-        "Responsive UI/UX: Clean and intuitive interface optimized for all devices.",
-        "Service Showcase: Detailed sections highlighting company services and offerings",
-        " Dynamic Content Management: Easily updateable service and portfolio sections.", 
-        "Contact & Inquiry Forms: Secure forms for customer inquiries with backend email integration.",
-        "SEO Optimization: Well-structured meta tags and content for better search visibility.",
-        " Fast Performance: Optimized for speed using caching and efficient API calls."
-      ],
-      liveLink: "https://veavix.onrender.com/",
-      sourceLink: "https://github.com/bablukumar9001/Veavix-frontend",
-      src: "/images/veavix.png"
-    },
-  ];
 
   return (
     <section className={`projects-section ${isVisible ? 'visible' : ''}`} id="project11">
