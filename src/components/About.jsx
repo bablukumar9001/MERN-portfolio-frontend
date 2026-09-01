@@ -1,111 +1,118 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/about.css";
-// import homephoto from "/images/aboutdemo.webp";
 import homephoto from "/images/aboutphoto.jpg";
 import { Link } from "react-scroll";
 import { useSiteContent } from "../SiteContentContext";
 
 const About = () => {
   const site = useSiteContent();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Add scroll animation observer
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate');
-        }
-      });
-    }, { threshold: 0.1 });
+    const section = document.querySelector("#about11");
+    if (!section) return;
 
-    // Observe elements with animation classes
-    document.querySelectorAll('.animate-on-scroll').forEach(element => {
-      observer.observe(element);
-    });
+    // Show immediately if already in view on mount.
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setIsVisible(true);
+      return;
+    }
 
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setIsVisible(true);
+        });
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(section);
+    // Safety net in case the observer never fires.
+    const timer = setTimeout(() => setIsVisible(true), 2500);
     return () => {
-      // Cleanup observer on component unmount
-      document.querySelectorAll('.animate-on-scroll').forEach(element => {
-        observer.unobserve(element);
-      });
+      observer.unobserve(section);
+      clearTimeout(timer);
     };
   }, []);
 
+  const parts = (site.contactLocation || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const shortLoc =
+    parts.length > 2
+      ? `${parts[1]}, ${parts[parts.length - 1]}`
+      : site.contactLocation;
+
+  const facts = [
+    { icon: "fas fa-map-marker-alt", label: "Location", value: shortLoc },
+    { icon: "fas fa-briefcase", label: "Experience", value: `${site.aboutYears} years` },
+    { icon: "fas fa-layer-group", label: "Focus", value: "Next.js · MERN · Microservices" },
+    { icon: "fas fa-circle-check", label: "Availability", value: "Open to opportunities" },
+  ];
+
   return (
-    <>
-      <div className="about-container" id="about11">
+    <section
+      className={`about-section ${isVisible ? "visible" : ""}`}
+      id="about11"
+    >
+      <div className="about-inner">
         <div className="section-title text-center">
           <span className="subtitle">Discover My Story</span>
           <h2>About Me</h2>
-          <div className="title-separator">
-            <span></span>
-          </div>
+          <div className="title-bar"></div>
         </div>
-        
-        <div className="about-content">
-          {/* Image on the left for desktop, centered for mobile */}
-          <div className="about-image animate-on-scroll slide-in-left">
-            <div className="image-frame">
-              <img className="about-img" src={homephoto} alt="Profile" />
-              <div className="experience-badge">
-                <span className="years">{site.aboutYears}</span>
-                <span className="text">Years<br/>Experience</span>
-              </div>
+
+        <div className="about-grid">
+          <div className="about-photo about-reveal">
+            <div className="about-photo-frame">
+              <img src={homephoto} alt={site.heroName} />
             </div>
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
+            <div className="about-photo-badge">
+              <strong>{site.aboutYears}</strong>
+              <span>
+                years
+                <br />
+                experience
+              </span>
+            </div>
           </div>
-          
-          {/* Description on the right */}
-          <div className="about-description animate-on-scroll slide-in-right">
-            <section className="intro-text">
-              <div className="quote-container">
-                <p className="textt smaller-text">
-                  <span className="quote-mark">"</span>
-                  {site.aboutBio}
-                  <span className="quote-mark">"</span>
-                </p>
-              </div>
-              
-              <h4 className="skills-heading animate-on-scroll fade-in">Tech Skills</h4>
-              <ul className="skills-list">
-                <li className="skill-item animate-on-scroll slide-up">
-                  <div className="skill-icon"><i className="fas fa-laptop-code"></i></div>
-                  <div className="skill-content smaller-text">
-                    <strong>Frontend:</strong> Expertise in React.js, Next.js  JavaScript, HTML, CSS, Material UI and modern UI/UX design principles.
+
+          <div className="about-body about-reveal">
+            <p className="about-lead">{site.aboutBio}</p>
+
+            <div className="about-facts">
+              {facts.map((f) => (
+                <div className="about-fact" key={f.label}>
+                  <i className={f.icon}></i>
+                  <div>
+                    <span>{f.label}</span>
+                    <strong>{f.value}</strong>
                   </div>
-                </li>
-                <li className="skill-item animate-on-scroll slide-up">
-                  <div className="skill-icon"><i className="fas fa-server"></i></div>
-                  <div className="skill-content smaller-text">
-                    <strong>Backend:</strong> Skilled in Node.js,Next.js, Express.js, RESTful APIs, and database management.
-                  </div>
-                </li>
-                <li className="skill-item animate-on-scroll slide-up">
-                  <div className="skill-icon"><i className="fas fa-tools"></i></div>
-                  <div className="skill-content smaller-text">
-                    <strong>Tools & Technologies:</strong> Git, Webpack, MongoDB, Bootstrap, and more.
-                  </div>
-                </li>
-              </ul>
-              
-              <div className="cta-container animate-on-scroll fade-in">
-                <Link
-                  to="contact11"
-                  smooth={true}
-                  offset={-85}
-                  duration={50}
-                >
-                  <button className="main-btn hirebutton">
-                    <i className="fas fa-paper-plane"></i> Contact Me
-                  </button>
-                </Link>
-              </div>
-            </section>
+                </div>
+              ))}
+            </div>
+
+            <div className="about-actions">
+              <Link to="contact11" smooth={true} offset={-85} duration={50}>
+                <span className="main-btn">
+                  <i className="fas fa-paper-plane"></i> Contact Me
+                </span>
+              </Link>
+              <a
+                className="main-btn about-btn-ghost"
+                href={site.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fas fa-download"></i> Download CV
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
