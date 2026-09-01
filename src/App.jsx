@@ -8,6 +8,9 @@ import AdminMessages from "./components/admin/AdminMessages";
 import AdminProjects from "./components/admin/AdminProjects";
 import AdminExperiences from "./components/admin/AdminExperiences";
 import AdminSkills from "./components/admin/AdminSkills";
+import AdminEducation from "./components/admin/AdminEducation";
+import AdminServices from "./components/admin/AdminServices";
+import AdminSiteContent from "./components/admin/AdminSiteContent";
 import { ThemeContext } from "./ThemeContext";
 
 const App = () => {
@@ -24,6 +27,9 @@ const App = () => {
           <Route path="projects" element={<AdminProjects />} />
           <Route path="experiences" element={<AdminExperiences />} />
           <Route path="skills" element={<AdminSkills />} />
+          <Route path="education" element={<AdminEducation />} />
+          <Route path="services" element={<AdminServices />} />
+          <Route path="site-content" element={<AdminSiteContent />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

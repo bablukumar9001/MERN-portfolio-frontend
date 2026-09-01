@@ -1,36 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import "./css/education.css" // Import styles for the Education section
+import { apiUrl } from "../api";
+
+const FALLBACK_EDUCATION = [
+  {
+    degree: 'Masters in Computer and Application (MCA)',
+    institution: 'AKTU University',
+    year: '2021 - 2023',
+    description: 'Focused on software development, web technologies, and database management. Developed multiple projects using React.js and Node.js.',
+    icon: 'fas fa-graduation-cap',
+    color: '#ff014f'
+  },
+  {
+    degree: 'Bachelor in Computer and Application (BCA)',
+    institution: 'ABC Technical Institute',
+    year: '2018 - 2021',
+    description: 'Specialized in web development using MERN stack and PHP Laravel. Completed various projects including personal portfolio websites and e-commerce platforms.',
+    icon: 'fas fa-university',
+    color: '#4d79ff'
+  },
+  {
+    degree: 'Intermediate (12th)',
+    institution: 'SBN public school (CBSE)',
+    year: '2016 - 2018',
+    description: 'Completed higher secondary education with focus on computer science and mathematics.',
+    icon: 'fas fa-school',
+    color: '#00b359'
+  },
+];
 
 const Education = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [educationData, setEducationData] = useState(FALLBACK_EDUCATION);
 
-  // Sample data for the education section, you can replace with your own details
-  const educationData = [
-    {
-      degree: 'Masters in Computer and Application (MCA)',
-      institution: 'AKTU University',
-      year: '2021 - 2023',
-      description: 'Focused on software development, web technologies, and database management. Developed multiple projects using React.js and Node.js.',
-      icon: 'fas fa-graduation-cap',
-      color: '#ff014f'
-    },
-    {
-      degree: 'Bachelor in Computer and Application (BCA)',
-      institution: 'ABC Technical Institute',
-      year: '2018 - 2021',
-      description: 'Specialized in web development using MERN stack and PHP Laravel. Completed various projects including personal portfolio websites and e-commerce platforms.',
-      icon: 'fas fa-university',
-      color: '#4d79ff'
-    },
-    {
-      degree: 'Intermediate (12th)',
-      institution: 'SBN public school (CBSE)',
-      year: '2016 - 2018',
-      description: 'Completed higher secondary education with focus on computer science and mathematics.',
-      icon: 'fas fa-school',
-      color: '#00b359'
-    },
-  ];
+  useEffect(() => {
+    fetch(apiUrl('/api/education'))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setEducationData(data);
+      })
+      .catch(() => {});
+  }, []);
 
   // Intersection Observer for animations
   useEffect(() => {

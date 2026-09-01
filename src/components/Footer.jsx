@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import "./css/footer.css";
 import mylogo from "/images/mylogo1.png";
+import { useSiteContent } from "../SiteContentContext";
 
 const Footer = () => {
+  const site = useSiteContent();
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   
@@ -56,10 +58,10 @@ const Footer = () => {
   ];
   
   const socialLinks = [
-    { icon: "fab fa-github", url: "https://github.com/bablukumar9001", label: "GitHub" },
-    { icon: "fab fa-linkedin", url: "https://www.linkedin.com/in/bablu-kumar-a0aa16231/", label: "LinkedIn" },
-    { icon: "fab fa-twitter", url: "https://twitter.com/babluku9001", label: "Twitter" },
-    { icon: "fab fa-instagram", url: "https://www.instagram.com/abhay__9001/", label: "Instagram" }
+    { icon: "fab fa-github", url: site.social.github, label: "GitHub" },
+    { icon: "fab fa-linkedin", url: site.social.linkedin, label: "LinkedIn" },
+    { icon: "fab fa-twitter", url: site.social.twitter, label: "Twitter" },
+    { icon: "fab fa-instagram", url: site.social.instagram, label: "Instagram" }
   ];
 
   return (
@@ -72,10 +74,7 @@ const Footer = () => {
                 <div className="footer-logo">
                   <img src={mylogo} alt="Logo" />
                 </div>
-                <p className="footer-text">
-                  I'm a passionate full-stack developer specializing in creating modern, 
-                  responsive web applications using the MERN stack and other cutting-edge technologies.
-                </p>
+                <p className="footer-text">{site.footerText}</p>
                 <div className="social-links">
                   {socialLinks.map((link, index) => (
                     <a 
@@ -118,15 +117,15 @@ const Footer = () => {
                 <ul className="contact-info">
                   <li>
                     <i className="fas fa-map-marker-alt"></i>
-                    <span>New Delhi, India</span>
+                    <span>{site.contactLocation}</span>
                   </li>
                   <li>
                     <i className="fas fa-envelope"></i>
-                    <a href="mailto:bablukumar09001@gmail.com">bablukumar09001@gmail.com</a>
+                    <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
                   </li>
                   <li>
                     <i className="fas fa-phone-alt"></i>
-                    <a href="tel:+918920549001">+91 8920549001</a>
+                    <a href={`tel:${site.contactPhone.replace(/\s+/g, "")}`}>{site.contactPhone}</a>
                   </li>
                 </ul>
               </div>
@@ -138,7 +137,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <div className="container">
           <div className="copyright">
-            <p>© {currentYear} <strong>Bablu Kumar</strong>. All Rights Reserved.</p>
+            <p>© {currentYear} <strong>{site.heroName}</strong>. All Rights Reserved.</p>
           </div>
         </div>
       </div>

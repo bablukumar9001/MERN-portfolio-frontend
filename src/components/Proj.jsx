@@ -94,28 +94,30 @@ const FALLBACK_PROJECTS = [
 
 const ProjectModal = ({ isOpen, onClose, project }) => {
   const modalRef = useRef(null);
-  
-  if (!isOpen || !project) return null;
-  
-  const { title, description, tools, accomplishments, liveLink, sourceLink, src } = project;
-  
-  // Prevent body scrolling when modal is open
+
+  // Prevent body scrolling while the modal is open.
+  // Hook runs unconditionally (Rules of Hooks); it only acts when open.
   useEffect(() => {
+    if (!isOpen) return;
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
-    
+
     return () => {
       document.body.style.overflow = originalStyle;
     };
-  }, []);
-  
+  }, [isOpen]);
+
+  if (!isOpen || !project) return null;
+
+  const { title, description, tools, accomplishments, liveLink, sourceLink, src } = project;
+
   // Close modal when clicking outside
   const handleOverlayClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
       onClose();
     }
   };
-  
+
   const modalContent = (
     <div className="project-modal-wrapper">
       <div className="modal-content" ref={modalRef}>

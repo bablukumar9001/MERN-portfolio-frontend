@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './css/expereince.css';
 import { apiUrl } from '../../api';
+import { useSiteContent } from '../../SiteContentContext';
 
 const FALLBACK_EXPERIENCE = [
   {
@@ -39,6 +40,7 @@ const FALLBACK_EXPERIENCE = [
 ];
 
 const Experience = () => {
+  const site = useSiteContent();
   const [isVisible, setIsVisible] = useState(false);
   const [experienceData, setExperienceData] = useState(FALLBACK_EXPERIENCE);
 
@@ -141,7 +143,7 @@ const Experience = () => {
           <div className="experience-cta">
             <p>Interested in my professional background?</p>
             <a
-              href="https://drive.google.com/file/d/15aOdmnAreAGIj3IoGbr2knPda-UNOxM-/view?usp=sharing"
+              href={site.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="resume-btn"

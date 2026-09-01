@@ -3,8 +3,11 @@ import "./css/about.css";
 // import homephoto from "/images/aboutdemo.webp";
 import homephoto from "/images/aboutphoto.jpg";
 import { Link } from "react-scroll";
+import { useSiteContent } from "../SiteContentContext";
 
 const About = () => {
+  const site = useSiteContent();
+
   useEffect(() => {
     // Add scroll animation observer
     const observer = new IntersectionObserver((entries) => {
@@ -45,7 +48,7 @@ const About = () => {
             <div className="image-frame">
               <img className="about-img" src={homephoto} alt="Profile" />
               <div className="experience-badge">
-                <span className="years">2+</span>
+                <span className="years">{site.aboutYears}</span>
                 <span className="text">Years<br/>Experience</span>
               </div>
             </div>
@@ -59,10 +62,7 @@ const About = () => {
               <div className="quote-container">
                 <p className="textt smaller-text">
                   <span className="quote-mark">"</span>
-                  I'm Bablu Kumar, a dedicated MERN stack developer from India. I specialize in merging logic
-                  with creativity to deliver intuitive, accessible, and visually appealing web experiences. My work
-                  ranges from small business websites to sophisticated, feature-rich web applications.
-                  I'm eager to bring my skills to a dynamic team where I can continue to grow and make an impact.
+                  {site.aboutBio}
                   <span className="quote-mark">"</span>
                 </p>
               </div>

@@ -21,11 +21,6 @@ export default ({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
-        "/login": {
-          target: process.env.VITE_BASE_URL,
-          changeOrigin: true,
-          secure: false,
-        },
       },
     },
   });

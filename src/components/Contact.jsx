@@ -4,7 +4,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import contact from "/images/contact-us.svg";
 import { apiUrl } from "../api";
+import { useSiteContent } from "../SiteContentContext";
 const Contact = () => {
+  const site = useSiteContent();
   const [isVisible, setIsVisible] = useState(false);
   const [user, setUser] = useState({
     name: "",
@@ -12,6 +14,7 @@ const Contact = () => {
     email: "",
     subject: "",
     message: "",
+    website: "", // honeypot — must stay empty
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
@@ -70,7 +73,7 @@ const Contact = () => {
     setIsSubmitting(true);
     
     try {
-      const { name, email, mobile, subject, message } = user;
+      const { name, email, mobile, subject, message, website } = user;
 
       const res = await fetch(apiUrl("/clientdata"), {
         method: "POST",
@@ -80,6 +83,7 @@ const Contact = () => {
           mobile,
           subject,
           message,
+          website,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -105,6 +109,7 @@ const Contact = () => {
           email: "",
           subject: "",
           message: "",
+          website: "",
         });
       } else {
         toast.error("An error occurred. Please try again.", {
@@ -151,7 +156,7 @@ const Contact = () => {
                 </div>
                 <div className="info-content">
                   <h4>Email</h4>
-                  <p>bablukumar09001@gmail.com</p>
+                  <p>{site.contactEmail}</p>
                 </div>
               </div>
               
@@ -161,7 +166,7 @@ const Contact = () => {
                 </div>
                 <div className="info-content">
                   <h4>Phone</h4>
-                  <p>+91 8920549001</p>
+                  <p>{site.contactPhone}</p>
                 </div>
               </div>
               
@@ -171,7 +176,7 @@ const Contact = () => {
                 </div>
                 <div className="info-content">
                   <h4>Location</h4>
-                  <p>Noida,UP,India</p>
+                  <p>{site.contactLocation}</p>
                 </div>
               </div>
             </div>
@@ -179,19 +184,19 @@ const Contact = () => {
             <div className="social-links">
               <h4>Connect With Me</h4>
               <div className="social-icons">
-                <a href="https://www.instagram.com/abhay__9001/" target="_blank" rel="noopener noreferrer">
+                <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">
                   <i className="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.facebook.com/abhay559722/" target="_blank" rel="noopener noreferrer">
+                <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">
                   <i className="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://twitter.com/babluku9001" target="_blank" rel="noopener noreferrer">
+                <a href={site.social.twitter} target="_blank" rel="noopener noreferrer">
                   <i className="fab fa-twitter"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/bablu-kumar-a0aa16231/" target="_blank" rel="noopener noreferrer">
+                <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">
                   <i className="fab fa-linkedin"></i>
                 </a>
-                <a href="https://github.com/bablukumar9001" target="_blank" rel="noopener noreferrer">
+                <a href={site.social.github} target="_blank" rel="noopener noreferrer">
                   <i className="fab fa-github"></i>
                 </a>
               </div>
@@ -284,9 +289,21 @@ const Contact = () => {
                 ></textarea>
                 {formErrors.message && <span className="error-message">{formErrors.message}</span>}
               </div>
-              
-              <button 
-                type="submit" 
+
+              {/* Honeypot: hidden from users, catches bots */}
+              <input
+                type="text"
+                name="website"
+                value={user.website}
+                onChange={handleInputs}
+                tabIndex="-1"
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
+              />
+
+              <button
+                type="submit"
                 className="submit-btn"
                 disabled={isSubmitting}
               >

@@ -42,6 +42,9 @@ const AdminLayout = () => {
           <NavLink to="/admin/projects">Projects</NavLink>
           <NavLink to="/admin/experiences">Experience</NavLink>
           <NavLink to="/admin/skills">Skills</NavLink>
+          <NavLink to="/admin/education">Education</NavLink>
+          <NavLink to="/admin/services">Services</NavLink>
+          <NavLink to="/admin/site-content">Site Content</NavLink>
         </nav>
         <button type="button" className="admin-logout" onClick={logout}>
           Logout
