@@ -9,7 +9,7 @@ const FALLBACK_EDUCATION = [
     year: '2021 - 2023',
     description: 'Focused on software development, web technologies and database management. Built multiple projects using React.js and Node.js.',
     icon: 'fas fa-graduation-cap',
-    color: '#ff014f'
+    color: '#4f46e5'
   },
   {
     degree: 'Bachelor of Computer Applications (BCA)',

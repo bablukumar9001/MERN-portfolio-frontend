@@ -9,10 +9,12 @@ import Footer from "./Footer";
 import Expereince from "./resume/Expereince";
 import Proj from "./Proj";
 import Education from "./Education";
+import ScrollProgress from "./ScrollProgress";
 
 const Portfolio = () => {
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <Home />
       <About />

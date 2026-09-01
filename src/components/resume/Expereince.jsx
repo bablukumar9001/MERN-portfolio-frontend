@@ -26,7 +26,7 @@ const FALLBACK_EXPERIENCE = [
     position: 'MERN Stack Developer',
     duration: 'Sep 2023 - Sep 2025',
     location: 'Noida, India',
-    color: '#ff014f',
+    color: '#4f46e5',
     icon: 'fas fa-briefcase',
     achievements: [
       'Developed scalable MERN stack and Next.js applications focused on performance, maintainability and responsive UX',

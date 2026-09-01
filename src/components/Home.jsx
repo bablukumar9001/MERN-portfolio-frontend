@@ -31,7 +31,7 @@ const Home = () => {
                         repeat={Infinity}
                         speed={45}
                         deletionSpeed={50}
-                        style={{ color: "#ff014f" }}
+                        style={{ color: "var(--primary-color)" }}
                       />
                       <br />
                       {site.heroLocation}

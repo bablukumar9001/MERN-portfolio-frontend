@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Francois+One&family=Montserrat:wght@700&family=Poppins:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Poppins:wght@500;600;700&display=swap");
 @import url("./darkMode.css");
 
 * {
@@ -7,30 +7,99 @@
   box-sizing: border-box;
 }
 
-:root {
-  /* bakground color */
-  --primary-color: #ff014f;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   width: 100%;
   background-color: var(--background-color);
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
 }
 
-/* scrollbar */
+/* Typographic rhythm */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", "Poppins", sans-serif;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
 
+p {
+  line-height: 1.7;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Monospace utility — used for tech chips / code-ish labels */
+.font-mono,
+.tech-chip,
+.modal-tool-tag,
+.skill-tag {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0;
+}
+
+/* Reusable chip */
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: 8px;
+  background: rgba(var(--primary-rgb), 0.08);
+  color: var(--primary-color);
+  border: 1px solid rgba(var(--primary-rgb), 0.18);
+  white-space: nowrap;
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(92, 95, 95, 0.39);
-  border-radius: 10px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
+  background: var(--border-color);
   border-radius: 8px;
+  border: 3px solid var(--background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
+}
+
+::selection {
+  background: rgba(var(--primary-rgb), 0.2);
+}
+
+/* Top scroll-progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--primary-color);
+  z-index: 9999;
+  transition: width 0.1s linear;
 }

@@ -8,7 +8,7 @@ const empty = {
   year: "",
   description: "",
   icon: "fas fa-graduation-cap",
-  color: "#ff014f",
+  color: "#4f46e5",
   order: 0,
 };
 
@@ -69,7 +69,7 @@ const AdminEducation = () => {
       year: item.year || "",
       description: item.description || "",
       icon: item.icon || "fas fa-graduation-cap",
-      color: item.color || "#ff014f",
+      color: item.color || "#4f46e5",
       order: item.order || 0,
     });
   };
@@ -95,7 +95,7 @@ const AdminEducation = () => {
         <input name="year" placeholder="Year (e.g. 2021 - 2023)" value={form.year} onChange={onChange} />
         <textarea name="description" placeholder="Description" value={form.description} onChange={onChange} rows={3} />
         <input name="icon" placeholder="Icon class (e.g. fas fa-university)" value={form.icon} onChange={onChange} />
-        <input name="color" placeholder="Color (e.g. #ff014f)" value={form.color} onChange={onChange} />
+        <input name="color" placeholder="Color (e.g. #4f46e5)" value={form.color} onChange={onChange} />
         <input name="order" type="number" placeholder="Order" value={form.order} onChange={onChange} />
         <div className="admin-form-actions">
           <button type="submit">{editId ? "Update" : "Add"} education</button>
