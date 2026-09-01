@@ -35,6 +35,20 @@ export const uploadImage = (file) =>
     reader.readAsDataURL(file);
   });
 
+// Fire-and-forget, cookie-less analytics ping.
+// Type goes in the query string so the request stays "simple" (no CORS preflight)
+// and works from navigator.sendBeacon across origins.
+export const track = (type) => {
+  try {
+    const url = apiUrl(`/api/track?type=${encodeURIComponent(type)}`);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url);
+    } else {
+      fetch(url, { method: "POST", keepalive: true }).catch(() => {});
+    }
+  } catch (_) {}
+};
+
 export const getToken = () => localStorage.getItem("adminToken");
 
 export const adminFetch = async (path, options = {}) => {

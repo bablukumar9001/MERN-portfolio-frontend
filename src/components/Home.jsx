@@ -4,6 +4,7 @@ import homephoto from "/images/profile-pic.png";
 import { Link } from "react-scroll";
 import { TypeAnimation } from "react-type-animation";
 import { useSiteContent } from "../SiteContentContext";
+import { track } from "../api";
 
 const Home = () => {
   const site = useSiteContent();
@@ -42,6 +43,7 @@ const Home = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         href={site.resumeUrl}
+                        onClick={() => track("cv_download")}
                       >
                         <i className="fas fa-download"></i> Download CV
                       </a>

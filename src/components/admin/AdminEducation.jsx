@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import useDragReorder from "./useDragReorder";
 import { adminFetch } from "../../api";
 
 const empty = {
@@ -17,6 +18,7 @@ const AdminEducation = () => {
   const [form, setForm] = useState(empty);
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState("");
+  const { rowProps } = useDragReorder(items, setItems, "education");
 
   const load = () =>
     adminFetch("/api/admin/education")
@@ -118,8 +120,8 @@ const AdminEducation = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-              <tr key={item._id}>
+            {items.map((item, i) => (
+              <tr key={item._id} {...rowProps(i)}>
                 <td>{item.degree}</td>
                 <td>{item.institution}</td>
                 <td>{item.order}</td>

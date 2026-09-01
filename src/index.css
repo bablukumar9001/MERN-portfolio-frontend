@@ -54,6 +54,46 @@ a {
   letter-spacing: 0;
 }
 
+/* ---- Section title system (authoritative — index.css loads last) ---- */
+.section-title {
+  margin-bottom: 44px;
+  position: relative;
+}
+
+.section-title .subtitle {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 600;
+  color: var(--primary-color);
+  font-family: "Inter", sans-serif;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.section-title h2 {
+  font-size: clamp(1.9rem, 4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  color: var(--text-color);
+  display: inline-block;
+}
+
+.section-title .title-bar,
+.section-title .title-separator {
+  width: 52px;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+.section-title .title-bar::before,
+.section-title .title-separator span {
+  display: none;
+}
+
 /* Reusable chip */
 .tech-chip {
   display: inline-flex;

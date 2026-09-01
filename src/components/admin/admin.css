@@ -369,3 +369,41 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Analytics mini bar chart */
+.admin-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 160px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.admin-chart-col {
+  flex: 1;
+  min-width: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.admin-chart-bar {
+  width: 100%;
+  min-height: 2px;
+  background: var(--primary-color);
+  border-radius: 3px 3px 0 0;
+  transition: height 0.3s ease;
+}
+
+.admin-chart-x {
+  font-size: 9px;
+  color: #94a3b8;
+}

@@ -5,6 +5,7 @@ import { adminFetch } from "../../api";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
+  const [analytics, setAnalytics] = useState(null);
   const [error, setError] = useState("");
   const [cleaning, setCleaning] = useState(false);
 
@@ -28,10 +29,17 @@ const AdminDashboard = () => {
     adminFetch("/api/admin/stats")
       .then(setStats)
       .catch((e) => setError(e.message));
+    adminFetch("/api/admin/analytics")
+      .then(setAnalytics)
+      .catch(() => {});
   }, []);
 
   if (error) return <div className="admin-error">{error}</div>;
   if (!stats) return <div className="admin-loading">Loading...</div>;
+
+  const chartMax = analytics
+    ? Math.max(1, ...analytics.series.map((d) => d.visits))
+    : 1;
 
   return (
     <div>
@@ -41,7 +49,47 @@ const AdminDashboard = () => {
           {cleaning ? "Cleaning…" : "Clean up unused images"}
         </button>
       </div>
-      <div className="admin-stats" style={{ marginTop: "1.25rem" }}>
+
+      {/* ——— Traffic (cookie-less analytics) ——— */}
+      <h2 className="admin-section-title" style={{ marginTop: "1.25rem" }}>
+        Traffic <span className="admin-muted">· last 30 days</span>
+      </h2>
+      <div className="admin-stats">
+        <div className="admin-stat">
+          <span>{analytics ? analytics.totals.visits : "—"}</span>
+          <label>Visits (30d)</label>
+        </div>
+        <div className="admin-stat">
+          <span>{analytics ? analytics.last7.visits : "—"}</span>
+          <label>Visits (7d)</label>
+        </div>
+        <div className="admin-stat">
+          <span>{analytics ? analytics.totals.cvDownloads : "—"}</span>
+          <label>CV downloads (30d)</label>
+        </div>
+      </div>
+
+      {analytics && (
+        <div className="admin-chart" style={{ marginTop: "0.9rem" }}>
+          {analytics.series.map((d) => (
+            <div
+              className="admin-chart-col"
+              key={d.day}
+              title={`${d.day}: ${d.visits} visits`}
+            >
+              <div
+                className="admin-chart-bar"
+                style={{ height: `${(d.visits / chartMax) * 100}%` }}
+              ></div>
+              <span className="admin-chart-x">{d.day.slice(8)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ——— Content counts ——— */}
+      <h2 className="admin-section-title">Content</h2>
+      <div className="admin-stats">
         <div className="admin-stat">
           <span>{stats.unreadMessages}</span>
           <label>Unread messages</label>
@@ -69,6 +117,10 @@ const AdminDashboard = () => {
         <div className="admin-stat">
           <span>{stats.services}</span>
           <label>Services</label>
+        </div>
+        <div className="admin-stat">
+          <span>{stats.certifications}</span>
+          <label>Certifications</label>
         </div>
       </div>
 

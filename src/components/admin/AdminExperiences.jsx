@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import useDragReorder from "./useDragReorder";
 import { adminFetch } from "../../api";
 import ImageField from "./ImageField";
 
@@ -20,6 +21,7 @@ const AdminExperiences = () => {
   const [form, setForm] = useState(empty);
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState("");
+  const { rowProps } = useDragReorder(items, setItems, "experiences");
 
   const load = () =>
     adminFetch("/api/admin/experiences")
@@ -131,8 +133,8 @@ const AdminExperiences = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-              <tr key={item._id}>
+            {items.map((item, i) => (
+              <tr key={item._id} {...rowProps(i)}>
                 <td>{item.companyName}</td>
                 <td>{item.position}</td>
                 <td className="admin-row-actions">

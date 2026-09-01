@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
 import ImageField from "./ImageField";
+import useDragReorder from "./useDragReorder";
 
 const empty = {
   title: "",
   description: "",
   tools: "",
   accomplishments: "",
+  tags: "",
   liveLink: "",
   sourceLink: "",
   src: "",
@@ -19,6 +21,7 @@ const AdminProjects = () => {
   const [form, setForm] = useState(empty);
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState("");
+  const { rowProps } = useDragReorder(items, setItems, "projects");
 
   const load = () =>
     adminFetch("/api/admin/projects")
@@ -45,6 +48,10 @@ const AdminProjects = () => {
       order: Number(form.order) || 0,
       accomplishments: String(form.accomplishments)
         .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      tags: String(form.tags)
+        .split(",")
         .map((s) => s.trim())
         .filter(Boolean),
     };
@@ -77,6 +84,7 @@ const AdminProjects = () => {
       description: item.description || "",
       tools: item.tools || "",
       accomplishments: (item.accomplishments || []).join("\n"),
+      tags: (item.tags || []).join(", "),
       liveLink: item.liveLink || "",
       sourceLink: item.sourceLink || "",
       src: item.src || "",
@@ -104,6 +112,7 @@ const AdminProjects = () => {
         <textarea name="description" placeholder="Description" value={form.description} onChange={onChange} required rows={3} />
         <input name="tools" placeholder="Tools (comma separated)" value={form.tools} onChange={onChange} />
         <textarea name="accomplishments" placeholder="Features (one per line)" value={form.accomplishments} onChange={onChange} rows={4} />
+        <input name="tags" placeholder="Tags (comma separated — e.g. Web3, Full-Stack)" value={form.tags} onChange={onChange} />
         <input name="liveLink" placeholder="Live link" value={form.liveLink} onChange={onChange} />
         <input name="sourceLink" placeholder="Source link" value={form.sourceLink} onChange={onChange} />
         <ImageField label="Project image URL / path" name="src" value={form.src} onChange={onChange} />
@@ -118,20 +127,21 @@ const AdminProjects = () => {
         </div>
       </form>
 
+      <p className="admin-muted">Drag rows to reorder.</p>
       <div className="admin-table-wrap">
         <table className="admin-table">
           <thead>
             <tr>
               <th>Title</th>
-              <th>Order</th>
+              <th>Tags</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-              <tr key={item._id}>
+            {items.map((item, i) => (
+              <tr key={item._id} {...rowProps(i)}>
                 <td>{item.title}</td>
-                <td>{item.order}</td>
+                <td>{(item.tags || []).join(", ")}</td>
                 <td className="admin-row-actions">
                   <button type="button" onClick={() => startEdit(item)}>
                     Edit

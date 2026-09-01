@@ -141,6 +141,18 @@ const FALLBACK_PROJECTS = [
   },
 ];
 
+const FALLBACK_TAGS = {
+  "VittaGems – Enterprise Web3 Jewellery Platform": ["Web3", "Microservices", "Full-Stack"],
+  "Launchly – Multi-Chain Web3 Launchpad": ["Web3", "Microservices", "Full-Stack"],
+  "Licious – Online Meat Delivery Platform": ["Next.js", "Full-Stack"],
+  "ShopKart – E-Commerce Platform (MERN)": ["E-Commerce", "Full-Stack"],
+  "My Portfolio": ["Full-Stack", "MERN"],
+  Veavix: ["Full-Stack", "Business"],
+};
+FALLBACK_PROJECTS.forEach((p) => {
+  p.tags = FALLBACK_TAGS[p.title] || [];
+});
+
 const ProjectModal = ({ isOpen, onClose, project }) => {
   const modalRef = useRef(null);
 
@@ -252,7 +264,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
 
 const ProjectCard = ({ project, index, isVisible }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { title, liveLink, src } = project;
+  const { title, liveLink, src, tags = [] } = project;
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -296,6 +308,13 @@ const ProjectCard = ({ project, index, isVisible }) => {
         
         <div className="project-content">
           <h3 className="project-title">{title}</h3>
+          {tags.length > 0 && (
+            <div className="project-card-tags">
+              {tags.slice(0, 3).map((t) => (
+                <span key={t}>{t}</span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -313,6 +332,7 @@ const ProjectCard = ({ project, index, isVisible }) => {
 const Proj = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [projects, setProjects] = useState(FALLBACK_PROJECTS);
+  const [activeTag, setActiveTag] = useState("All");
 
   useEffect(() => {
     fetch(apiUrl("/api/projects"))
@@ -324,6 +344,15 @@ const Proj = () => {
         /* keep fallback */
       });
   }, []);
+
+  const allTags = [
+    "All",
+    ...Array.from(new Set(projects.flatMap((p) => p.tags || []))),
+  ];
+  const shown =
+    activeTag === "All"
+      ? projects
+      : projects.filter((p) => (p.tags || []).includes(activeTag));
 
   // Intersection Observer for animations
   useEffect(() => {
@@ -358,11 +387,26 @@ const Proj = () => {
             Each project represents a unique challenge and solution.
           </p>
         </div>
-        
+
+        {allTags.length > 2 && (
+          <div className="project-filters">
+            {allTags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                className={`project-filter ${activeTag === tag ? "active" : ""}`}
+                onClick={() => setActiveTag(tag)}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="projects-grid">
-          {projects.map((project, index) => (
-            <ProjectCard 
-              key={index} 
+          {shown.map((project, index) => (
+            <ProjectCard
+              key={project._id || project.title || index}
               project={project}
               index={index}
               isVisible={isVisible}

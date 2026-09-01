@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import useDragReorder from "./useDragReorder";
 import { adminFetch } from "../../api";
 
 // Icons available from react-icons/fa (see Services.jsx mapping).
@@ -30,6 +31,7 @@ const AdminServices = () => {
   const [form, setForm] = useState(empty);
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState("");
+  const { rowProps } = useDragReorder(items, setItems, "services");
 
   const load = () =>
     adminFetch("/api/admin/services")
@@ -131,8 +133,8 @@ const AdminServices = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
-              <tr key={item._id}>
+            {items.map((item, i) => (
+              <tr key={item._id} {...rowProps(i)}>
                 <td>{item.title}</td>
                 <td>{item.icon}</td>
                 <td>{item.order}</td>

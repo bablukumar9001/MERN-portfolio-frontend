@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./css/about.css";
-import homephoto from "/images/aboutphoto.jpg";
+import homephoto from "/images/aboutphoto.jpeg";
 import { Link } from "react-scroll";
 import { useSiteContent } from "../SiteContentContext";
+import { track } from "../api";
 
 const About = () => {
   const site = useSiteContent();
@@ -105,6 +106,7 @@ const About = () => {
                 href={site.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track("cv_download")}
               >
                 <i className="fas fa-download"></i> Download CV
               </a>

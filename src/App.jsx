@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Portfolio from "./components/Portfolio";
 import AdminLogin from "./components/admin/AdminLogin";
 import AdminLayout from "./components/admin/AdminLayout";
@@ -11,6 +11,9 @@ import AdminSkills from "./components/admin/AdminSkills";
 import AdminEducation from "./components/admin/AdminEducation";
 import AdminServices from "./components/admin/AdminServices";
 import AdminSiteContent from "./components/admin/AdminSiteContent";
+import AdminCertifications from "./components/admin/AdminCertifications";
+import AdminAccount from "./components/admin/AdminAccount";
+import NotFound from "./components/NotFound";
 import { ThemeContext } from "./ThemeContext";
 
 const App = () => {
@@ -29,9 +32,11 @@ const App = () => {
           <Route path="skills" element={<AdminSkills />} />
           <Route path="education" element={<AdminEducation />} />
           <Route path="services" element={<AdminServices />} />
+          <Route path="certifications" element={<AdminCertifications />} />
           <Route path="site-content" element={<AdminSiteContent />} />
+          <Route path="account" element={<AdminAccount />} />
         </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

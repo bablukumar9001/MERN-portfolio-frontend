@@ -1,34 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import useDragReorder from "./useDragReorder";
 import { adminFetch } from "../../api";
 import ImageField from "./ImageField";
-import useDragReorder from "./useDragReorder";
-
-const CATEGORIES = [
-  "Languages",
-  "Frontend",
-  "Backend",
-  "Databases",
-  "DevOps & Cloud",
-  "Integrations & Tools",
-];
 
 const empty = {
   name: "",
+  issuer: "",
+  issueDate: "",
+  credentialId: "",
+  credentialUrl: "",
   image: "",
-  category: CATEGORIES[0],
   order: 0,
 };
 
-const AdminSkills = () => {
+const AdminCertifications = () => {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(empty);
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState("");
-  const { rowProps } = useDragReorder(items, setItems, "skills");
+  const { rowProps } = useDragReorder(items, setItems, "certifications");
 
   const load = () =>
-    adminFetch("/api/admin/skills")
+    adminFetch("/api/admin/certifications")
       .then(setItems)
       .catch((e) => setError(e.message));
 
@@ -50,17 +44,17 @@ const AdminSkills = () => {
     const payload = { ...form, order: Number(form.order) || 0 };
     try {
       if (editId) {
-        await adminFetch(`/api/admin/skills/${editId}`, {
+        await adminFetch(`/api/admin/certifications/${editId}`, {
           method: "PUT",
           body: JSON.stringify(payload),
         });
-        toast.success("Skill updated");
+        toast.success("Certification updated");
       } else {
-        await adminFetch("/api/admin/skills", {
+        await adminFetch("/api/admin/certifications", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-        toast.success("Skill added");
+        toast.success("Certification added");
       }
       reset();
       load();
@@ -74,17 +68,20 @@ const AdminSkills = () => {
     setEditId(item._id);
     setForm({
       name: item.name || "",
+      issuer: item.issuer || "",
+      issueDate: item.issueDate || "",
+      credentialId: item.credentialId || "",
+      credentialUrl: item.credentialUrl || "",
       image: item.image || "",
-      category: item.category || CATEGORIES[0],
       order: item.order || 0,
     });
   };
 
   const remove = async (id) => {
-    if (!window.confirm("Delete skill?")) return;
+    if (!window.confirm("Delete certification?")) return;
     try {
-      await adminFetch(`/api/admin/skills/${id}`, { method: "DELETE" });
-      toast.success("Skill deleted");
+      await adminFetch(`/api/admin/certifications/${id}`, { method: "DELETE" });
+      toast.success("Certification deleted");
       load();
     } catch (err) {
       toast.error(err.message);
@@ -93,21 +90,18 @@ const AdminSkills = () => {
 
   return (
     <div>
-      <h1 className="admin-page-title">Skills</h1>
+      <h1 className="admin-page-title">Certifications</h1>
       {error && <div className="admin-error">{error}</div>}
       <form className="admin-form" onSubmit={submit}>
-        <input name="name" placeholder="Skill name" value={form.name} onChange={onChange} required />
-        <ImageField label="Skill icon URL / path" name="image" value={form.image} onChange={onChange} />
-        <select name="category" value={form.category} onChange={onChange}>
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        <input name="name" placeholder="Certification name" value={form.name} onChange={onChange} required />
+        <input name="issuer" placeholder="Issuer (e.g. Amazon Web Services)" value={form.issuer} onChange={onChange} />
+        <input name="issueDate" placeholder="Issue date (e.g. Jun 2024)" value={form.issueDate} onChange={onChange} />
+        <input name="credentialId" placeholder="Credential ID" value={form.credentialId} onChange={onChange} />
+        <input name="credentialUrl" placeholder="Credential URL" value={form.credentialUrl} onChange={onChange} />
+        <ImageField label="Badge / logo URL / path" name="image" value={form.image} onChange={onChange} />
         <input name="order" type="number" placeholder="Order" value={form.order} onChange={onChange} />
         <div className="admin-form-actions">
-          <button type="submit">{editId ? "Update" : "Add"} skill</button>
+          <button type="submit">{editId ? "Update" : "Add"} certification</button>
           {editId && (
             <button type="button" onClick={reset}>
               Cancel
@@ -121,7 +115,8 @@ const AdminSkills = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Category</th>
+              <th>Issuer</th>
+              <th>Order</th>
               <th></th>
             </tr>
           </thead>
@@ -129,7 +124,8 @@ const AdminSkills = () => {
             {items.map((item, i) => (
               <tr key={item._id} {...rowProps(i)}>
                 <td>{item.name}</td>
-                <td>{item.category}</td>
+                <td>{item.issuer}</td>
+                <td>{item.order}</td>
                 <td className="admin-row-actions">
                   <button type="button" onClick={() => startEdit(item)}>
                     Edit
@@ -140,6 +136,11 @@ const AdminSkills = () => {
                 </td>
               </tr>
             ))}
+            {items.length === 0 && (
+              <tr>
+                <td colSpan={4}>No certifications yet — the section stays hidden until you add one.</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -147,4 +148,4 @@ const AdminSkills = () => {
   );
 };
 
-export default AdminSkills;
+export default AdminCertifications;
