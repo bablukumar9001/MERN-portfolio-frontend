@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
+  const [cleaning, setCleaning] = useState(false);
+
+  const cleanupImages = async () => {
+    setCleaning(true);
+    try {
+      const { deleted } = await adminFetch("/api/admin/images/cleanup", {
+        method: "POST",
+      });
+      toast.success(
+        deleted ? `Removed ${deleted} unused image(s)` : "No unused images"
+      );
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setCleaning(false);
+    }
+  };
 
   useEffect(() => {
     adminFetch("/api/admin/stats")
@@ -17,8 +35,13 @@ const AdminDashboard = () => {
 
   return (
     <div>
-      <h1 className="admin-page-title">Dashboard</h1>
-      <div className="admin-stats">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem" }}>
+        <h1 className="admin-page-title" style={{ margin: 0 }}>Dashboard</h1>
+        <button type="button" onClick={cleanupImages} disabled={cleaning}>
+          {cleaning ? "Cleaning…" : "Clean up unused images"}
+        </button>
+      </div>
+      <div className="admin-stats" style={{ marginTop: "1.25rem" }}>
         <div className="admin-stat">
           <span>{stats.unreadMessages}</span>
           <label>Unread messages</label>
