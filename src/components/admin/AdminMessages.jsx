@@ -155,8 +155,8 @@ const AdminMessages = () => {
             <h2>{selected.subject}</h2>
             <p>
               <strong>{selected.name}</strong> ·{" "}
-              <a href={`mailto:${selected.email}`}>{selected.email}</a> ·{" "}
-              {selected.mobile}
+              <a href={`mailto:${selected.email}`}>{selected.email}</a>
+              {selected.mobile ? ` · ${selected.mobile}` : ""}
             </p>
             <p className="admin-muted">
               {new Date(selected.date).toLocaleString()}

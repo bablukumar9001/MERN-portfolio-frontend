@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./css/about.css";
-import homephoto from "/images/aboutphoto.jpeg";
+import homephoto from "/images/aboutphoto.jpg";
 import { Link } from "react-scroll";
 import { useSiteContent } from "../SiteContentContext";
 import { track } from "../api";
