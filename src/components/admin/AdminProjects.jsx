@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
+import ImageField from "./ImageField";
 
 const empty = {
   title: "",
@@ -52,16 +54,19 @@ const AdminProjects = () => {
           method: "PUT",
           body: JSON.stringify(payload),
         });
+        toast.success("Project updated");
       } else {
         await adminFetch("/api/admin/projects", {
           method: "POST",
           body: JSON.stringify(payload),
         });
+        toast.success("Project added");
       }
       reset();
       load();
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -81,8 +86,13 @@ const AdminProjects = () => {
 
   const remove = async (id) => {
     if (!window.confirm("Delete project?")) return;
-    await adminFetch(`/api/admin/projects/${id}`, { method: "DELETE" });
-    load();
+    try {
+      await adminFetch(`/api/admin/projects/${id}`, { method: "DELETE" });
+      toast.success("Project deleted");
+      load();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -96,7 +106,7 @@ const AdminProjects = () => {
         <textarea name="accomplishments" placeholder="Features (one per line)" value={form.accomplishments} onChange={onChange} rows={4} />
         <input name="liveLink" placeholder="Live link" value={form.liveLink} onChange={onChange} />
         <input name="sourceLink" placeholder="Source link" value={form.sourceLink} onChange={onChange} />
-        <input name="src" placeholder="Image URL / path" value={form.src} onChange={onChange} />
+        <ImageField label="Project image URL / path" name="src" value={form.src} onChange={onChange} />
         <input name="order" type="number" placeholder="Order" value={form.order} onChange={onChange} />
         <div className="admin-form-actions">
           <button type="submit">{editId ? "Update" : "Add"} project</button>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { adminFetch } from "../../api";
 import "./admin.css";
 
@@ -56,6 +58,7 @@ const AdminLayout = () => {
       <main className="admin-main">
         <Outlet />
       </main>
+      <ToastContainer position="top-right" autoClose={2500} />
     </div>
   );
 };

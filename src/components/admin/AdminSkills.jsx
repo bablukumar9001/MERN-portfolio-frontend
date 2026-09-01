@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
+import ImageField from "./ImageField";
 
 const CATEGORIES = [
   "Languages and Databases",
@@ -47,16 +49,19 @@ const AdminSkills = () => {
           method: "PUT",
           body: JSON.stringify(payload),
         });
+        toast.success("Skill updated");
       } else {
         await adminFetch("/api/admin/skills", {
           method: "POST",
           body: JSON.stringify(payload),
         });
+        toast.success("Skill added");
       }
       reset();
       load();
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -72,8 +77,13 @@ const AdminSkills = () => {
 
   const remove = async (id) => {
     if (!window.confirm("Delete skill?")) return;
-    await adminFetch(`/api/admin/skills/${id}`, { method: "DELETE" });
-    load();
+    try {
+      await adminFetch(`/api/admin/skills/${id}`, { method: "DELETE" });
+      toast.success("Skill deleted");
+      load();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -82,7 +92,7 @@ const AdminSkills = () => {
       {error && <div className="admin-error">{error}</div>}
       <form className="admin-form" onSubmit={submit}>
         <input name="name" placeholder="Skill name" value={form.name} onChange={onChange} required />
-        <input name="image" placeholder="Image path" value={form.image} onChange={onChange} />
+        <ImageField label="Skill icon URL / path" name="image" value={form.image} onChange={onChange} />
         <select name="category" value={form.category} onChange={onChange}>
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>

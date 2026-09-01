@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
 
 const AdminMessages = () => {
   const [messages, setMessages] = useState([]);
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState("");
+  const [replyBody, setReplyBody] = useState("");
+  const [sending, setSending] = useState(false);
 
   const load = () =>
     adminFetch("/api/admin/messages")
@@ -15,8 +18,13 @@ const AdminMessages = () => {
     load();
   }, []);
 
-  const openMessage = async (msg) => {
+  const select = (msg) => {
     setSelected(msg);
+    setReplyBody("");
+  };
+
+  const openMessage = async (msg) => {
+    select(msg);
     if (!msg.read) {
       try {
         const updated = await adminFetch(`/api/admin/messages/${msg._id}/read`, {
@@ -34,19 +42,49 @@ const AdminMessages = () => {
   };
 
   const toggleRead = async (msg) => {
-    const updated = await adminFetch(`/api/admin/messages/${msg._id}/read`, {
-      method: "PATCH",
-      body: JSON.stringify({ read: !msg.read }),
-    });
-    setMessages((prev) => prev.map((m) => (m._id === updated._id ? updated : m)));
-    if (selected?._id === updated._id) setSelected(updated);
+    try {
+      const updated = await adminFetch(`/api/admin/messages/${msg._id}/read`, {
+        method: "PATCH",
+        body: JSON.stringify({ read: !msg.read }),
+      });
+      setMessages((prev) => prev.map((m) => (m._id === updated._id ? updated : m)));
+      if (selected?._id === updated._id) setSelected(updated);
+      toast.success(updated.read ? "Marked read" : "Marked unread");
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   const remove = async (id) => {
     if (!window.confirm("Delete this message?")) return;
-    await adminFetch(`/api/admin/messages/${id}`, { method: "DELETE" });
-    setMessages((prev) => prev.filter((m) => m._id !== id));
-    if (selected?._id === id) setSelected(null);
+    try {
+      await adminFetch(`/api/admin/messages/${id}`, { method: "DELETE" });
+      setMessages((prev) => prev.filter((m) => m._id !== id));
+      if (selected?._id === id) setSelected(null);
+      toast.success("Message deleted");
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const sendReply = async (e) => {
+    e.preventDefault();
+    if (!replyBody.trim()) return;
+    setSending(true);
+    try {
+      const updated = await adminFetch(
+        `/api/admin/messages/${selected._id}/reply`,
+        { method: "POST", body: JSON.stringify({ body: replyBody }) }
+      );
+      setMessages((prev) => prev.map((m) => (m._id === updated._id ? updated : m)));
+      setSelected(updated);
+      setReplyBody("");
+      toast.success(`Reply emailed to ${updated.email}`);
+    } catch (err) {
+      toast.error(err.message || "Failed to send reply");
+    } finally {
+      setSending(false);
+    }
   };
 
   if (error) return <div className="admin-error">{error}</div>;
@@ -124,6 +162,35 @@ const AdminMessages = () => {
               {new Date(selected.date).toLocaleString()}
             </p>
             <div className="admin-message-body">{selected.message}</div>
+
+            {selected.replies?.length > 0 && (
+              <div className="admin-reply-history">
+                <strong>Your replies</strong>
+                {selected.replies.map((r, i) => (
+                  <div key={i} className="admin-reply-item">
+                    {r.body}
+                    <span className="admin-muted">
+                      {new Date(r.sentAt).toLocaleString()}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <form className="admin-reply-box" onSubmit={sendReply}>
+              <strong>Reply by email</strong>
+              <textarea
+                rows={4}
+                placeholder={`Write a reply to ${selected.name}…`}
+                value={replyBody}
+                onChange={(e) => setReplyBody(e.target.value)}
+              />
+              <div className="admin-form-actions">
+                <button type="submit" disabled={sending || !replyBody.trim()}>
+                  {sending ? "Sending…" : "Send reply"}
+                </button>
+              </div>
+            </form>
           </div>
         )}
       </div>

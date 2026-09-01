@@ -274,6 +274,83 @@
   text-align: center;
 }
 
+/* Image field */
+.admin-image-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-image-field-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-image-field-row input {
+  flex: 1;
+}
+
+.admin-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  background: #334155;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.admin-image-preview {
+  max-width: 120px;
+  max-height: 120px;
+  object-fit: contain;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 4px;
+}
+
+/* Message replies */
+.admin-reply-box {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-reply-box textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.admin-reply-history {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-reply-item {
+  background: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  white-space: pre-wrap;
+}
+
+.admin-reply-item .admin-muted {
+  display: block;
+  margin-top: 0.25rem;
+}
+
 @media (max-width: 900px) {
   .admin-shell {
     flex-direction: column;

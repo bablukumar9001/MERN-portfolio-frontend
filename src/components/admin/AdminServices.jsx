@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
 
 // Icons available from react-icons/fa (see Services.jsx mapping).
@@ -53,16 +54,19 @@ const AdminServices = () => {
           method: "PUT",
           body: JSON.stringify(payload),
         });
+        toast.success("Service updated");
       } else {
         await adminFetch("/api/admin/services", {
           method: "POST",
           body: JSON.stringify(payload),
         });
+        toast.success("Service added");
       }
       reset();
       load();
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -78,8 +82,13 @@ const AdminServices = () => {
 
   const remove = async (id) => {
     if (!window.confirm("Delete service?")) return;
-    await adminFetch(`/api/admin/services/${id}`, { method: "DELETE" });
-    load();
+    try {
+      await adminFetch(`/api/admin/services/${id}`, { method: "DELETE" });
+      toast.success("Service deleted");
+      load();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (

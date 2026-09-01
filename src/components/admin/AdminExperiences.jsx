@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
+import ImageField from "./ImageField";
 
 const empty = {
   companyName: "",
@@ -53,16 +55,19 @@ const AdminExperiences = () => {
           method: "PUT",
           body: JSON.stringify(payload),
         });
+        toast.success("Experience updated");
       } else {
         await adminFetch("/api/admin/experiences", {
           method: "POST",
           body: JSON.stringify(payload),
         });
+        toast.success("Experience added");
       }
       reset();
       load();
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -83,8 +88,13 @@ const AdminExperiences = () => {
 
   const remove = async (id) => {
     if (!window.confirm("Delete experience?")) return;
-    await adminFetch(`/api/admin/experiences/${id}`, { method: "DELETE" });
-    load();
+    try {
+      await adminFetch(`/api/admin/experiences/${id}`, { method: "DELETE" });
+      toast.success("Experience deleted");
+      load();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -96,7 +106,7 @@ const AdminExperiences = () => {
         <input name="position" placeholder="Position" value={form.position} onChange={onChange} required />
         <input name="duration" placeholder="Duration" value={form.duration} onChange={onChange} required />
         <input name="location" placeholder="Location" value={form.location} onChange={onChange} />
-        <input name="companyLogo" placeholder="Logo path" value={form.companyLogo} onChange={onChange} />
+        <ImageField label="Company logo URL / path" name="companyLogo" value={form.companyLogo} onChange={onChange} />
         <input name="color" placeholder="Color" value={form.color} onChange={onChange} />
         <input name="icon" placeholder="Icon class" value={form.icon} onChange={onChange} />
         <textarea name="achievements" placeholder="Achievements (one per line)" value={form.achievements} onChange={onChange} rows={4} />

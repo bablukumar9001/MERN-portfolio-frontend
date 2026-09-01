@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
 
 const empty = {
@@ -78,8 +79,10 @@ const AdminSiteContent = () => {
         body: JSON.stringify(payload),
       });
       setSaved(true);
+      toast.success("Site content saved");
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 

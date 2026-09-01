@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { adminFetch } from "../../api";
 
 const empty = {
@@ -44,16 +45,19 @@ const AdminEducation = () => {
           method: "PUT",
           body: JSON.stringify(payload),
         });
+        toast.success("Education updated");
       } else {
         await adminFetch("/api/admin/education", {
           method: "POST",
           body: JSON.stringify(payload),
         });
+        toast.success("Education added");
       }
       reset();
       load();
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -72,8 +76,13 @@ const AdminEducation = () => {
 
   const remove = async (id) => {
     if (!window.confirm("Delete education entry?")) return;
-    await adminFetch(`/api/admin/education/${id}`, { method: "DELETE" });
-    load();
+    try {
+      await adminFetch(`/api/admin/education/${id}`, { method: "DELETE" });
+      toast.success("Education deleted");
+      load();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (
