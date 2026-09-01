@@ -266,15 +266,6 @@ h6 {
   border-color: var(--border-color);
 }
 
-.image-decoration {
-  background-color: var(--image-decoration-bg);
-  box-shadow: 0 5px 15px var(--shadow-color);
-}
-
-.profile-image {
-  filter: drop-shadow(0 10px 20px var(--shadow-color));
-}
-
 .about-img {
   border-color: var(--card-bg);
   box-shadow: 0 10px 30px var(--shadow-color);
