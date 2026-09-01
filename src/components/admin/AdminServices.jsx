@@ -12,6 +12,10 @@ const ICON_OPTIONS = [
   "FaNetworkWired",
   "FaServer",
   "FaTools",
+  "FaCubes",
+  "FaEthereum",
+  "FaCreditCard",
+  "FaCloud",
 ];
 
 const empty = {

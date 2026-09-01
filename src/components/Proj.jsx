@@ -3,70 +3,122 @@ import { createPortal } from "react-dom";
 import "./css/proj.css";
 import { apiUrl, imageSrc } from "../api";
 
+const initialsOf = (title = "") =>
+  title
+    .replace(/[–-].*/, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+// Project image, or a gradient placeholder with the project's initials.
+const ProjectThumb = ({ src, title, className, onClick }) => {
+  const [failed, setFailed] = useState(false);
+  if (src && !failed) {
+    return (
+      <img
+        src={imageSrc(src)}
+        alt={title}
+        className={className}
+        onClick={onClick}
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+  return (
+    <div className={`${className} project-thumb-fallback`} onClick={onClick}>
+      <span>{initialsOf(title)}</span>
+    </div>
+  );
+};
+
 const FALLBACK_PROJECTS = [
   {
-    title: "Licious – Online Meat Delivery Platform",
-    description: `A full-featured online meat delivery platform inspired by Licious, 
-  built using Next.js and the MERN ecosystem. The application offers a smooth and 
-  modern shopping experience with category-based browsing, product filtering, 
-  cart & checkout flow, and secure authentication. The platform is fully responsive, 
-  optimized for SEO, and delivers high-performance user interactions using server 
-  components and API routes from Next.js.`,
-    accomplishments: [
-      "Modern homepage with banners, curated meat categories, and featured products",
-      "Implemented secure user authentication & authorization using JWT",
-      "Built product listing pages with category filters (Chicken, Mutton, Fish, Eggs, etc.)",
-      "Developed detailed product pages with weight options, pricing, and nutritional info",
-      "Added robust cart functionality with quantity updates and dynamic pricing",
-      "Created a checkout flow with address input, delivery options, and payment simulation",
-      "Developed an Admin Panel to manage products, categories, and orders",
-      "Built using Next.js App Router, Server Components, API Routes, and optimized rendering",
-      "Responsive and mobile-friendly UI inspired by Licious (Tailwind CSS + Material UI)",
-      "Improved SEO using Next.js metadata, image optimization, and pre-rendering techniques",
-    ],
+    title: "VittaGems – Enterprise Web3 Jewellery Platform",
+    description: `An enterprise Web3-based jewellery platform built on a microservices architecture.
+      Independent Auth, User, Admin, Gateway, KYC and Token services communicate through secure
+      REST APIs with JWT authentication, role-based access control and Swagger documentation.
+      The Next.js frontend integrates payments, media uploads and real-time features, with the
+      whole system containerised and deployed to AWS.`,
     tools:
-      "Next.js, React.js, Node.js, Express.js, MongoDB, Redux Toolkit, Tailwind CSS, Material UI, JWT, REST APIs",
+      "Next.js, React.js, TypeScript, Node.js, Express.js, MongoDB, Microservices, JWT, RBAC, Razorpay, Cloudinary, Multer, Nodemailer, Socket.IO, Cron, Docker, Docker Compose, PM2, Nginx, AWS EC2, Swagger",
+    accomplishments: [
+      "Built full-stack modules for a Web3 jewellery platform with Next.js, TypeScript, Node.js, Express.js and MongoDB",
+      "Designed Auth, User, Admin, Gateway, KYC and Token microservices with secure REST APIs, JWT, RBAC and Swagger",
+      "Integrated Razorpay, Cloudinary, Multer, Nodemailer, Socket.IO and Cron-based background jobs",
+      "Deployed and maintained services using Docker, Docker Compose, PM2, Nginx and AWS EC2",
+    ],
+    liveLink: "",
+    sourceLink: "",
+    src: "",
+  },
+  {
+    title: "Launchly – Multi-Chain Web3 Launchpad",
+    description: `A scalable, multi-chain Web3 launchpad that lets creators launch and manage
+      projects across chains. Built with a microservices backend and a responsive Next.js
+      dashboard covering creator workflows, chat and platform administration, deployed and
+      monitored in production.`,
+    tools:
+      "Next.js, React.js, TypeScript, Node.js, Express.js, MongoDB, Microservices, JWT, RBAC, Socket.IO, Docker, PM2, Nginx, AWS EC2",
+    accomplishments: [
+      "Developed scalable full-stack modules for a multi-chain Web3 launchpad with Next.js, TypeScript, Node.js and MongoDB",
+      "Built secure REST APIs, authentication and RBAC, integrating multiple microservices for platform functionality",
+      "Built responsive dashboards and backend services for creator workflows, chat and platform features",
+      "Managed deployments and production support with Docker, PM2, Nginx and AWS EC2",
+    ],
+    liveLink: "",
+    sourceLink: "",
+    src: "",
+  },
+  {
+    title: "Licious – Online Meat Delivery Platform",
+    description: `A responsive, SEO-friendly online meat delivery experience built with Next.js
+      (SSR/SSG) and React.js. Includes a product catalog with search, cart and order management
+      backed by REST APIs, and a reusable component architecture tuned for performance.`,
+    tools: "Next.js, React.js, Node.js, Express.js, MongoDB, REST APIs, Tailwind CSS",
+    accomplishments: [
+      "Developed responsive and SEO-friendly pages with Next.js (SSR/SSG) and React.js",
+      "Built and integrated REST APIs for product catalog, search, cart and order management",
+      "Improved performance through lazy loading, image optimization and reusable components",
+      "Collaborated with backend teams to deliver scalable, production-ready features",
+    ],
     liveLink: "https://www.licious.in/",
+    sourceLink: "",
     src: "/images/licious.png",
   },
   {
-    title: "ShopKart",
-    description: `ShopKart is a fully functional MERN stack-based e-commerce platform designed to deliver a seamless online shopping experience. 
-      It includes secure authentication, product management, payment integration, and an admin dashboard for efficient store management. 
-      With a modern UI built using Tailwind CSS and Material UI, the platform ensures a smooth and responsive user experience.`,
-    accomplishments: [
-      "User Authentication & Authorization (JWT-based login, signup, and secure access)",
-      "Password Reset with email link for account recovery",
-      "Admin Dashboard for managing products, users, and orders",
-      "Product Listings with advanced filtering and sorting",
-      "Shopping Cart for easy order management",
-      "Secure Payment Integration with Stripe/Razorpay",
-      "Product Reviews & Ratings to enhance customer engagement",
-      "Fully Responsive UI with Tailwind CSS & Material UI",
-      "SEO-Optimized structure for better search visibility",
-    ],
+    title: "ShopKart – E-Commerce Platform (MERN)",
+    description: `A full-stack e-commerce platform with authentication, product management, cart,
+      orders, payments and an admin dashboard. Secure REST APIs with JWT and role-based access
+      control, Redux Toolkit state management, and third-party integrations for payments,
+      uploads and email.`,
     tools:
-      "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB, tailwind css, material ui",
+      "React.js, Redux Toolkit, Material UI, Node.js, Express.js, MongoDB, JWT, RBAC, Razorpay, Cloudinary, Multer, Nodemailer",
+    accomplishments: [
+      "Built a full-stack e-commerce platform with auth, product management, cart, orders, payments and an admin dashboard",
+      "Developed secure REST APIs with Node.js, Express.js, MongoDB, JWT authentication and role-based access control",
+      "Integrated Razorpay, Cloudinary, Multer and Nodemailer for payments, file uploads and email notifications",
+      "Optimized performance with Redux Toolkit, lazy loading, reusable components and responsive UI",
+    ],
     liveLink: "https://shopkart-epla.onrender.com/",
     sourceLink: "https://github.com/bablukumar9001/ShopKart",
     src: "/images/shopkart.png",
   },
   {
     title: "My Portfolio",
-    description: `This MERN stack-based portfolio website serves as a digital resume and professional showcase. 
-      It highlights personal information, skills, education, projects, and experience in an interactive and visually appealing manner. 
-      The platform is designed to be fully responsive, ensuring a seamless user experience across all devices.`,
-    tools: "React, Node.js, Express, MongoDB, JavaScript, HTML, CSS",
+    description: `This MERN portfolio doubles as a live CMS: every section — projects, skills,
+      experience, education, services and site content — is editable from a JWT-protected admin
+      panel, with image uploads and an email-reply inbox for contact messages. Fully responsive
+      with dark/light themes.`,
+    tools: "React, Node.js, Express, MongoDB, JavaScript, JWT, Vite",
     accomplishments: [
-      "About Me Section displaying professional summary, expertise, and contact details",
-      "Projects Showcase with live project links and descriptions",
-      "dark and light theme",
-      "Skills & Tech Stack highlighting frontend, backend, and database expertise",
-      "Education & Experience section detailing academic and professional journey",
-      "Resume Download option for recruiters to access an up-to-date resume",
-      "Contact Form enabling easy communication via email integration",
-      "Responsive Design optimized for desktops, tablets, and mobile devices",
-      "SEO Optimized for better search visibility and reach",
+      "Admin panel with full CRUD for every portfolio section plus a Site Content editor",
+      "Image uploads stored in MongoDB with automatic cleanup of unused images",
+      "Contact form with spam protection; reply to messages by email from the dashboard",
+      "Dark and light theme, resume download, and API-driven content with safe fallbacks",
+      "Responsive design optimized for desktop, tablet and mobile",
     ],
     liveLink: "https://bablukumar.onrender.com/",
     sourceLink: "https://github.com/bablukumar9001/MERN-portfolio-frontend",
@@ -74,17 +126,14 @@ const FALLBACK_PROJECTS = [
   },
   {
     title: "Veavix",
-    description: `Veavix is a professional business website designed to showcase company services, 
-      improve online presence, and enhance user engagement. 
-      Built with the MERN stack, the platform delivers a modern, responsive, and seamless user experience.`,
-    tools: "React, Bootstrap, JavaScript, HTML, CSS ,Node.js, Express, MongoDB ",
+    description: `A responsive IT-services website with dynamic content sections and REST APIs
+      for managing service pages and contact forms, built with the MERN stack and optimised for
+      performance and SEO.`,
+    tools: "React, Bootstrap, JavaScript, Node.js, Express, MongoDB",
     accomplishments: [
-      "Responsive UI/UX: Clean and intuitive interface optimized for all devices.",
-      "Service Showcase: Detailed sections highlighting company services and offerings",
-      "Dynamic Content Management: Easily updateable service and portfolio sections.",
-      "Contact & Inquiry Forms: Secure forms for customer inquiries with backend email integration.",
-      "SEO Optimization: Well-structured meta tags and content for better search visibility.",
-      "Fast Performance: Optimized for speed using caching and efficient API calls.",
+      "Developed a responsive IT-services website with dynamic, updateable content sections",
+      "Built REST APIs for managing service pages and contact forms with email integration",
+      "Optimised performance and SEO with meta tags, React optimisation and clean UI components",
     ],
     liveLink: "https://veavix.onrender.com/",
     sourceLink: "https://github.com/bablukumar9001/Veavix-frontend",
@@ -132,7 +181,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           <div className="modal-layout">
             <div className="modal-left">
               <div className="modal-image-container">
-                <img src={imageSrc(src)} alt={title} className="modal-full-image" />
+                <ProjectThumb src={src} title={title} className="modal-full-image" />
               </div>
               
               <div className="modal-section tools-section">
@@ -164,22 +213,31 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
               </div>
               
               <div className="modal-actions">
-                <a 
-                  href={liveLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="modal-btn live-btn"
-                >
-                  <i className="fas fa-external-link-alt"></i> Live Demo
-                </a>
-                <a 
-                  href={sourceLink} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="modal-btn source-btn"
-                >
-                  <i className="fab fa-github"></i> Source Code
-                </a>
+                {liveLink && (
+                  <a
+                    href={liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="modal-btn live-btn"
+                  >
+                    <i className="fas fa-external-link-alt"></i> Live Demo
+                  </a>
+                )}
+                {sourceLink && (
+                  <a
+                    href={sourceLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="modal-btn source-btn"
+                  >
+                    <i className="fab fa-github"></i> Source Code
+                  </a>
+                )}
+                {!liveLink && !sourceLink && (
+                  <span className="modal-btn source-btn" style={{ opacity: 0.6, cursor: "default" }}>
+                    <i className="fas fa-lock"></i> Private / NDA project
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -211,9 +269,9 @@ const ProjectCard = ({ project, index, isVisible }) => {
     >
       <div className="project-card-container">
         <div className="project-image-container">
-          <img
-            alt={title}
-            src={imageSrc(src)}
+          <ProjectThumb
+            title={title}
+            src={src}
             className="project-image"
             onClick={openModal}
           />
@@ -222,14 +280,16 @@ const ProjectCard = ({ project, index, isVisible }) => {
               <button className="view-details-btn" onClick={openModal}>
                 <i className="fas fa-eye"></i> View Details
               </button>
-              <a 
-                href={liveLink} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="live-demo-btn"
-              >
-                <i className="fas fa-external-link-alt"></i> Live Demo
-              </a>
+              {liveLink && (
+                <a
+                  href={liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="live-demo-btn"
+                >
+                  <i className="fas fa-external-link-alt"></i> Live Demo
+                </a>
+              )}
             </div>
           </div>
         </div>

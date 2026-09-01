@@ -5,38 +5,53 @@ import { useSiteContent } from '../../SiteContentContext';
 
 const FALLBACK_EXPERIENCE = [
   {
+    companyLogo: '',
+    companyName: 'Flexsin Technologies',
+    position: 'Software Engineer',
+    duration: 'Mar 2026 - Jul 2026',
+    location: 'Noida, India',
+    color: '#00b359',
+    icon: 'fas fa-code',
+    achievements: [
+      'Developed enterprise-grade full-stack applications using Next.js, React.js, TypeScript, Node.js, Express.js, MongoDB and a microservices architecture',
+      'Built and maintained Auth, User, Admin, Gateway, KYC and Token services with secure REST APIs, JWT authentication, RBAC and Swagger documentation',
+      'Built a responsive Next.js frontend and integrated Razorpay, Cloudinary, Multer and Nodemailer, with Socket.IO for real-time features',
+      'Automated background tasks with Cron jobs, optimised MongoDB queries and resolved production issues to improve performance',
+      'Deployed and maintained applications with Docker, Docker Compose, PM2, Nginx and AWS EC2, working in an Agile team',
+    ],
+  },
+  {
     companyLogo: '/images/brancosoft.png',
     companyName: 'Brancosoft Pvt. Ltd.',
-    position: 'Full Stack Developer',
-    duration: 'Sep 2023 - Present',
+    position: 'MERN Stack Developer',
+    duration: 'Sep 2023 - Sep 2025',
     location: 'Noida, India',
     color: '#ff014f',
     icon: 'fas fa-briefcase',
     achievements: [
-      "Experienced in building high-performance, SEO-friendly applications using Next.js with SSR, SSG, Server Actions, and the App Router.",
-      "Developed high-performance backend systems using Node.js and Express, delivering secure and scalable RESTful APIs.",
-      "Improved integration with third-party services to create smoother and more seamless user experiences.",
-      "Built scalable server-side solutions to enhance performance, reliability, and application efficiency.",
-      "Contributed to front-end development using React.js by implementing reusable components and improving overall UI/UX.",
-      "Converted design mockups into responsive, interactive, and visually appealing interfaces using modern frontend technologies."
-    ]
+      'Developed scalable MERN stack and Next.js applications focused on performance, maintainability and responsive UX',
+      'Built and integrated secure REST APIs with Node.js, Express.js and MongoDB, with JWT authentication and role-based access control',
+      'Developed SEO-friendly applications with Next.js (SSR/SSG) and optimised frontend performance via lazy loading and code splitting',
+      'Improved database performance with MongoDB indexing, aggregation pipelines and query optimisation',
+      'Collaborated in an Agile team on feature development, code reviews, bug fixing and production releases',
+    ],
   },
   {
     companyLogo: '/images/drpu.jpg',
     companyName: 'DRPU Software Pvt. Ltd.',
     position: 'Frontend Developer',
-    duration: 'March 2023 - Aug 2023',
+    duration: 'Mar 2023 - Aug 2023',
     location: 'Noida, India',
     color: '#4d79ff',
     icon: 'fas fa-laptop-code',
     achievements: [
-      'Developed responsive web interfaces with HTML, CSS, and JavaScript',
-      'Enhanced user experience across devices with mobile-first approach',
-      'Collaborated with design teams to implement visually appealing layouts',
-      'Applied HTML for structure, CSS for styling, and JavaScript for interactivity',
-      'Employed front-end best practices, ensuring optimized code for consistent design'
-    ]
-  }
+      'Developed responsive, cross-browser interfaces with HTML5, CSS3, JavaScript, React.js and Bootstrap',
+      'Built reusable UI components and integrated REST APIs for dynamic, interactive web applications',
+      'Improved performance with lazy loading, code splitting and frontend optimisation, significantly raising Lighthouse scores',
+      'Contributed to Next.js projects implementing SSR/SSG and SEO best practices',
+      'Worked closely with designers and backend developers to ship pixel-perfect UIs within Agile cycles',
+    ],
+  },
 ];
 
 const Experience = () => {
@@ -102,7 +117,11 @@ const Experience = () => {
 
               <div className="experience-card">
                 <div className="company-badge" style={{ backgroundColor: item.color }}>
-                  <img src={imageSrc(item.companyLogo)} alt={item.companyName} className="company-logo" />
+                  {item.companyLogo ? (
+                    <img src={imageSrc(item.companyLogo)} alt={item.companyName} className="company-logo" />
+                  ) : (
+                    <i className={item.icon || 'fas fa-briefcase'} style={{ color: '#fff', fontSize: '1.4rem' }}></i>
+                  )}
                 </div>
 
                 <div className="experience-header">

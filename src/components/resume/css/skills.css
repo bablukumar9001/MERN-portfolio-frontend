@@ -347,13 +347,36 @@
   background: linear-gradient(45deg, rgba(255, 1, 79, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
 }
 
-.skill-icon {
+.skill-icon,
+.skill-icon-container img {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
   transition: all 0.4s ease;
   transform: scale(1);
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Lettered chip shown when a skill has no logo image */
+.skill-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  height: 70%;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-color), #ff5c8a);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  z-index: 2;
+  position: relative;
+}
+
+.skill-icon-large .skill-initials {
+  font-size: 1.6rem;
+  border-radius: 16px;
 }
 
 .skill-card:hover .skill-icon-container {

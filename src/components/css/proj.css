@@ -399,6 +399,22 @@ a.hoverline {
   transform: scale(1.08);
 }
 
+/* Fallback shown when a project has no image */
+.project-thumb-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff014f 0%, #7b2ff7 100%);
+  cursor: pointer;
+}
+
+.project-thumb-fallback span {
+  font-size: 64px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.92);
+  letter-spacing: 2px;
+}
+
 /* Project Overlay */
 .project-overlay {
   position: absolute;

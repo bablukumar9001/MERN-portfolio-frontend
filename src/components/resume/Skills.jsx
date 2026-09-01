@@ -2,67 +2,100 @@ import React, { useState, useEffect, useRef } from 'react';
 import "./css/skills.css";
 import { apiUrl, imageSrc } from "../../api";
 
-const DEFAULT_ALL_SKILLS = [
-  { name: "Next.js", image: "/images/nextjs.png" },
-  { name: "React Js", image: "/images/react.png" },
-  { name: "Redux", image: "/images/redux.png" },
-  { name: "MongoDB", image: "/images/mongodb.png" },
-  { name: "Express", image: "/images/express.png" },
-  { name: "Node Js", image: "/images/node.png" },
-  { name: "typescript", image: "/images/typescript.png" },
-  { name: "Javascript", image: "/images/javascript.png" },
-  { name: "HTML5", image: "/images/html5-300x300.jpg" },
-  { name: "CSS3", image: "/images/css3-300x300.jpg" },
-  { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
-  { name: "PHP", image: "/images/php.png" },
-  { name: "Laravel", image: "/images/laravel.png" },
-  { name: "Bootstrap", image: "/images/bootstrap.png" },
-  { name: "Tailwind", image: "/images/tailwind.png" },
-  { name: "Git", image: "/images/git.png" },
-  { name: "Postman", image: "/images/postman.png" },
-  { name: "API's", image: "/images/api.png" },
-  { name: "Material UI", image: "/images/materialui.png" },
-  { name: "docker", image: "/images/docker.png" },
-  { name: "aws", image: "/images/aws.png" },
+const CATEGORY_TITLES = [
+  "Languages",
+  "Frontend",
+  "Backend",
+  "Databases",
+  "DevOps & Cloud",
+  "Integrations & Tools",
 ];
 
 const DEFAULT_CATEGORIES = [
   {
-    title: "Languages and Databases",
+    title: "Languages",
     skills: [
-      { name: "Javascript", image: "/images/javascript.png" },
-      { name: "Typescript", image: "/images/typescript.png" },
+      { name: "JavaScript (ES6+)", image: "/images/javascript.png" },
+      { name: "TypeScript", image: "/images/typescript.png" },
       { name: "PHP", image: "/images/php.png" },
       { name: "HTML5", image: "/images/html5-300x300.jpg" },
-      { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
-      { name: "MongoDB", image: "/images/mongodb.png" },
-    ]
-  },
-  {
-    title: "Libraries and Frameworks",
-    skills: [
-      { name: "React Js", image: "/images/react.png" },
-      { name: "Next Js", image: "/images/nextjs.png" },
-      { name: "Express Js", image: "/images/express.png" },
-      { name: "Node Js", image: "/images/node.png" },
-      { name: "Laravel", image: "/images/laravel.png" },
       { name: "CSS3", image: "/images/css3-300x300.jpg" },
-      { name: "Bootstrap", image: "/images/bootstrap.png" },
-      { name: "Tailwind", image: "/images/tailwind.png" },
-      { name: "Material UI", image: "/images/materialui.png" },
-    ]
+    ],
   },
   {
-    title: "Tools & Technologies",
+    title: "Frontend",
     skills: [
+      { name: "React.js", image: "/images/react.png" },
+      { name: "Next.js", image: "/images/nextjs.png" },
+      { name: "Redux Toolkit", image: "/images/redux.png" },
+      { name: "React Query", image: "" },
+      { name: "Tailwind CSS", image: "/images/tailwind.png" },
+      { name: "Material UI", image: "/images/materialui.png" },
+      { name: "Bootstrap", image: "/images/bootstrap.png" },
+    ],
+  },
+  {
+    title: "Backend",
+    skills: [
+      { name: "Node.js", image: "/images/node.png" },
+      { name: "Express.js", image: "/images/express.png" },
+      { name: "REST APIs", image: "/images/api.png" },
+      { name: "JWT", image: "" },
+      { name: "OAuth", image: "" },
+      { name: "Socket.IO", image: "" },
+      { name: "Microservices", image: "" },
+      { name: "Laravel", image: "/images/laravel.png" },
+    ],
+  },
+  {
+    title: "Databases",
+    skills: [
+      { name: "MongoDB", image: "/images/mongodb.png" },
+      { name: "Mongoose", image: "" },
+      { name: "MySQL", image: "/images/mysql-logo-1-300x300.jpg" },
+      { name: "Redis", image: "" },
+    ],
+  },
+  {
+    title: "DevOps & Cloud",
+    skills: [
+      { name: "Docker", image: "/images/docker.png" },
+      { name: "Docker Compose", image: "" },
+      { name: "AWS (EC2, S3)", image: "/images/aws.png" },
+      { name: "CI/CD", image: "" },
+      { name: "GitHub Actions", image: "" },
+      { name: "PM2", image: "" },
+      { name: "Nginx", image: "" },
+    ],
+  },
+  {
+    title: "Integrations & Tools",
+    skills: [
+      { name: "Razorpay", image: "" },
+      { name: "Cloudinary", image: "" },
+      { name: "Nodemailer", image: "" },
+      { name: "Swagger", image: "" },
       { name: "Git", image: "/images/git.png" },
       { name: "Postman", image: "/images/postman.png" },
-      { name: "API's", image: "/images/api.png" },
-      { name: "aws", image: "/images/aws.png" },
-      { name: "docker", image: "/images/docker.png" },
-    ]
-  }
+      { name: "Jest", image: "" },
+      { name: "Azure DevOps", image: "" },
+    ],
+  },
 ];
+
+const DEFAULT_ALL_SKILLS = DEFAULT_CATEGORIES.flatMap((c) => c.skills);
+
+// Renders the skill logo, or a lettered chip when there is no image.
+const SkillLogo = ({ image, name }) => {
+  const [failed, setFailed] = useState(false);
+  if (image && !failed) {
+    return (
+      <img src={imageSrc(image)} alt={name} onError={() => setFailed(true)} />
+    );
+  }
+  const initials = name.replace(/[^a-zA-Z0-9]/g, "").slice(0, 2).toUpperCase();
+  return <span className="skill-initials">{initials}</span>;
+};
 
 const Skills = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -79,13 +112,8 @@ const Skills = () => {
       .then((data) => {
         if (!Array.isArray(data) || data.length === 0) return;
         setAllSkills(data.map((s) => ({ name: s.name, image: s.image })));
-        const titles = [
-          "Languages and Databases",
-          "Libraries and Frameworks",
-          "Tools & Technologies",
-        ];
         setSkillCategories(
-          titles.map((title) => ({
+          CATEGORY_TITLES.map((title) => ({
             title,
             skills: data
               .filter((s) => s.category === title)
@@ -200,7 +228,7 @@ const Skills = () => {
                   style={{ minWidth: `calc(100% / ${visibleSlides})` }}
                 >
                   <div className="skill-icon-large">
-                    <img src={imageSrc(skill.image)} alt={skill.name} />
+                    <SkillLogo image={skill.image} name={skill.name} />
                   </div>
                   <h4 className="skill-name-large">{skill.name}</h4>
                 </div>
@@ -250,7 +278,7 @@ const Skills = () => {
                     style={{ animationDelay: `${(categoryIndex * 0.1) + (skillIndex * 0.1)}s` }}
                   >
                     <div className="skill-icon-container">
-                      <img src={imageSrc(skill.image)} alt={skill.name} className="skill-icon" />
+                      <SkillLogo image={skill.image} name={skill.name} />
                     </div>
                     <h4 className="skill-name">{skill.name}</h4>
                   </div>

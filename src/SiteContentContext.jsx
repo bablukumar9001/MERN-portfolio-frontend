@@ -8,21 +8,21 @@ export const DEFAULT_SITE_CONTENT = {
     "https://drive.google.com/file/d/15aOdmnAreAGIj3IoGbr2knPda-UNOxM-/view?usp=sharing",
   heroGreeting: "WELCOME TO MY WORLD",
   heroName: "Bablu kumar",
-  heroLocation: "based in India",
+  heroLocation: "based in Ghaziabad, India",
   heroRoles: [
-    "Web Developer",
-    "React Developer",
+    "Software Engineer",
     "Full Stack Developer",
     "MERN Developer",
+    "Next.js Developer",
   ],
   aboutBio:
-    "I'm Bablu Kumar, a dedicated MERN stack developer from India. I specialize in merging logic with creativity to deliver intuitive, accessible, and visually appealing web experiences. My work ranges from small business websites to sophisticated, feature-rich web applications. I'm eager to bring my skills to a dynamic team where I can continue to grow and make an impact.",
-  aboutYears: "2+",
+    "I'm Bablu Kumar, a Full Stack Developer with 3+ years of experience building scalable web applications with Next.js, React.js, TypeScript, Node.js, Express.js and MongoDB. I design RESTful APIs and microservices-based architectures, and work across authentication, payment integration, real-time communication, cloud deployments and performance optimization. I'm skilled with Docker, AWS EC2, PM2, Nginx, Swagger and CI/CD, with hands-on experience delivering enterprise production applications.",
+  aboutYears: "3+",
   contactEmail: "bablukumar09001@gmail.com",
   contactPhone: "+91 8920549001",
-  contactLocation: "Noida, UP, India",
+  contactLocation: "Lal Kuan, Ghaziabad, Uttar Pradesh, India",
   footerText:
-    "I'm a passionate full-stack developer specializing in creating modern, responsive web applications using the MERN stack and other cutting-edge technologies.",
+    "Full stack developer building scalable, production-grade web applications with Next.js, the MERN stack and microservices architecture.",
   social: {
     instagram: "https://www.instagram.com/abhay__9001/",
     facebook: "https://www.facebook.com/abhay559722/",

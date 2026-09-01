@@ -4,9 +4,12 @@ import { adminFetch } from "../../api";
 import ImageField from "./ImageField";
 
 const CATEGORIES = [
-  "Languages and Databases",
-  "Libraries and Frameworks",
-  "Tools & Technologies",
+  "Languages",
+  "Frontend",
+  "Backend",
+  "Databases",
+  "DevOps & Cloud",
+  "Integrations & Tools",
 ];
 
 const empty = {

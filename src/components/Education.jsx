@@ -4,26 +4,26 @@ import { apiUrl } from "../api";
 
 const FALLBACK_EDUCATION = [
   {
-    degree: 'Masters in Computer and Application (MCA)',
-    institution: 'AKTU University',
+    degree: 'Master of Computer Applications (MCA)',
+    institution: 'Dr. A.P.J. Abdul Kalam Technical University (AKTU)',
     year: '2021 - 2023',
-    description: 'Focused on software development, web technologies, and database management. Developed multiple projects using React.js and Node.js.',
+    description: 'Focused on software development, web technologies and database management. Built multiple projects using React.js and Node.js.',
     icon: 'fas fa-graduation-cap',
     color: '#ff014f'
   },
   {
-    degree: 'Bachelor in Computer and Application (BCA)',
-    institution: 'ABC Technical Institute',
+    degree: 'Bachelor of Computer Applications (BCA)',
+    institution: 'Chaudhary Charan Singh University (CCSU)',
     year: '2018 - 2021',
-    description: 'Specialized in web development using MERN stack and PHP Laravel. Completed various projects including personal portfolio websites and e-commerce platforms.',
+    description: 'Specialised in web development with the MERN stack and PHP Laravel. Completed projects including portfolio websites and e-commerce platforms.',
     icon: 'fas fa-university',
     color: '#4d79ff'
   },
   {
     degree: 'Intermediate (12th)',
-    institution: 'SBN public school (CBSE)',
+    institution: 'SBN Public School (CBSE)',
     year: '2016 - 2018',
-    description: 'Completed higher secondary education with focus on computer science and mathematics.',
+    description: 'Completed higher secondary education with a focus on computer science and mathematics.',
     icon: 'fas fa-school',
     color: '#00b359'
   },

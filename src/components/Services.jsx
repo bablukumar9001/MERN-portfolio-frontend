@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './css/services.css'; // Import styles for the Services section
-import { FaCode, FaMobileAlt, FaDatabase, FaReact, FaLaptopCode, FaNetworkWired, FaServer, FaTools } from 'react-icons/fa'; // Import icons for visual appeal
+import {
+  FaCode, FaMobileAlt, FaDatabase, FaReact, FaLaptopCode, FaNetworkWired,
+  FaServer, FaTools, FaCubes, FaEthereum, FaCreditCard, FaCloud,
+} from 'react-icons/fa'; // Import icons for visual appeal
 import { apiUrl } from "../api";
 
 // Map the icon name stored in the DB to a react-icons component.
@@ -13,6 +16,10 @@ const ICON_MAP = {
   FaNetworkWired: <FaNetworkWired />,
   FaServer: <FaServer />,
   FaTools: <FaTools />,
+  FaCubes: <FaCubes />,
+  FaEthereum: <FaEthereum />,
+  FaCreditCard: <FaCreditCard />,
+  FaCloud: <FaCloud />,
 };
 const renderIcon = (icon) => {
   if (icon && ICON_MAP[icon]) return ICON_MAP[icon];
@@ -23,32 +30,42 @@ const FALLBACK_SERVICES = [
   {
     icon: 'FaCode',
     title: 'Full-Stack Web Development',
-    description: 'Building scalable web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js). Expertise in both front-end and back-end development for seamless user experiences.',
+    description: 'Building scalable web applications with the MERN stack and Next.js (SSR/SSG/ISR). End-to-end delivery from database design to a polished, responsive UI.',
+  },
+  {
+    icon: 'FaCubes',
+    title: 'Microservices Architecture',
+    description: 'Designing and building service-based backends — Auth, Gateway, KYC and domain services — with secure REST APIs, JWT/RBAC and Swagger documentation.',
+  },
+  {
+    icon: 'FaEthereum',
+    title: 'Web3 Application Development',
+    description: 'Full-stack Web3 platforms and launchpads: wallet flows, multi-chain support, token and KYC services, and responsive Next.js dashboards.',
   },
   {
     icon: 'FaReact',
     title: 'Frontend Development',
-    description: 'Creating responsive and dynamic user interfaces with React.js. Specializing in modern UI/UX design principles for engaging and accessible web applications.',
+    description: 'Responsive, dynamic interfaces with React.js and Next.js, Redux Toolkit / React Query state management and modern, accessible UI/UX.',
   },
   {
     icon: 'FaDatabase',
-    title: 'Backend Development',
-    description: 'Developing robust server-side applications using Node.js and Express.js. Experience with RESTful APIs, database integration, and authentication systems.',
+    title: 'Backend & API Development',
+    description: 'Robust Node.js/Express services, RESTful APIs, authentication (JWT/OAuth), MongoDB aggregation pipelines and query optimisation.',
+  },
+  {
+    icon: 'FaCreditCard',
+    title: 'Payment & Third-Party Integration',
+    description: 'Razorpay payments, Cloudinary media, Nodemailer email, Socket.IO real-time and Cron background jobs, wired cleanly into your app.',
+  },
+  {
+    icon: 'FaCloud',
+    title: 'DevOps & Cloud Deployment',
+    description: 'Containerising and shipping apps with Docker, Docker Compose, PM2, Nginx and AWS EC2, with CI/CD via GitHub Actions.',
   },
   {
     icon: 'FaMobileAlt',
-    title: 'Responsive Design',
-    description: 'Designing websites that are mobile-friendly and responsive. Ensuring that web applications perform flawlessly across all devices, from desktops to smartphones.',
-  },
-  {
-    icon: 'FaLaptopCode',
-    title: 'Custom Web Application Development',
-    description: 'Designing and developing tailored web applications using both MERN and PHP Laravel. Providing solutions that meet specific business needs with scalability and performance in mind.',
-  },
-  {
-    icon: 'FaNetworkWired',
-    title: 'API Development & Integration',
-    description: 'Building and integrating RESTful APIs using Node.js/Express.js and PHP Laravel for seamless communication between client and server. Expertise in third-party API integration for enhanced functionality.',
+    title: 'Responsive Design & Performance',
+    description: 'Mobile-first, cross-browser UIs tuned with lazy loading, code splitting, caching and image optimisation for strong Lighthouse scores.',
   },
 ];
 
