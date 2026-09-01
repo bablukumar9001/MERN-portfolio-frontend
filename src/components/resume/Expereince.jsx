@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/expereince.css';
-import { apiUrl } from '../../api';
+import { apiUrl, imageSrc } from '../../api';
 import { useSiteContent } from '../../SiteContentContext';
 
 const FALLBACK_EXPERIENCE = [
@@ -102,7 +102,7 @@ const Experience = () => {
 
               <div className="experience-card">
                 <div className="company-badge" style={{ backgroundColor: item.color }}>
-                  <img src={item.companyLogo} alt={item.companyName} className="company-logo" />
+                  <img src={imageSrc(item.companyLogo)} alt={item.companyName} className="company-logo" />
                 </div>
 
                 <div className="experience-header">

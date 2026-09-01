@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import "./css/skills.css";
-import { apiUrl } from "../../api";
+import { apiUrl, imageSrc } from "../../api";
 
 const DEFAULT_ALL_SKILLS = [
   { name: "Next.js", image: "/images/nextjs.png" },
@@ -200,7 +200,7 @@ const Skills = () => {
                   style={{ minWidth: `calc(100% / ${visibleSlides})` }}
                 >
                   <div className="skill-icon-large">
-                    <img src={skill.image} alt={skill.name} />
+                    <img src={imageSrc(skill.image)} alt={skill.name} />
                   </div>
                   <h4 className="skill-name-large">{skill.name}</h4>
                 </div>
@@ -250,7 +250,7 @@ const Skills = () => {
                     style={{ animationDelay: `${(categoryIndex * 0.1) + (skillIndex * 0.1)}s` }}
                   >
                     <div className="skill-icon-container">
-                      <img src={skill.image} alt={skill.name} className="skill-icon" />
+                      <img src={imageSrc(skill.image)} alt={skill.name} className="skill-icon" />
                     </div>
                     <h4 className="skill-name">{skill.name}</h4>
                   </div>

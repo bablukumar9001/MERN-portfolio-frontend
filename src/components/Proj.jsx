@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./css/proj.css";
-import { apiUrl } from "../api";
+import { apiUrl, imageSrc } from "../api";
 
 const FALLBACK_PROJECTS = [
   {
@@ -132,7 +132,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
           <div className="modal-layout">
             <div className="modal-left">
               <div className="modal-image-container">
-                <img src={src} alt={title} className="modal-full-image" />
+                <img src={imageSrc(src)} alt={title} className="modal-full-image" />
               </div>
               
               <div className="modal-section tools-section">
@@ -213,7 +213,7 @@ const ProjectCard = ({ project, index, isVisible }) => {
         <div className="project-image-container">
           <img
             alt={title}
-            src={src}
+            src={imageSrc(src)}
             className="project-image"
             onClick={openModal}
           />
