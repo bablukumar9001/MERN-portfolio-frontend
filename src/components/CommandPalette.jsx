@@ -3,12 +3,13 @@ import { scroller } from "react-scroll";
 import "./css/command-palette.css";
 import { useTheme } from "../ThemeContext";
 import { useSiteContent } from "../SiteContentContext";
+import { resumeHref, isUploadedResume, track } from "../api";
 
 const SECTIONS = [
   { id: "home11", label: "Home", offset: -100 },
   { id: "about11", label: "About", offset: -100 },
-  { id: "skills11", label: "Skills", offset: -100 },
   { id: "Experience", label: "Experience", offset: -100 },
+  { id: "skills11", label: "Skills", offset: -100 },
   { id: "Education", label: "Education", offset: -100 },
   { id: "service11", label: "Services", offset: -60 },
   { id: "project11", label: "Projects", offset: -85 },
@@ -32,11 +33,29 @@ const CommandPalette = () => {
     const links = [
       { label: "Open GitHub", hint: "Link", url: site.social.github },
       { label: "Open LinkedIn", hint: "Link", url: site.social.linkedin },
-      { label: "Download CV / Resume", hint: "Link", url: site.resumeUrl },
       { label: `Email ${site.contactEmail}`, hint: "Link", url: `mailto:${site.contactEmail}` },
     ]
       .filter((l) => l.url)
       .map((l) => ({ ...l, run: () => window.open(l.url, "_blank", "noopener") }));
+
+    if (site.resumeUrl) {
+      links.push({
+        label: "Download CV / Resume",
+        hint: "Download",
+        run: () => {
+          track("cv_download");
+          if (isUploadedResume(site.resumeUrl)) {
+            const a = document.createElement("a");
+            a.href = resumeHref(site.resumeUrl);
+            a.download = "Resume.pdf";
+            a.click();
+          } else {
+            window.open(resumeHref(site.resumeUrl), "_blank", "noopener");
+          }
+        },
+      });
+    }
+
     const actions = [
       {
         label: `Switch to ${theme === "light" ? "dark" : "light"} mode`,

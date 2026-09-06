@@ -10,9 +10,17 @@ import Expereince from "./resume/Expereince";
 import Proj from "./Proj";
 import Education from "./Education";
 import Certifications from "./Certifications";
+import Testimonials from "./Testimonials";
+import NowStrip from "./NowStrip";
+import ImpactMetrics from "./ImpactMetrics";
+import TechMarquee from "./TechMarquee";
+import WorkProcess from "./WorkProcess";
+import FeaturedProject from "./FeaturedProject";
+import CompanyStrip from "./CompanyStrip";
 import GithubStats from "./GithubStats";
 import ScrollProgress from "./ScrollProgress";
 import CommandPalette from "./CommandPalette";
+import JsonLd from "./JsonLd";
 import { track } from "../api";
 
 const Portfolio = () => {
@@ -22,17 +30,25 @@ const Portfolio = () => {
 
   return (
     <>
+      <JsonLd />
       <ScrollProgress />
       <CommandPalette />
       <Navbar />
       <Home />
       <About />
-      <Skills />
+      <ImpactMetrics />
+      <NowStrip />
       <Expereince />
+      <CompanyStrip />
+      <Skills />
+      <TechMarquee />
+      <FeaturedProject />
+      <Proj />
+      <Testimonials />
       <Education />
       <Certifications />
       <Services />
-      <Proj />
+      <WorkProcess />
       <GithubStats />
       <Contact />
       <Footer />

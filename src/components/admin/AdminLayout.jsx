@@ -46,6 +46,7 @@ const AdminLayout = () => {
           <NavLink to="/admin/skills">Skills</NavLink>
           <NavLink to="/admin/education">Education</NavLink>
           <NavLink to="/admin/certifications">Certifications</NavLink>
+          <NavLink to="/admin/testimonials">Testimonials</NavLink>
           <NavLink to="/admin/services">Services</NavLink>
           <NavLink to="/admin/site-content">Site Content</NavLink>
           <NavLink to="/admin/account">Account</NavLink>

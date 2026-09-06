@@ -13,6 +13,11 @@ const empty = {
   liveLink: "",
   sourceLink: "",
   src: "",
+  problem: "",
+  solution: "",
+  metrics: "",
+  myRole: "",
+  featured: false,
   order: 0,
 };
 
@@ -32,8 +37,13 @@ const AdminProjects = () => {
     load();
   }, []);
 
-  const onChange = (e) =>
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  const onChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm((f) => ({
+      ...f,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
   const reset = () => {
     setForm(empty);
@@ -88,6 +98,11 @@ const AdminProjects = () => {
       liveLink: item.liveLink || "",
       sourceLink: item.sourceLink || "",
       src: item.src || "",
+      problem: item.problem || "",
+      solution: item.solution || "",
+      metrics: item.metrics || "",
+      myRole: item.myRole || "",
+      featured: Boolean(item.featured),
       order: item.order || 0,
     });
   };
@@ -112,6 +127,15 @@ const AdminProjects = () => {
         <textarea name="description" placeholder="Description" value={form.description} onChange={onChange} required rows={3} />
         <input name="tools" placeholder="Tools (comma separated)" value={form.tools} onChange={onChange} />
         <textarea name="accomplishments" placeholder="Features (one per line)" value={form.accomplishments} onChange={onChange} rows={4} />
+        <h3 className="admin-section-title" style={{ fontSize: "0.95rem" }}>Case study (optional)</h3>
+        <input name="myRole" placeholder="My role on this project" value={form.myRole} onChange={onChange} />
+        <textarea name="problem" placeholder="The problem" value={form.problem} onChange={onChange} rows={2} />
+        <textarea name="solution" placeholder="The solution" value={form.solution} onChange={onChange} rows={2} />
+        <input name="metrics" placeholder="Impact & results (e.g. 40% faster load time)" value={form.metrics} onChange={onChange} />
+        <label style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "8px" }}>
+          <input type="checkbox" name="featured" checked={form.featured} onChange={onChange} />
+          Featured spotlight project
+        </label>
         <input name="tags" placeholder="Tags (comma separated — e.g. Web3, Full-Stack)" value={form.tags} onChange={onChange} />
         <input name="liveLink" placeholder="Live link" value={form.liveLink} onChange={onChange} />
         <input name="sourceLink" placeholder="Source link" value={form.sourceLink} onChange={onChange} />

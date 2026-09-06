@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./css/github.css";
 import { useSiteContent } from "../SiteContentContext";
+import { GithubStatsSkeleton } from "./SectionSkeletons";
 
 const CACHE_KEY = "gh-stats-cache-v1";
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
@@ -91,23 +92,24 @@ const GithubStats = () => {
           <div className="title-bar"></div>
         </div>
 
-        <div className={`gh-card ${data ? "loaded" : "loading"}`}>
+        {data ? (
+        <div className="gh-card loaded">
           <div className="gh-stats">
             <div className="gh-stat">
-              <strong>{data ? data.publicRepos : "—"}</strong>
+              <strong>{data.publicRepos}</strong>
               <span>Public repos</span>
             </div>
             <div className="gh-stat">
-              <strong>{data ? data.stars : "—"}</strong>
+              <strong>{data.stars}</strong>
               <span>Total stars</span>
             </div>
             <div className="gh-stat">
-              <strong>{data ? data.followers : "—"}</strong>
+              <strong>{data.followers}</strong>
               <span>Followers</span>
             </div>
           </div>
 
-          {data && data.topLangs.length > 0 && (
+          {data.topLangs.length > 0 && (
             <div className="gh-langs">
               <span className="gh-langs-label">Most used</span>
               <div className="gh-lang-chips">
@@ -129,6 +131,9 @@ const GithubStats = () => {
             <i className="fab fa-github"></i> @{username}
           </a>
         </div>
+        ) : (
+          <GithubStatsSkeleton />
+        )}
 
         <img
           className="gh-graph"

@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./css/certifications.css";
 import { apiUrl, imageSrc } from "../api";
+import { CertificationsGridSkeleton } from "./SectionSkeletons";
 
 const Certifications = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetch(apiUrl("/api/certifications"))
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
-        if (Array.isArray(data)) setItems(data);
+        setItems(Array.isArray(data) ? data : []);
       })
-      .catch(() => {});
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
+    if (loading) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -29,10 +33,9 @@ const Certifications = () => {
     return () => {
       if (section) observer.unobserve(section);
     };
-  }, [items.length]);
+  }, [loading, items?.length]);
 
-  // Nothing to show — don't render an empty section.
-  if (items.length === 0) return null;
+  if (!loading && items.length === 0) return null;
 
   return (
     <section
@@ -46,6 +49,9 @@ const Certifications = () => {
           <div className="title-bar"></div>
         </div>
 
+        {loading ? (
+          <CertificationsGridSkeleton />
+        ) : (
         <div className="certs-grid">
           {items.map((c, i) => {
             const Wrapper = c.credentialUrl ? "a" : "div";
@@ -83,6 +89,7 @@ const Certifications = () => {
             );
           })}
         </div>
+        )}
       </div>
     </section>
   );

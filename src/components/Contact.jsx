@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./css/contact.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiUrl } from "../api";
 import { useSiteContent } from "../SiteContentContext";
+import { useSectionReveal } from "../hooks/useSectionReveal";
+import { ContactAsideSkeleton } from "./SectionSkeletons";
 
 const REASONS = [
   "Job opportunity",
@@ -14,7 +16,7 @@ const REASONS = [
 
 const Contact = () => {
   const site = useSiteContent();
-  const [isVisible, setIsVisible] = useState(false);
+  const isVisible = useSectionReveal("contact11");
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -24,22 +26,6 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setIsVisible(true);
-        });
-      },
-      { threshold: 0.1 }
-    );
-    const section = document.querySelector("#contact11");
-    if (section) observer.observe(section);
-    return () => {
-      if (section) observer.unobserve(section);
-    };
-  }, []);
 
   const validateForm = () => {
     const errors = {};
@@ -119,7 +105,16 @@ const Contact = () => {
 
         <div className="contact-grid">
           {/* ---- Left: details ---- */}
-          <aside className="contact-aside contact-reveal">
+          {site.isLoading ? (
+            <ContactAsideSkeleton />
+          ) : (
+          <aside className="contact-aside contact-reveal contact-reveal--aside">
+            <div className="contact-availability">
+              {site.availabilityOpen !== false && (
+                <span className="contact-availability-dot" aria-hidden="true" />
+              )}
+              {site.availabilityText || "Open to opportunities"}
+            </div>
             <h3>Let's talk</h3>
             <ul className="contact-info-list">
               {infoItems.map((it) => (
@@ -147,9 +142,10 @@ const Contact = () => {
               ))}
             </div>
           </aside>
+          )}
 
           {/* ---- Right: form ---- */}
-          <div className="contact-form-card contact-reveal">
+          <div className="contact-form-card contact-reveal contact-reveal--form">
             <form onSubmit={PostData} noValidate>
               <div className="contact-field-row">
                 <div className="contact-field">

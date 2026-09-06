@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import "./css/proj.css";
 import { apiUrl, imageSrc } from "../api";
+import { ProjectsGridSkeleton } from "./SectionSkeletons";
 
 const initialsOf = (title = "") =>
   title
@@ -14,7 +15,7 @@ const initialsOf = (title = "") =>
     .toUpperCase();
 
 // Project image, or a gradient placeholder with the project's initials.
-const ProjectThumb = ({ src, title, className, onClick }) => {
+export const ProjectThumb = ({ src, title, className, onClick }) => {
   const [failed, setFailed] = useState(false);
   if (src && !failed) {
     return (
@@ -34,7 +35,7 @@ const ProjectThumb = ({ src, title, className, onClick }) => {
   );
 };
 
-const FALLBACK_PROJECTS = [
+export const FALLBACK_PROJECTS = [
   {
     title: "VittaGems – Enterprise Web3 Jewellery Platform",
     description: `An enterprise Web3-based jewellery platform built on a microservices architecture.
@@ -53,6 +54,14 @@ const FALLBACK_PROJECTS = [
     liveLink: "",
     sourceLink: "",
     src: "",
+    problem:
+      "Enterprise jewellery brands needed a secure Web3 platform with KYC, payments and real-time inventory — without compromising compliance or UX.",
+    solution:
+      "Microservices architecture with dedicated Auth, KYC, Gateway and Token services; Next.js dashboard with Razorpay, Cloudinary and Socket.IO for live updates.",
+    metrics:
+      "6 microservices deployed on AWS · JWT + RBAC across all APIs · Production-ready Docker/PM2/Nginx stack",
+    myRole: "Full Stack Developer — frontend modules, API integration, deployment & production support",
+    featured: true,
   },
   {
     title: "Launchly – Multi-Chain Web3 Launchpad",
@@ -69,6 +78,78 @@ const FALLBACK_PROJECTS = [
       "Managed deployments and production support with Docker, PM2, Nginx and AWS EC2",
     ],
     liveLink: "",
+    sourceLink: "",
+    src: "",
+    problem:
+      "Creators needed a unified multi-chain launchpad with secure onboarding, KYC and real-time collaboration — without sacrificing scalability.",
+    solution:
+      "Microservices backend with JWT/RBAC, responsive Next.js creator dashboard and Socket.IO chat; containerised and deployed on AWS with PM2/Nginx.",
+    metrics:
+      "Multi-chain launch workflows · Real-time creator chat · Production deployment on AWS EC2",
+    myRole: "Full Stack Developer — backend microservices, Next.js dashboards, deployment & production support",
+  },
+  {
+    title: "JonaCart – Personalised Gifting Store (Next.js)",
+    description: `A full-stack personalised gifting store — personalised gifts, festive hampers
+      and lifestyle products — built with Next.js (App Router, Server Components) and PostgreSQL
+      via Prisma. Catalog with category and search filters, product pages with personalisation
+      details, wishlist, reviews and ratings, coupons, and Razorpay/COD checkout, plus a full
+      admin dashboard.`,
+    tools:
+      "Next.js, React.js, TypeScript, Prisma, PostgreSQL, iron-session, Razorpay, Nodemailer, Sonner, REST APIs",
+    accomplishments: [
+      "Built a full-stack gifting store with Next.js App Router, Server Components and a Prisma/PostgreSQL backend",
+      "Implemented OTP email verification, forgot/reset password and iron-session authentication",
+      "Added wishlist, product reviews and ratings, coupon codes and an admin-managed homepage banner",
+      "Integrated Razorpay and COD checkout with order-confirmation emails via Nodemailer",
+      "Built an admin dashboard with CRUD for products, categories, coupons, orders, users and banner",
+    ],
+    liveLink: "https://jonacart.com/",
+    sourceLink: "",
+    src: "",
+    problem:
+      "A gifting business needed a modern storefront with personalisation, OTP auth, payments and admin control — without a heavy legacy stack.",
+    solution:
+      "Next.js App Router + Prisma/PostgreSQL with Razorpay/COD checkout, wishlist, reviews, coupons and a full admin CRUD dashboard.",
+    metrics:
+      "Live at jonacart.com · End-to-end checkout + admin · OTP verification & order confirmation emails",
+    myRole: "Solo full-stack developer — architecture, UI, APIs, payments & deployment",
+  },
+  {
+    title: "XellBuy – Beauty & Personal Care Store (Next.js)",
+    description: `A full-stack beauty and personal-care store — skincare, haircare, makeup and
+      fragrance — built with Next.js (App Router) and PostgreSQL via Prisma. Product pages carry
+      care and ingredient details, highlights and styling tips, with wishlist, reviews and
+      ratings, coupons, and Razorpay/COD checkout, plus a complete admin dashboard.`,
+    tools:
+      "Next.js, React.js, TypeScript, Prisma, PostgreSQL, iron-session, Razorpay, Nodemailer, Sonner, REST APIs",
+    accomplishments: [
+      "Built a full-stack beauty store with Next.js App Router, Server Components and a Prisma/PostgreSQL backend",
+      "Implemented OTP email verification, forgot/reset password and iron-session authentication",
+      "Added wishlist, product reviews and ratings, coupon validation and an admin-managed homepage banner",
+      "Integrated Razorpay and COD checkout with order-confirmation emails via Nodemailer",
+      "Built an admin dashboard with CRUD for products, categories, coupons, orders, users and banner",
+    ],
+    liveLink: "https://xellbuy.in/",
+    sourceLink: "",
+    src: "",
+  },
+  {
+    title: "MySkyBuy – Bags & Luggage Store (Next.js)",
+    description: `A full-stack bags and luggage store — backpacks, handbags, travel luggage and
+      wallets — built with Next.js (App Router, Server Components) and PostgreSQL via Prisma.
+      Catalog with category, search and sort filters, cart and Razorpay/COD checkout,
+      OTP-verified accounts with order history, and a full admin dashboard.`,
+    tools:
+      "Next.js, React.js, TypeScript, Prisma, PostgreSQL, iron-session, Razorpay, Nodemailer, Sonner, REST APIs",
+    accomplishments: [
+      "Built a full-stack e-commerce store with Next.js App Router, Server Components and a Prisma/PostgreSQL backend",
+      "Implemented OTP email verification, forgot/reset password and iron-session authentication",
+      "Built catalog browsing with category, search and sort filters, coupon codes and a homepage banner",
+      "Integrated Razorpay and COD checkout with order-confirmation emails via Nodemailer",
+      "Built an admin dashboard with CRUD for products, categories, coupons, orders and users",
+    ],
+    liveLink: "https://myskybuy.in/",
     sourceLink: "",
     src: "",
   },
@@ -144,6 +225,9 @@ const FALLBACK_PROJECTS = [
 const FALLBACK_TAGS = {
   "VittaGems – Enterprise Web3 Jewellery Platform": ["Web3", "Microservices", "Full-Stack"],
   "Launchly – Multi-Chain Web3 Launchpad": ["Web3", "Microservices", "Full-Stack"],
+  "JonaCart – Personalised Gifting Store (Next.js)": ["E-Commerce", "Next.js", "Full-Stack"],
+  "XellBuy – Beauty & Personal Care Store (Next.js)": ["E-Commerce", "Next.js", "Full-Stack"],
+  "MySkyBuy – Bags & Luggage Store (Next.js)": ["E-Commerce", "Next.js", "Full-Stack"],
   "Licious – Online Meat Delivery Platform": ["Next.js", "Full-Stack"],
   "ShopKart – E-Commerce Platform (MERN)": ["E-Commerce", "Full-Stack"],
   "My Portfolio": ["Full-Stack", "MERN"],
@@ -153,7 +237,7 @@ FALLBACK_PROJECTS.forEach((p) => {
   p.tags = FALLBACK_TAGS[p.title] || [];
 });
 
-const ProjectModal = ({ isOpen, onClose, project }) => {
+export const ProjectModal = ({ isOpen, onClose, project }) => {
   const modalRef = useRef(null);
 
   // Prevent body scrolling while the modal is open.
@@ -170,7 +254,19 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
 
   if (!isOpen || !project) return null;
 
-  const { title, description, tools, accomplishments, liveLink, sourceLink, src } = project;
+  const {
+    title,
+    description,
+    tools,
+    accomplishments,
+    liveLink,
+    sourceLink,
+    src,
+    problem,
+    solution,
+    metrics,
+    myRole,
+  } = project;
 
   // Close modal when clicking outside
   const handleOverlayClick = (e) => {
@@ -207,6 +303,34 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
             </div>
             
             <div className="modal-right">
+              {myRole && (
+                <div className="modal-section modal-case-study">
+                  <h4>My Role</h4>
+                  <p>{myRole}</p>
+                </div>
+              )}
+
+              {problem && (
+                <div className="modal-section modal-case-study">
+                  <h4>The Problem</h4>
+                  <p>{problem}</p>
+                </div>
+              )}
+
+              {solution && (
+                <div className="modal-section modal-case-study">
+                  <h4>The Solution</h4>
+                  <p>{solution}</p>
+                </div>
+              )}
+
+              {metrics && (
+                <div className="modal-section modal-case-study">
+                  <h4>Impact & Results</h4>
+                  <p className="modal-metrics">{metrics}</p>
+                </div>
+              )}
+
               <div className="modal-section">
                 <h4>Project Overview</h4>
                 <p>{description}</p>
@@ -331,28 +455,36 @@ const ProjectCard = ({ project, index, isVisible }) => {
 
 const Proj = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [projects, setProjects] = useState(FALLBACK_PROJECTS);
+  const [projects, setProjects] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [activeTag, setActiveTag] = useState("All");
 
   useEffect(() => {
     fetch(apiUrl("/api/projects"))
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setProjects(data);
+        setProjects(
+          Array.isArray(data) && data.length > 0 ? data : FALLBACK_PROJECTS
+        );
       })
-      .catch(() => {
-        /* keep fallback */
-      });
+      .catch(() => setProjects(FALLBACK_PROJECTS))
+      .finally(() => setLoading(false));
   }, []);
 
-  const allTags = [
+  const allTags = loading
+    ? []
+    : [
     "All",
     ...Array.from(new Set(projects.flatMap((p) => p.tags || []))),
   ];
-  const shown =
-    activeTag === "All"
-      ? projects
-      : projects.filter((p) => (p.tags || []).includes(activeTag));
+  const gridProjects = loading
+    ? []
+    : projects.filter((p) => !p.featured);
+  const shown = loading
+    ? []
+    : activeTag === "All"
+      ? gridProjects
+      : gridProjects.filter((p) => (p.tags || []).includes(activeTag));
 
   // Intersection Observer for animations
   useEffect(() => {
@@ -388,6 +520,10 @@ const Proj = () => {
           </p>
         </div>
 
+        {loading ? (
+          <ProjectsGridSkeleton />
+        ) : (
+        <>
         {allTags.length > 2 && (
           <div className="project-filters">
             {allTags.map((tag) => (
@@ -425,6 +561,8 @@ const Proj = () => {
             <i className="fab fa-github"></i> Visit My GitHub
           </a>
         </div>
+        </>
+        )}
       </div>
     </section>
   );

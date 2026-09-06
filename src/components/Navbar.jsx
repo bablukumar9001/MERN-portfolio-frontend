@@ -33,8 +33,8 @@ const Navbar = () => {
     const sections = [
       "home11", 
       "about11", 
+      "Experience",
       "skills11", 
-      "Experience", 
       "Education", 
       "service11", 
       "project11", 
@@ -76,8 +76,8 @@ const Navbar = () => {
   const navLinks = [
     { id: "home11", label: "Home", offset: -100 },
     { id: "about11", label: "About", offset: -120 },
-    { id: "skills11", label: "Skills", offset: -105 },
     { id: "Experience", label: "Experience", offset: -105 },
+    { id: "skills11", label: "Skills", offset: -105 },
     { id: "Education", label: "Education", offset: -105 },
     { id: "service11", label: "Services", offset: -60 },
     { id: "project11", label: "Projects", offset: -85 },
@@ -94,7 +94,7 @@ const Navbar = () => {
         >
           <div className="container-fluid">
             <Link className="navbar-brand" to="home11" smooth={true} duration={200}>
-              <img className="mylogo" src={mylogo} alt="logo" />
+              <img className="mylogo site-logo" src={mylogo} alt="logo" />
             </Link>
             <button
               className="navbar-toggler"

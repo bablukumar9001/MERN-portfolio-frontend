@@ -4,115 +4,117 @@ import homephoto from "/images/profile-pic.png";
 import { Link } from "react-scroll";
 import { TypeAnimation } from "react-type-animation";
 import { useSiteContent } from "../SiteContentContext";
-import { track } from "../api";
+import { HomeContentSkeleton } from "./SectionSkeletons";
+import ResumeDownloadLink from "./ResumeDownloadLink";
 
 const Home = () => {
   const site = useSiteContent();
-
-  // Build the [text, pauseMs, text, pauseMs, ...] sequence for TypeAnimation.
   const roleSequence = site.heroRoles.flatMap((role) => [role, 1000]);
+  const tagline = site.aboutBio.split(".")[0] + ".";
+
+  const socials = [
+    { icon: "fab fa-linkedin", url: site.social.linkedin },
+    { icon: "fab fa-github", url: site.social.github },
+    { icon: "fab fa-twitter", url: site.social.twitter },
+    { icon: "fab fa-instagram", url: site.social.instagram },
+    { icon: "fab fa-facebook-f", url: site.social.facebook },
+  ];
 
   return (
-    <>
-      <div className="container container-fluid text-center" id="home11">
-        <div className="row">
-          <div className="col-sm-6 fadeInLeft box1">
-            <section id="home" className="banner-wrapper">
-              <div className="container">
-                <div className="row">
-                  <div className="col-sm-12 text-center text-md-start">
-                    <h6>{site.heroGreeting}</h6>
-                    <h1 className="blink">
-                      Hi, I'm {site.heroName} <br />
-                    </h1>
+    <section className="home-section" id="home11">
+      <div className="home-inner">
+        <div className="home-grid">
+          {site.isLoading ? (
+            <HomeContentSkeleton />
+          ) : (
+          <div className="home-content home-enter">
+            <h6 className="home-enter-item" style={{ animationDelay: "0.05s" }}>
+              {site.heroGreeting}
+            </h6>
+            <h1 className="home-name home-enter-item" style={{ animationDelay: "0.12s" }}>
+              Hi, I'm {site.heroName}
+            </h1>
+            <p className="home-role home-enter-item" style={{ animationDelay: "0.18s" }}>
+              <TypeAnimation
+                sequence={roleSequence}
+                repeat={Infinity}
+                speed={45}
+                deletionSpeed={50}
+              />
+            </p>
+            <p className="home-tagline home-enter-item" style={{ animationDelay: "0.24s" }}>
+              {tagline}
+            </p>
 
-                    <h1>
-                      <TypeAnimation
-                        sequence={roleSequence}
-                        repeat={Infinity}
-                        speed={45}
-                        deletionSpeed={50}
-                        style={{ color: "var(--primary-color)" }}
-                      />
-                      <br />
-                      {site.heroLocation}
-                    </h1>
-                    <div className="mt-4">
-                      <a
-                        className="main-btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={site.resumeUrl}
-                        onClick={() => track("cv_download")}
-                      >
-                        <i className="fas fa-download"></i> Download CV
-                      </a>
-                    </div>
-                    <Link
-                      to="contact11"
-                      smooth={true}
-                      offset={-85}
-                      duration={50}
-                    >
-                      <div className="mt-4">
-                        <span className="main-btn">
-                          <i className="fas fa-user-plus"></i> Hire Me
-                        </span>
-                      </div>
-                    </Link>
-                    <div className="myphoto img-fluid"></div>
-                  </div>
-                </div>
-              </div>
-              {/* social media */}
-              <div>
-                <ul className="list-unstyled d-flex justify-content-center justify-content-md-end social-icon mb-3 mb-md-0">
-                  <li>
-                    <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-instagram"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={site.social.facebook} target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-facebook-f"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={site.social.twitter} target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-twitter"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href={site.social.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i className="fab fa-linkedin"></i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href={site.social.github} target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-github"></i>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </section>
+            <div className="home-stats home-enter-item" style={{ animationDelay: "0.3s" }}>
+              <span className="home-stat-pill">
+                <i className="fas fa-briefcase"></i>
+                {site.aboutYears} Years Experience
+              </span>
+              <span className="home-stat-pill">
+                <i className="fas fa-layer-group"></i>
+                Next.js · MERN · Microservices
+              </span>
+              <span className={`home-stat-pill${site.availabilityOpen !== false ? " home-stat-pill--available" : ""}`}>
+                {site.availabilityOpen !== false && (
+                  <span className="home-stat-dot" aria-hidden="true"></span>
+                )}
+                {site.availabilityText || "Open to opportunities"}
+              </span>
+            </div>
+
+            <div className="home-actions home-enter-item" style={{ animationDelay: "0.36s" }}>
+              <ResumeDownloadLink className="main-btn" url={site.resumeUrl}>
+                <i className="fas fa-download"></i> Download CV
+              </ResumeDownloadLink>
+              <Link to="contact11" smooth={true} offset={-85} duration={50}>
+                <span className="main-btn home-btn-ghost">
+                  <i className="fas fa-user-plus"></i> Hire Me
+                </span>
+              </Link>
+              <Link to="project11" smooth={true} offset={-85} duration={50}>
+                <span className="main-btn home-btn-ghost">
+                  <i className="fas fa-folder-open"></i> View Work
+                </span>
+              </Link>
+            </div>
+
+            <ul className="home-socials home-enter-item" style={{ animationDelay: "0.42s" }}>
+              {socials.map((s) => (
+                <li key={s.icon}>
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.icon}>
+                    <i className={s.icon}></i>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
+          )}
 
-          <div className="col-sm-6 d-flex justify-content-center fadeInRight box2">
-            <div className="profile-image-wrapper">
-              <div className="profile-background"></div>
-              <img className="profile-image" src={homephoto} alt={site.heroName} />
-              <div className="image-decoration circle-1"></div>
-              <div className="image-decoration circle-2"></div>
-              <div className="image-decoration circle-3"></div>
+          <div className="home-photo home-enter-item" style={{ animationDelay: "0.25s" }}>
+            <div className="home-orbit">
+              <div className="home-orbit-glow" aria-hidden="true"></div>
+              <div className="home-orbit-ring" aria-hidden="true">
+                <span className="home-orbit-dot home-orbit-dot--1"></span>
+                <span className="home-orbit-dot home-orbit-dot--2"></span>
+                <span className="home-orbit-dot home-orbit-dot--3"></span>
+              </div>
+              <div className="home-orbit-photo">
+                <img src={homephoto} alt={site.heroName} />
+              </div>
+              <div className="home-photo-badge">
+                <strong>{site.aboutYears}</strong>
+                <span>
+                  years
+                  <br />
+                  experience
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

@@ -2,41 +2,27 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useDragReorder from "./useDragReorder";
 import { adminFetch } from "../../api";
-
-// Icons available from react-icons/fa (see Services.jsx mapping).
-const ICON_OPTIONS = [
-  "FaCode",
-  "FaReact",
-  "FaDatabase",
-  "FaMobileAlt",
-  "FaLaptopCode",
-  "FaNetworkWired",
-  "FaServer",
-  "FaTools",
-  "FaCubes",
-  "FaEthereum",
-  "FaCreditCard",
-  "FaCloud",
-];
+import ImageField from "./ImageField";
 
 const empty = {
-  title: "",
-  description: "",
-  icon: "FaCode",
-  deliverables: "",
-  engagement: "",
+  name: "",
+  role: "",
+  company: "",
+  quote: "",
+  avatar: "",
+  linkedinUrl: "",
   order: 0,
 };
 
-const AdminServices = () => {
+const AdminTestimonials = () => {
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(empty);
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState("");
-  const { rowProps } = useDragReorder(items, setItems, "services");
+  const { rowProps } = useDragReorder(items, setItems, "testimonials");
 
   const load = () =>
-    adminFetch("/api/admin/services")
+    adminFetch("/api/admin/testimonials")
       .then(setItems)
       .catch((e) => setError(e.message));
 
@@ -55,27 +41,20 @@ const AdminServices = () => {
   const submit = async (e) => {
     e.preventDefault();
     setError("");
-    const payload = {
-      ...form,
-      order: Number(form.order) || 0,
-      deliverables: String(form.deliverables)
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
-    };
+    const payload = { ...form, order: Number(form.order) || 0 };
     try {
       if (editId) {
-        await adminFetch(`/api/admin/services/${editId}`, {
+        await adminFetch(`/api/admin/testimonials/${editId}`, {
           method: "PUT",
           body: JSON.stringify(payload),
         });
-        toast.success("Service updated");
+        toast.success("Testimonial updated");
       } else {
-        await adminFetch("/api/admin/services", {
+        await adminFetch("/api/admin/testimonials", {
           method: "POST",
           body: JSON.stringify(payload),
         });
-        toast.success("Service added");
+        toast.success("Testimonial added");
       }
       reset();
       load();
@@ -88,20 +67,21 @@ const AdminServices = () => {
   const startEdit = (item) => {
     setEditId(item._id);
     setForm({
-      title: item.title || "",
-      description: item.description || "",
-      icon: item.icon || "FaCode",
-      deliverables: (item.deliverables || []).join("\n"),
-      engagement: item.engagement || "",
+      name: item.name || "",
+      role: item.role || "",
+      company: item.company || "",
+      quote: item.quote || "",
+      avatar: item.avatar || "",
+      linkedinUrl: item.linkedinUrl || "",
       order: item.order || 0,
     });
   };
 
   const remove = async (id) => {
-    if (!window.confirm("Delete service?")) return;
+    if (!window.confirm("Delete testimonial?")) return;
     try {
-      await adminFetch(`/api/admin/services/${id}`, { method: "DELETE" });
-      toast.success("Service deleted");
+      await adminFetch(`/api/admin/testimonials/${id}`, { method: "DELETE" });
+      toast.success("Testimonial deleted");
       load();
     } catch (err) {
       toast.error(err.message);
@@ -110,23 +90,18 @@ const AdminServices = () => {
 
   return (
     <div>
-      <h1 className="admin-page-title">Services</h1>
+      <h1 className="admin-page-title">Testimonials</h1>
       {error && <div className="admin-error">{error}</div>}
       <form className="admin-form" onSubmit={submit}>
-        <input name="title" placeholder="Service title" value={form.title} onChange={onChange} required />
-        <textarea name="description" placeholder="Description" value={form.description} onChange={onChange} rows={3} />
-        <input name="engagement" placeholder="Typical engagement (e.g. 4–8 weeks)" value={form.engagement} onChange={onChange} />
-        <textarea name="deliverables" placeholder="Deliverables (one per line)" value={form.deliverables} onChange={onChange} rows={3} />
-        <select name="icon" value={form.icon} onChange={onChange}>
-          {ICON_OPTIONS.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select>
+        <input name="name" placeholder="Person's name" value={form.name} onChange={onChange} required />
+        <input name="role" placeholder="Role (e.g. Engineering Manager)" value={form.role} onChange={onChange} />
+        <input name="company" placeholder="Company" value={form.company} onChange={onChange} />
+        <textarea name="quote" placeholder="Quote / recommendation" value={form.quote} onChange={onChange} rows={4} required />
+        <ImageField label="Avatar URL / upload" name="avatar" value={form.avatar} onChange={onChange} />
+        <input name="linkedinUrl" placeholder="LinkedIn profile URL (optional)" value={form.linkedinUrl} onChange={onChange} />
         <input name="order" type="number" placeholder="Order" value={form.order} onChange={onChange} />
         <div className="admin-form-actions">
-          <button type="submit">{editId ? "Update" : "Add"} service</button>
+          <button type="submit">{editId ? "Update" : "Add"} testimonial</button>
           {editId && (
             <button type="button" onClick={reset}>
               Cancel
@@ -139,8 +114,8 @@ const AdminServices = () => {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Icon</th>
+              <th>Name</th>
+              <th>Company</th>
               <th>Order</th>
               <th></th>
             </tr>
@@ -148,8 +123,8 @@ const AdminServices = () => {
           <tbody>
             {items.map((item, i) => (
               <tr key={item._id} {...rowProps(i)}>
-                <td>{item.title}</td>
-                <td>{item.icon}</td>
+                <td>{item.name}</td>
+                <td>{item.company}</td>
                 <td>{item.order}</td>
                 <td className="admin-row-actions">
                   <button type="button" onClick={() => startEdit(item)}>
@@ -161,6 +136,11 @@ const AdminServices = () => {
                 </td>
               </tr>
             ))}
+            {items.length === 0 && (
+              <tr>
+                <td colSpan={4}>No testimonials yet — the section stays hidden until you add one.</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -168,4 +148,4 @@ const AdminServices = () => {
   );
 };
 
-export default AdminServices;
+export default AdminTestimonials;

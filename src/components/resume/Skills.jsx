@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import "./css/skills.css";
 import { apiUrl, imageSrc } from "../../api";
+import { useSectionReveal } from "../../hooks/useSectionReveal";
+import { SkillsGridSkeleton } from "../SectionSkeletons";
 
 const CATEGORY_TITLES = [
   "Languages",
@@ -96,15 +98,18 @@ const SkillLogo = ({ image, name }) => {
 };
 
 const Skills = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [skillCategories, setSkillCategories] = useState(DEFAULT_CATEGORIES);
+  const isVisible = useSectionReveal("skills11");
+  const [skillCategories, setSkillCategories] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(apiUrl("/api/skills"))
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
-        if (!Array.isArray(data) || data.length === 0) return;
-        // Preferred order first, then any other category names the data uses.
+        if (!Array.isArray(data) || data.length === 0) {
+          setSkillCategories(DEFAULT_CATEGORIES);
+          return;
+        }
         const order = [
           ...CATEGORY_TITLES,
           ...[...new Set(data.map((s) => s.category))].filter(
@@ -119,28 +124,10 @@ const Skills = () => {
               .map((s) => ({ name: s.name, image: s.image })),
           }))
           .filter((c) => c.skills.length > 0);
-        if (grouped.length) setSkillCategories(grouped);
+        setSkillCategories(grouped.length ? grouped : DEFAULT_CATEGORIES);
       })
-      .catch(() => {});
-  }, []);
-
-  // Intersection Observer for animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setIsVisible(true);
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const section = document.querySelector("#skills11");
-    if (section) observer.observe(section);
-
-    return () => {
-      if (section) observer.unobserve(section);
-    };
+      .catch(() => setSkillCategories(DEFAULT_CATEGORIES))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -156,11 +143,14 @@ const Skills = () => {
           </p>
         </div>
 
+        {loading ? (
+          <SkillsGridSkeleton />
+        ) : (
         <div className="skills-groups">
           {skillCategories.map((category, ci) => (
             <div
               key={ci}
-              className={`skill-group ${isVisible ? "animate" : ""}`}
+              className={`skill-group ${["Frontend", "Backend"].includes(category.title) ? "skill-group--wide" : ""} ${isVisible ? "animate" : ""}`}
               style={{ transitionDelay: `${ci * 0.06}s` }}
             >
               <h3 className="skill-group-title">{category.title}</h3>
@@ -176,29 +166,30 @@ const Skills = () => {
               </ul>
             </div>
           ))}
-        </div>
 
-        <div className="additional-skills">
-          <h3 className="additional-title">Also comfortable with</h3>
-          <div className="tags-container">
-            {[
-              "RESTful API design",
-              "Responsive UI",
-              "Web performance",
-              "MongoDB aggregation",
-              "Caching (Redis / ISR)",
-              "Code review",
-              "Testing",
-              "Debugging",
-              "Agile / Scrum",
-              "Team collaboration",
-            ].map((tag, i) => (
-              <span key={i} className="skill-tag">
-                {tag}
-              </span>
-            ))}
+          <div className="additional-skills">
+            <h3 className="additional-title">Also comfortable with</h3>
+            <div className="tags-container">
+              {[
+                "RESTful API design",
+                "Responsive UI",
+                "Web performance",
+                "MongoDB aggregation",
+                "Caching (Redis / ISR)",
+                "Code review",
+                "Testing",
+                "Debugging",
+                "Agile / Scrum",
+                "Team collaboration",
+              ].map((tag, i) => (
+                <span key={i} className="skill-tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
+        )}
       </div>
     </section>
   );

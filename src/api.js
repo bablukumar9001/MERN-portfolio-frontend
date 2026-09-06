@@ -16,8 +16,12 @@ export const imageSrc = (ref) => {
   return ref;
 };
 
-// Upload a File (from an <input type=file>) and get back { url }.
-export const uploadImage = (file) =>
+export const resumeHref = (url) => imageSrc(url);
+
+export const isUploadedResume = (url) =>
+  /\/api\/images\/[a-f0-9]{24}/i.test(url || "");
+
+const uploadDataUrl = (file) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onerror = () => reject(new Error("Could not read file"));
@@ -34,6 +38,11 @@ export const uploadImage = (file) =>
     };
     reader.readAsDataURL(file);
   });
+
+// Upload a File (from an <input type=file>) and get back { url }.
+export const uploadImage = (file) => uploadDataUrl(file);
+
+export const uploadFile = (file) => uploadDataUrl(file);
 
 // Fire-and-forget, cookie-less analytics ping.
 // Type goes in the query string so the request stays "simple" (no CORS preflight)

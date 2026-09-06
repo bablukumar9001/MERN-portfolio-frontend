@@ -12,6 +12,7 @@ import AdminEducation from "./components/admin/AdminEducation";
 import AdminServices from "./components/admin/AdminServices";
 import AdminSiteContent from "./components/admin/AdminSiteContent";
 import AdminCertifications from "./components/admin/AdminCertifications";
+import AdminTestimonials from "./components/admin/AdminTestimonials";
 import AdminAccount from "./components/admin/AdminAccount";
 import NotFound from "./components/NotFound";
 import { ThemeContext } from "./ThemeContext";
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="education" element={<AdminEducation />} />
           <Route path="services" element={<AdminServices />} />
           <Route path="certifications" element={<AdminCertifications />} />
+          <Route path="testimonials" element={<AdminTestimonials />} />
           <Route path="site-content" element={<AdminSiteContent />} />
           <Route path="account" element={<AdminAccount />} />
         </Route>

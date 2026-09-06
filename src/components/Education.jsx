@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import "./css/education.css" // Import styles for the Education section
+import "./css/education.css"
 import { apiUrl } from "../api";
+import { useSectionReveal } from "../hooks/useSectionReveal";
+import { EducationGridSkeleton } from "./SectionSkeletons";
 
 const FALLBACK_EDUCATION = [
   {
@@ -30,37 +32,20 @@ const FALLBACK_EDUCATION = [
 ];
 
 const Education = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [educationData, setEducationData] = useState(FALLBACK_EDUCATION);
+  const isVisible = useSectionReveal('Education');
+  const [educationData, setEducationData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(apiUrl('/api/education'))
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setEducationData(data);
+        setEducationData(
+          Array.isArray(data) && data.length > 0 ? data : FALLBACK_EDUCATION
+        );
       })
-      .catch(() => {});
-  }, []);
-
-  // Intersection Observer for animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const section = document.querySelector('#Education');
-    if (section) observer.observe(section);
-
-    return () => {
-      if (section) observer.unobserve(section);
-    };
+      .catch(() => setEducationData(FALLBACK_EDUCATION))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -75,37 +60,40 @@ const Education = () => {
             and software development, preparing me for a successful career in web development.
           </p>
         </div>
-        
-        <div className="education-timeline">
-          <div className="timeline-line"></div>
-          
+
+        {loading ? (
+          <EducationGridSkeleton />
+        ) : (
+        <div className="education-grid">
           {educationData.map((item, index) => (
-            <div 
-              key={index} 
-              className={`education-item ${isVisible ? 'animate' : ''}`}
-              style={{ animationDelay: `${index * 0.3}s` }}
+            <article
+              key={index}
+              className={`education-card ${isVisible ? 'animate' : ''}`}
+              style={{
+                '--edu-accent': item.color,
+                animationDelay: `${index * 0.12}s`,
+              }}
             >
-              <div className="timeline-dot" style={{ backgroundColor: item.color }}>
-                <i className={item.icon}></i>
+              <div className="education-card-top">
+                <span className="education-icon" style={{ backgroundColor: item.color }}>
+                  <i className={item.icon}></i>
+                </span>
+                <span className="education-year" style={{ backgroundColor: item.color }}>
+                  {item.year}
+                </span>
               </div>
-              
-              <div className="education-card">
-                <div className="education-period" style={{ backgroundColor: item.color }}>
-                  <span>{item.year}</span>
-                </div>
-                
-                <div className="education-content">
-                  <h3 className="degree">{item.degree}</h3>
-                  <h4 className="institution">
-                    <i className="fas fa-map-marker-alt"></i> {item.institution}
-                  </h4>
-                  <p className="description">{item.description}</p>
-                </div>
-              </div>
-            </div>
+
+              <h3 className="degree">{item.degree}</h3>
+              <h4 className="institution">
+                <i className="fas fa-map-marker-alt"></i> {item.institution}
+              </h4>
+              <p className="description">{item.description}</p>
+            </article>
           ))}
         </div>
-        
+        )}
+
+        {!loading && (
         <div className="education-footer fade-in">
           <div className="education-stats">
             <div className="stat-item">
@@ -122,6 +110,7 @@ const Education = () => {
             </div>
           </div>
         </div>
+        )}
       </div>
     </section>
   );

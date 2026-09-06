@@ -1,0 +1,206 @@
+.work-process-section {
+  padding: 100px 0;
+  background-color: var(--section-bg-alt, var(--section-bg));
+}
+
+.work-process-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.work-process-section .section-title {
+  margin-bottom: 52px;
+}
+
+.work-process-intro {
+  max-width: 640px;
+  margin: 12px auto 0;
+  font-size: 1.02rem;
+  color: var(--text-light);
+  line-height: 1.65;
+}
+
+.work-process-track {
+  position: relative;
+}
+
+/* Horizontal timeline connector (desktop) */
+.work-process-track::before {
+  content: "";
+  position: absolute;
+  top: 52px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-color) 8%,
+    var(--border-color) 92%,
+    transparent
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.work-process-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  z-index: 1;
+}
+
+.work-process-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 32px 28px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+  overflow: hidden;
+}
+
+.work-process-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--primary-color);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.work-process-section.visible .work-process-card.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.work-process-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(var(--primary-rgb), 0.35);
+  box-shadow: 0 16px 40px -12px rgba(var(--primary-rgb), 0.25);
+}
+
+.work-process-card:hover::before {
+  opacity: 1;
+}
+
+.work-process-icon-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: rgba(var(--primary-rgb), 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.work-process-card:hover .work-process-icon-wrap {
+  background: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.work-process-step {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--primary-color);
+  background: var(--card-bg);
+  border: 1px solid rgba(var(--primary-rgb), 0.25);
+  line-height: 1;
+  z-index: 1;
+}
+
+.work-process-icon-wrap i {
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  transition: color 0.35s ease;
+}
+
+.work-process-card:hover .work-process-icon-wrap i {
+  color: var(--primary-contrast);
+}
+
+.work-process-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-color);
+  line-height: 1.3;
+}
+
+.work-process-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-light);
+}
+
+@media (max-width: 992px) {
+  .work-process-track::before {
+    display: none;
+  }
+
+  .work-process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .work-process-section {
+    padding: 72px 0;
+  }
+
+  .work-process-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .work-process-card {
+    padding-left: 32px;
+    border-left: 3px solid rgba(var(--primary-rgb), 0.35);
+  }
+
+  .work-process-card::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-process-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .work-process-card:hover {
+    transform: none;
+  }
+
+  .work-process-card:hover .work-process-icon-wrap {
+    transform: none;
+  }
+}

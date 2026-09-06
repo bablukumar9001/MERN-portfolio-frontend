@@ -3,6 +3,7 @@ import { Link } from "react-scroll";
 import "./css/footer.css";
 import mylogo from "/images/mylogo1.png";
 import { useSiteContent } from "../SiteContentContext";
+import { FooterTextSkeleton } from "./SectionSkeletons";
 
 const Footer = () => {
   const site = useSiteContent();
@@ -72,9 +73,11 @@ const Footer = () => {
             <div className="col-lg-4 col-md-6">
               <div className={`footer-widget about-widget ${isVisible ? 'animate' : ''}`}>
                 <div className="footer-logo">
-                  <img src={mylogo} alt="Logo" />
+                  <img className="site-logo" src={mylogo} alt="Logo" />
                 </div>
-                <p className="footer-text">{site.footerText}</p>
+                <p className="footer-text">
+                  {site.isLoading ? <FooterTextSkeleton /> : site.footerText}
+                </p>
                 <div className="social-links">
                   {socialLinks.map((link, index) => (
                     <a 
@@ -115,6 +118,10 @@ const Footer = () => {
               <div className={`footer-widget contact-widget ${isVisible ? 'animate' : ''}`} style={{ animationDelay: '0.4s' }}>
                 <h4 className="footer-title">Contact Info</h4>
                 <ul className="contact-info">
+                  {site.isLoading ? (
+                    <li><FooterTextSkeleton /></li>
+                  ) : (
+                  <>
                   <li>
                     <i className="fas fa-map-marker-alt"></i>
                     <span>{site.contactLocation}</span>
@@ -127,6 +134,8 @@ const Footer = () => {
                     <i className="fas fa-phone-alt"></i>
                     <a href={`tel:${site.contactPhone.replace(/\s+/g, "")}`}>{site.contactPhone}</a>
                   </li>
+                  </>
+                  )}
                 </ul>
               </div>
             </div>

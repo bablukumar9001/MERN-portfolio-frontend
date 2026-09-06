@@ -3,11 +3,12 @@
    ============================================================ */
 .contact-section {
   padding: 90px 0;
-  background-color: var(--section-bg);
+  background-color: var(--background-color);
+  scroll-margin-top: 80px;
 }
 
 .contact-inner {
-  max-width: 1080px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -26,18 +27,41 @@
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 40px;
-  align-items: start;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: stretch;
 }
 
 /* ---- Left aside ---- */
 .contact-aside {
+  position: relative;
   padding: 28px;
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
   background: var(--card-bg);
   box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-aside::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    rgba(var(--primary-rgb), 0.4)
+  );
+}
+
+.contact-aside:hover {
+  border-color: rgba(var(--primary-rgb), 0.25);
 }
 
 .contact-aside h3 {
@@ -45,6 +69,30 @@
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.contact-availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  margin-bottom: 18px;
+  background: rgba(var(--primary-rgb), 0.08);
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.contact-availability-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  flex-shrink: 0;
 }
 
 .contact-info-list {
@@ -54,6 +102,7 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  flex: 1;
 }
 
 .contact-info-list li {
@@ -103,22 +152,24 @@
 
 .contact-socials {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   padding-top: 20px;
   border-top: 1px solid var(--border-color);
+  margin-top: auto;
 }
 
 .contact-socials a {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
   border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-light);
   font-size: 15px;
-  transition: all 0.16s ease;
+  transition: all 0.18s ease;
 }
 
 .contact-socials a:hover {
@@ -126,6 +177,7 @@
   border-color: var(--primary-color);
   color: var(--primary-contrast);
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px -4px rgba(var(--primary-rgb), 0.45);
 }
 
 /* ---- Right form ---- */
@@ -135,6 +187,11 @@
   border-radius: var(--radius);
   background: var(--card-bg);
   box-shadow: var(--card-shadow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-form-card:hover {
+  border-color: rgba(var(--primary-rgb), 0.2);
 }
 
 .contact-field-row {
@@ -171,7 +228,7 @@
   color: var(--text-color);
   background: var(--input-bg);
   border: 1px solid var(--border-color);
-  border-radius: 9px;
+  border-radius: var(--radius);
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -205,19 +262,20 @@
   gap: 8px;
   padding: 12px 22px;
   border: 1px solid var(--primary-color);
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--primary-color);
   color: var(--primary-contrast);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.16s ease, transform 0.16s ease;
+  transition: background-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
 }
 
 .contact-submit:hover:not(:disabled) {
   background: var(--primary-hover);
   border-color: var(--primary-hover);
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(var(--primary-rgb), 0.5);
 }
 
 .contact-submit:disabled {
@@ -237,7 +295,7 @@
   transform: translateY(0);
 }
 
-.contact-section.visible .contact-form-card.contact-reveal {
+.contact-section.visible .contact-reveal--form {
   transition-delay: 0.08s;
 }
 

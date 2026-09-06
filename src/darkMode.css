@@ -242,6 +242,17 @@ textarea::placeholder {
   background-color: rgba(0, 0, 0, 0.78);
 }
 
+/* ---------- Brand logo (dark mode visibility) ---------- */
+.site-logo {
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+[data-theme="dark"] .site-logo {
+  /* Boost dark-gray wordmark to white; red accent stays readable */
+  filter: brightness(7) contrast(1.06) saturate(1.1);
+  opacity: 1;
+}
+
 /* ---------- Footer ---------- */
 footer {
   background-color: var(--card-bg);

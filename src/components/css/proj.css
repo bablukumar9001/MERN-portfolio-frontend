@@ -255,7 +255,7 @@ a.hoverline {
 /* Projects Section */
 .projects-section {
   padding: 80px 0;
-  background-color: var(--background-color);
+  background-color: var(--section-bg);
   position: relative;
   overflow: hidden;
   opacity: 0;
@@ -665,6 +665,30 @@ body.modal-open {
   font-size: 15px;
   line-height: 1.7;
   margin: 0;
+}
+
+.modal-case-study {
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: rgba(var(--primary-rgb, 99, 102, 241), 0.06);
+  border-left: 3px solid var(--primary-color);
+}
+
+.modal-case-study h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary-color);
+}
+
+.modal-case-study h4::after {
+  display: none;
+}
+
+.modal-metrics {
+  font-weight: 500;
+  color: var(--text-color) !important;
+  line-height: 1.7;
 }
 
 .modal-tools {

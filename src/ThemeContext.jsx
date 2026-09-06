@@ -24,10 +24,15 @@ export const ThemeProvider = ({ children }) => {
     });
   };
 
-  // Update data-theme attribute and localStorage when theme changes
+  // Update data-theme attribute, favicon, and localStorage when theme changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+
+    const favicon = document.getElementById('favicon');
+    if (favicon) {
+      favicon.href = theme === 'dark' ? '/favicon-dark.svg' : '/favicon.svg';
+    }
   }, [theme]);
 
   return (

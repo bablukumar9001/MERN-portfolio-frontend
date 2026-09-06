@@ -290,6 +290,20 @@
   flex: 1;
 }
 
+.admin-resume-preview {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.admin-resume-preview a {
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.admin-resume-preview a:hover {
+  text-decoration: underline;
+}
+
 .admin-upload-btn {
   display: inline-flex;
   align-items: center;

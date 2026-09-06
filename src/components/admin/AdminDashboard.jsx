@@ -122,6 +122,10 @@ const AdminDashboard = () => {
           <span>{stats.certifications}</span>
           <label>Certifications</label>
         </div>
+        <div className="admin-stat">
+          <span>{stats.testimonials}</span>
+          <label>Testimonials</label>
+        </div>
       </div>
 
       <h2 className="admin-section-title">Latest messages</h2>

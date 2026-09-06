@@ -2,6 +2,99 @@ import React, { useState, useEffect } from 'react';
 import './css/expereince.css';
 import { apiUrl, imageSrc } from '../../api';
 import { useSiteContent } from '../../SiteContentContext';
+import { useSectionReveal } from '../../hooks/useSectionReveal';
+import { ExperienceStackSkeleton } from '../SectionSkeletons';
+import ResumeDownloadLink from '../ResumeDownloadLink';
+
+const TECH_KEYWORDS = [
+  'Next.js', 'React.js', 'TypeScript', 'Node.js', 'Express.js', 'MongoDB',
+  'Microservices', 'JWT', 'RBAC', 'Swagger', 'Razorpay', 'Cloudinary',
+  'Socket.IO', 'Docker', 'Docker Compose', 'PM2', 'Nginx', 'AWS EC2',
+  'MERN stack', 'REST APIs', 'HTML5', 'CSS3', 'JavaScript', 'Bootstrap',
+  'SSR/SSG', 'Redis', 'Cron jobs', 'Multer', 'Nodemailer',
+];
+
+const extractTechTags = (achievements) =>
+  TECH_KEYWORDS.filter((t) =>
+    achievements.some((a) => a.toLowerCase().includes(t.toLowerCase()))
+  );
+
+const VISIBLE_COUNT = 3;
+
+const ExperienceCard = ({ item, isVisible, index }) => {
+  const [expanded, setExpanded] = useState(false);
+  const techTags = extractTechTags(item.achievements);
+  const hasMore = item.achievements.length > VISIBLE_COUNT;
+  const visibleAchievements = expanded
+    ? item.achievements
+    : item.achievements.slice(0, VISIBLE_COUNT);
+
+  return (
+    <article
+      className={`experience-card ${isVisible ? 'animate' : ''}`}
+      style={{
+        '--role-accent': item.color,
+        animationDelay: `${index * 0.15}s`,
+      }}
+    >
+      <header className="experience-card-header">
+        <div className="company-badge" style={{ backgroundColor: item.color }}>
+          {item.companyLogo ? (
+            <img src={imageSrc(item.companyLogo)} alt={item.companyName} className="company-logo" />
+          ) : (
+            <i className={item.icon || 'fas fa-briefcase'}></i>
+          )}
+        </div>
+
+        <div className="experience-header-text">
+          <h3 className="position">{item.position}</h3>
+          <h4 className="company-name">{item.companyName}</h4>
+          <div className="experience-meta">
+            <span className="duration">
+              <i className="far fa-calendar-alt"></i> {item.duration}
+            </span>
+            <span className="location">
+              <i className="fas fa-map-marker-alt"></i> {item.location}
+            </span>
+          </div>
+        </div>
+      </header>
+
+      {techTags.length > 0 && (
+        <div className="experience-tech-tags">
+          {techTags.map((tag) => (
+            <span key={tag} className="tech-chip">{tag}</span>
+          ))}
+        </div>
+      )}
+
+      <div className="experience-content">
+        <h5 className="achievements-title">Key Achievements</h5>
+        <ul className={`achievements-list ${expanded ? 'expanded' : ''}`}>
+          {visibleAchievements.map((achievement, i) => (
+            <li key={i} className="achievement-item">
+              <i className="fas fa-check"></i>
+              <span>{achievement}</span>
+            </li>
+          ))}
+        </ul>
+        {hasMore && (
+          <button
+            type="button"
+            className="achievements-toggle"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+          >
+            {expanded
+              ? 'Show less'
+              : `Show all ${item.achievements.length} achievements`}
+            <i className={`fas fa-chevron-${expanded ? 'up' : 'down'}`}></i>
+          </button>
+        )}
+      </div>
+    </article>
+  );
+};
 
 const FALLBACK_EXPERIENCE = [
   {
@@ -56,37 +149,20 @@ const FALLBACK_EXPERIENCE = [
 
 const Experience = () => {
   const site = useSiteContent();
-  const [isVisible, setIsVisible] = useState(false);
-  const [experienceData, setExperienceData] = useState(FALLBACK_EXPERIENCE);
+  const isVisible = useSectionReveal('Experience');
+  const [experienceData, setExperienceData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(apiUrl('/api/experiences'))
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setExperienceData(data);
+        setExperienceData(
+          Array.isArray(data) && data.length > 0 ? data : FALLBACK_EXPERIENCE
+        );
       })
-      .catch(() => {});
-  }, []);
-
-  // Intersection Observer for animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const section = document.querySelector('#Experience');
-    if (section) observer.observe(section);
-
-    return () => {
-      if (section) observer.unobserve(section);
-    };
+      .catch(() => setExperienceData(FALLBACK_EXPERIENCE))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -102,75 +178,26 @@ const Experience = () => {
           </p>
         </div>
 
-        <div className="experience-timeline">
-          <div className="timeline-line"></div>
-
+        {loading ? (
+          <ExperienceStackSkeleton />
+        ) : (
+        <div className="experience-stack">
           {experienceData.map((item, index) => (
-            <div
-              key={index}
-              className={`experience-item ${isVisible ? 'animate' : ''}`}
-              style={{ animationDelay: `${index * 0.3}s` }}
-            >
-              <div className="timeline-dot" style={{ backgroundColor: item.color }}>
-                <i className={item.icon}></i>
-              </div>
-
-              <div className="experience-card">
-                <div className="company-badge" style={{ backgroundColor: item.color }}>
-                  {item.companyLogo ? (
-                    <img src={imageSrc(item.companyLogo)} alt={item.companyName} className="company-logo" />
-                  ) : (
-                    <i className={item.icon || 'fas fa-briefcase'} style={{ color: '#fff', fontSize: '1.4rem' }}></i>
-                  )}
-                </div>
-
-                <div className="experience-header">
-                  <h3 className="position">{item.position}</h3>
-                  <div className="company-info">
-                    <h4 className="company-name">{item.companyName}</h4>
-                    <div className="experience-meta">
-                      <span className="duration">
-                        <i className="far fa-calendar-alt"></i> {item.duration}
-                      </span>
-                      <span className="location">
-                        <i className="fas fa-map-marker-alt"></i> {item.location}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="experience-content">
-                  <h5 className="achievements-title">Key Achievements</h5>
-                  <ul className="achievements-list">
-                    {item.achievements.map((achievement, i) => (
-                      <li
-                        key={i}
-                        className="achievement-item"
-                        style={{ animationDelay: `${(index * 0.1) + (i * 0.1)}s` }}
-                      >
-                        {achievement}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <ExperienceCard key={index} item={item} isVisible={isVisible} index={index} />
           ))}
         </div>
+        )}
 
+        {!loading && (
         <div className="experience-footer fade-in">
           <div className="experience-cta">
             <p>Interested in my professional background?</p>
-            <a
-              href={site.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="resume-btn"
-            >
+            <ResumeDownloadLink url={site.resumeUrl} className="resume-btn">
               <i className="fas fa-file-pdf"></i> Download Full Resume
-            </a>
+            </ResumeDownloadLink>
           </div>
         </div>
+        )}
       </div>
     </section>
   );

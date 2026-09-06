@@ -1,70 +1,18 @@
 /* Skills Section */
 .skills-section {
-  padding: 80px 0;
+  padding: 90px 0;
   background-color: var(--background-color);
   position: relative;
   overflow: hidden;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  scroll-margin-top: 80px;
 }
 
 .skills-section.visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Section Title */
-.section-title {
-  margin-bottom: 50px;
-  position: relative;
-}
-
-.subtitle {
-  font-size: 16px;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  font-weight: 700;
-  color: var(--primary-color);
-  font-family: "Inter", sans-serif;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.section-title h2 {
-  font-size: 36px;
-  font-weight: 800;
-  margin-bottom: 15px;
-  color: var(--text-color);
-  position: relative;
-  display: inline-block;
-}
-
-.title-bar {
-  width: 80px;
-  height: 4px;
-  background: var(--primary-color);
-  margin: 0 auto;
-  position: relative;
-  border-radius: 2px;
-  margin-bottom: 20px;
-}
-
-.title-bar::before {
-  content: '';
-  position: absolute;
-  width: 40px;
-  height: 4px;
-  background: rgba(var(--primary-rgb), 0.5);
-  border-radius: 2px;
-  animation: slide-bar 2s ease-in-out infinite;
-  left: 0;
-}
-
-@keyframes slide-bar {
-  0% { width: 0; left: 0; }
-  50% { width: 80px; left: 0; }
-  100% { width: 0; left: 80px; }
 }
 
 .skills-intro {
@@ -734,27 +682,41 @@
    Skill groups (replaces the old auto-rotating carousel)
    ============================================================ */
 .skills-groups {
-  max-width: 980px;
+  max-width: 1120px;
   margin: 50px auto 0;
-  display: flex;
-  flex-direction: column;
-  gap: 26px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .skill-group {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
-  padding: 22px 24px;
+  padding: 20px 22px;
   box-shadow: var(--card-shadow);
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-group--wide {
+  grid-column: span 2;
+}
+
+.skill-group:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--primary-rgb), 0.35);
+  box-shadow: var(--card-shadow), 0 0 0 1px rgba(var(--primary-rgb), 0.08);
 }
 
 .skill-group.animate {
   opacity: 1;
   transform: translateY(0);
+}
+
+.skill-group.animate:hover {
+  transform: translateY(-2px);
 }
 
 .skill-group-title {
@@ -824,10 +786,16 @@
   justify-content: center;
 }
 
-/* "Also comfortable with" — flat monospace pills */
+/* "Also comfortable with" — full-width bento footer */
 .additional-skills {
-  margin-top: 56px;
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  padding: 22px 24px;
   text-align: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
 }
 
 .additional-title {
@@ -867,7 +835,25 @@
   box-shadow: none;
 }
 
+@media (max-width: 900px) {
+  .skills-groups {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skill-group--wide {
+    grid-column: span 2;
+  }
+}
+
 @media (max-width: 600px) {
+  .skills-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-group--wide {
+    grid-column: span 1;
+  }
+
   .skill-group { padding: 18px; }
   .skill-chip { font-size: 13px; }
 }
